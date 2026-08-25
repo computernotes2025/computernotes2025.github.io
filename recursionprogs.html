@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISC Class 12 Recursion Question Bank</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f6fb;color:#172033;line-height:1.6}
+header{background:linear-gradient(135deg,#173b73,#315fa8);color:#fff;padding:32px 5%;text-align:center}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0}
+.wrap{max-width:1250px;margin:22px auto;padding:0 16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:12px;border-radius:12px;box-shadow:0 3px 14px #0001;position:sticky;top:0;z-index:10}
+.tab{border:0;background:#e8eef8;color:#173b73;padding:11px 15px;border-radius:8px;cursor:pointer;font-weight:bold}
+.tab:hover,.tab.active{background:#315fa8;color:#fff}
+.card{background:#fff;border-radius:14px;padding:28px;margin-top:20px;box-shadow:0 4px 18px #0001}
+.hidden{display:none}
+.year{display:inline-block;background:#e9f1ff;color:#245493;padding:5px 12px;border-radius:18px;font-weight:bold}
+h2{color:#173b73;margin:10px 0 18px}
+h3{color:#315fa8;border-bottom:1px solid #dce3ee;padding-bottom:6px;margin-top:25px}
+.question{background:#fafbfd;border:1px solid #e2e7ef;padding:20px;border-radius:10px}
+.question strong{color:#173b73}
+pre{background:#172033;color:#f4f7fb;padding:18px;border-radius:10px;overflow:auto;font-size:14px;line-height:1.5}
+table{width:100%;border-collapse:collapse;margin:14px 0}
+th,td{border:1px solid #d8dfeb;padding:9px;text-align:left}
+th{background:#edf2f9}
+.box{background:#f7f9fc;border-left:4px solid #315fa8;padding:13px 15px;border-radius:6px;margin:12px 0}
+.note{background:#fff8df;border-left:4px solid #d3a000;padding:13px 15px;border-radius:6px}
+footer{text-align:center;color:#687386;padding:28px}
+@media(max-width:700px){header h1{font-size:24px}.card{padding:18px}.tab{width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>ISC Class 12 Computer Science</h1>
+<p>Recursion Question Bank • Complete Questions • Solutions • Dry Runs</p>
+</header>
+
+<div class="wrap">
+<div class="tabs">
+<button class="tab active" onclick="showTab('trimorphic',this)">2026 • Trimorphic</button>
+<button class="tab" onclick="showTab('decihex',this)">2024 • Decimal-Hex</button>
+<button class="tab" onclick="showTab('lcm',this)">2025 Specimen • LCM</button>
+<button class="tab" onclick="showTab('pronic',this)">2023 Specimen • Pronic</button>
+<button class="tab" onclick="showTab('permi',this)">2025 • Pernicious</button>
+<button class="tab" onclick="showTab('dudeney',this)">2023 • Dudeney</button>
+<button class="tab" onclick="showTab('fibo',this)">2021 • Fibonacci</button>
+<button class="tab" onclick="showTab('binsearch',this)">2020 • Binary Search</button>
+<button class="tab" onclick="showTab('armnum',this)">2019 • Armstrong</button>
+<button class="tab" onclick="showTab('revno',this)">2022 • Reverse Number</button>
+<button class="tab" onclick="showTab('perfect',this)">2018 • Perfect Number</button>
+<button class="tab" onclick="showTab('disarium',this)">2016 • Disarium</button>
+<button class="tab" onclick="showTab('emirp',this)">2013 • Emirp</button>
+<button class="tab" onclick="showTab('happy',this)">2012 • Happy Number</button>
+</div>
+
+<section id="trimorphic" class="card">
+<span class="year">ISC-2026 • Chapter 11</span>
+<h2>Question 1 — Trimorphic</h2>
+<div class="question">
+<p><strong>A class Trimorphic</strong> has been defined to accept a positive integer from the user and display if it is a Trimorphic number or not.</p>
+<p><strong>[A number is said to be Trimorphic if the cube of the number ends with the number itself.]</strong></p>
+<p><strong>Example 1:</strong> 24³ = 13824 ends with 24</p>
+<p><strong>Example 2:</strong> 5³ = 125 ends with 5</p>
+<p>The details of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Trimorphic</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>n</b> : to store the number</li><li><b>cube</b> : to store the cube of the number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>Trimorphic()</b> : constructor to initialise the data members with legal initial values</li>
+<li><b>void accept()</b> : to accept a number</li>
+<li><b>boolean check(int num, long c)</b> : to compare <code>num</code> with the ending digits of <code>c</code> using recursive technique</li>
+<li><b>void result()</b> : to check whether the given number is a trimorphic number by invoking the function <code>check()</code> and to display an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Trimorphic</strong> giving the details of the constructor, <code>void accept()</code>, <code>boolean check()</code> and <code>void result()</code>. Define the <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+<p><strong>(ii)</strong> State any two differences between <strong>iteration</strong> and <strong>recursion</strong>.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>class Trimorphic
+{
+    int n;
+    long cube;
+
+    Trimorphic()
+    {
+        n = 0;
+        cube = 0;
+    }
+
+    void accept()
+    {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        System.out.print("Enter a positive integer: ");
+        n = sc.nextInt();
+        cube = (long)n * n * n;
+    }
+
+    boolean check(int num, long c)
+    {
+        if(num == 0)
+            return true;
+
+        if(c % 10 != num % 10)
+            return false;
+
+        return check(num / 10, c / 10);
+    }
+
+    void result()
+    {
+        if(check(n, cube))
+            System.out.println(n + " is a Trimorphic number.");
+        else
+            System.out.println(n + " is not a Trimorphic number.");
+    }
+
+    public static void main()
+    {
+        Trimorphic ob = new Trimorphic();
+        ob.accept();
+        ob.result();
+    }
+}</code></pre>
+<h3>Dry Run — check(24, 13824)</h3>
+<table>
+<tr><th>Call</th><th>num % 10</th><th>c % 10</th><th>Action</th></tr>
+<tr><td>check(24, 13824)</td><td>4</td><td>4</td><td>Match → recurse</td></tr>
+<tr><td>check(2, 1382)</td><td>2</td><td>2</td><td>Match → recurse</td></tr>
+<tr><td>check(0, 138)</td><td>—</td><td>—</td><td>return true</td></tr>
+</table>
+</section>
+
+<section id="decihex" class="card hidden">
+<span class="year">ISC-2024</span>
+<h2>Question — Decimal to Hexadecimal</h2>
+<div class="question">
+<p><strong>Design a class DeciHex</strong> to accept a positive integer in decimal number system from the user and display its hexadecimal equivalent.</p>
+<p><strong>Example 1:</strong> Decimal number = 25, Hexadecimal equivalent = 19</p>
+<p><strong>Example 2:</strong> Decimal number = 28, Hexadecimal equivalent = 1C</p>
+<p>Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> DeciHex</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>num</b> : stores the positive integer</li><li><b>hexa</b> : string to store the hexadecimal equivalent of num</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>DeciHex()</b> : constructor to initialize the data members with legal initial values</li>
+<li><b>void getNum()</b> : to accept a positive integer</li>
+<li><b>void convert(int n)</b> : to find the hexadecimal equivalent of the formal parameter 'n' using the recursive technique</li>
+<li><b>void display()</b> : to display the decimal number and its hexadecimal equivalent by invoking the function <code>convert()</code></li>
+</ul>
+<p>Specify the class <strong>DeciHex</strong> giving details of the constructor(), <code>void getNum()</code>, <code>void convert(int)</code> and <code>void display()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class DeciHex
+{
+    int num;
+    String hexa;
+
+    DeciHex()
+    {
+        num = 0;
+        hexa = "";
+    }
+
+    void getNum()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a positive integer: ");
+        num = sc.nextInt();
+    }
+
+    void convert(int n)
+    {
+        if(n == 0)
+            return;
+
+        convert(n / 16);
+
+        int digit = n % 16;
+
+        if(digit &lt; 10)
+            hexa = hexa + digit;
+        else
+            hexa = hexa + (char)('A' + digit - 10);
+    }
+
+    void display()
+    {
+        if(num == 0)
+            hexa = "0";
+        else
+            convert(num);
+
+        System.out.println("Decimal number = " + num);
+        System.out.println("Hexadecimal equivalent = " + hexa);
+    }
+
+    public static void main()
+    {
+        DeciHex ob = new DeciHex();
+        ob.getNum();
+        ob.display();
+    }
+}</code></pre>
+<h3>Dry Run — convert(25)</h3>
+<table>
+<tr><th>Call</th><th>n</th><th>n / 16</th><th>n % 16</th><th>Action</th></tr>
+<tr><td>convert(25)</td><td>25</td><td>1</td><td>9</td><td>Recurse first with convert(1)</td></tr>
+<tr><td>convert(1)</td><td>1</td><td>0</td><td>1</td><td>Recurse first with convert(0)</td></tr>
+<tr><td>convert(0)</td><td>0</td><td>—</td><td>—</td><td>Base case → return</td></tr>
+</table>
+<p>On unwinding: convert(1) appends digit 1 → hexa = "1". Then convert(25) appends digit 9 → hexa = "19".</p>
+<div class="note"><b>Note:</b> The recursive call <code>convert(n / 16)</code> is made <em>before</em> the digit is appended, so the most significant hex digit gets added to <code>hexa</code> first and the least significant digit last — producing the digits in the correct left-to-right order without needing to reverse the string.</div>
+</section>
+
+<section id="lcm" class="card hidden">
+<span class="year">ISC-2025 Specimen</span>
+<h2>Question — LCM (Lowest Common Multiple)</h2>
+<div class="question">
+<p><strong>A class LCM</strong> has been defined to find the Lowest Common Multiple of two integers.</p>
+<p>Some of the data members and member functions are given below:</p>
+<p><strong>Class name:</strong> LCM</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul>
+<li><b>n1</b> : to store an integer number</li>
+<li><b>n2</b> : to store an integer number</li>
+<li><b>large</b> : integer to store the largest from n1, n2</li>
+<li><b>sm</b> : integer to store the smallest from n1, n2</li>
+<li><b>l</b> : to store LCM of two numbers</li>
+</ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>LCM()</b> : default constructor to initialize data members with legal initial values</li>
+<li><b>void accept()</b> : to accept n1 and n2</li>
+<li><b>int getLCM()</b> : returns the LCM of n1 and n2 using the recursive technique</li>
+<li><b>void display()</b> : to print the numbers n1, n2 and LCM</li>
+</ul>
+<p>Specify the class <strong>LCM</strong> giving details of the constructor, <code>void accept()</code>, <code>int getLCM()</code> and <code>void display()</code>. Define a <code>main()</code> function to create an object and call the member functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class LCM
+{
+    int n1, n2;
+    int large, sm;
+    int l;
+
+    LCM()
+    {
+        n1 = 0;
+        n2 = 0;
+        large = 0;
+        sm = 0;
+        l = 0;
+    }
+
+    void accept()
+    {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter first number: ");
+        n1 = sc.nextInt();
+
+        System.out.print("Enter second number: ");
+        n2 = sc.nextInt();
+
+        large = (n1 &gt; n2) ? n1 : n2;
+        sm = (n1 &lt; n2) ? n1 : n2;
+        l = large;
+    }
+
+    int getLCM()
+    {
+        if(l % sm == 0)
+            return l;
+
+        l = l + large;
+        return getLCM();
+    }
+
+    void display()
+    {
+        System.out.println("n1 = " + n1);
+        System.out.println("n2 = " + n2);
+        System.out.println("LCM = " + l);
+    }
+
+    public static void main()
+    {
+        LCM ob = new LCM();
+        ob.accept();
+        ob.getLCM();
+        ob.display();
+    }
+}</code></pre>
+<h3>Dry Run — n1 = 4, n2 = 6</h3>
+<table>
+<tr><th>Call</th><th>l</th><th>l % sm</th><th>Action</th></tr>
+<tr><td>getLCM() — 1st call</td><td>6</td><td>2</td><td>Not divisible → l = l + large = 12, recurse</td></tr>
+<tr><td>getLCM() — 2nd call</td><td>12</td><td>0</td><td>Divisible → return 12</td></tr>
+</table>
+<div class="note"><b>Note:</b> <code>large</code> and <code>sm</code> are set once in <code>accept()</code>, and <code>l</code> starts at <code>large</code>. Each recursive call adds <code>large</code> to <code>l</code> — i.e. it walks through the multiples of the larger number — until one of those multiples is exactly divisible by the smaller number. Since <code>large × sm</code> is always a common multiple, the recursion is guaranteed to terminate.</div>
+</section>
+
+<section id="pronic" class="card hidden">
+<span class="year">ISC-2023 Specimen</span>
+<h2>Question — Pronic Number</h2>
+<div class="question">
+<p><strong>Design a class Pronic</strong> to check if a given number is a pronic number or not.</p>
+<p><strong>[A number is said to be pronic if the product of two consecutive numbers is equal to the number.]</strong></p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>0 = 0 × 1</li>
+<li>2 = 1 × 2</li>
+<li>6 = 2 × 3</li>
+<li>12 = 3 × 4</li>
+</ul>
+<p>Thus, 0, 2, 6, 12 are pronic numbers.</p>
+<p>Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Pronic</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>num</b> : to store a positive integer number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>Pronic()</b> : default constructor to initialize the data member with legal initial value</li>
+<li><b>void acceptNum()</b> : to accept a positive integer number</li>
+<li><b>boolean isPronic(int v)</b> : returns true if the number 'num' is a pronic number, otherwise returns false using recursive technique</li>
+<li><b>void check()</b> : checks whether the given number is a pronic number by invoking the function <code>isPronic()</code> and displays the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Pronic</strong> giving details of the constructor, <code>void acceptNum()</code>, <code>boolean isPronic()</code> and <code>void check()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Pronic
+{
+    int num;
+
+    Pronic()
+    {
+        num = 0;
+    }
+
+    void acceptNum()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a positive integer: ");
+        num = sc.nextInt();
+    }
+
+    boolean isPronic(int v)
+    {
+        if(v * (v + 1) == num)
+            return true;
+
+        if(v * (v + 1) &gt; num)
+            return false;
+
+        return isPronic(v + 1);
+    }
+
+    void check()
+    {
+        if(isPronic(0))
+            System.out.println(num + " is a Pronic number.");
+        else
+            System.out.println(num + " is not a Pronic number.");
+    }
+
+    public static void main()
+    {
+        Pronic ob = new Pronic();
+        ob.acceptNum();
+        ob.check();
+    }
+}</code></pre>
+<h3>Dry Run — isPronic(0) for num = 12</h3>
+<table>
+<tr><th>Call</th><th>v</th><th>v × (v+1)</th><th>Action</th></tr>
+<tr><td>isPronic(0)</td><td>0</td><td>0</td><td>0 ≠ 12 and 0 &lt; 12 → recurse isPronic(1)</td></tr>
+<tr><td>isPronic(1)</td><td>1</td><td>2</td><td>2 ≠ 12 and 2 &lt; 12 → recurse isPronic(2)</td></tr>
+<tr><td>isPronic(2)</td><td>2</td><td>6</td><td>6 ≠ 12 and 6 &lt; 12 → recurse isPronic(3)</td></tr>
+<tr><td>isPronic(3)</td><td>3</td><td>12</td><td>12 == 12 → return true</td></tr>
+</table>
+<div class="note"><b>Note:</b> <code>v</code> starts at 0 and climbs by 1 each recursive call, testing consecutive products <code>v × (v+1)</code> against <code>num</code>. The second base case (<code>v × (v+1) &gt; num</code>) stops the recursion once the product overshoots <code>num</code>, which is what makes the function terminate for non-pronic numbers instead of recursing forever.</div>
+</section>
+
+<section id="permi" class="card hidden">
+<span class="year">ISC-2025</span>
+<h2>Question 2 — Pernicious Number</h2>
+<div class="question">
+<p><strong>A class Permi</strong> has been defined to accept a positive integer in binary number system from the user and display if it is a Pernicious number or not.</p>
+<p><strong>[A pernicious number is a binary number that has a minimum of two digits and has prime number of 1’s in it.]</strong></p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><b>101</b> is a pernicious number as the number of 1’s in 101 = 2 and 2 is a prime number.</li>
+<li><b>10110</b> is a pernicious number as the number of 1’s in 10110 = 3 and 3 is a prime number.</li>
+<li><b>1111</b> is NOT a pernicious number as the number of 1’s in 1111 = 4 and 4 is NOT a prime number.</li>
+</ul>
+<p>The details of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Permi</p>
+<p><strong>Data member / instance variable:</strong></p>
+<ul><li><b>num</b> : to store a binary number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>Permi()</b> : constructor to initialise the data member with 0</li>
+<li><b>void accept()</b> : to accept a binary number (containing 0’s and 1’s only)</li>
+<li><b>int countOne(int k)</b> : to count and return the number of 1’s in k using recursive technique</li>
+<li><b>void check()</b> : to check whether the given number is a pernicious number by invoking the function <code>countOne()</code> and to display an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Permi</strong> giving the details of the constructor, <code>void accept()</code>, <code>int countOne(int)</code> and <code>void check()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Permi
+{
+    int num;
+
+    Permi()
+    {
+        num = 0;
+    }
+
+    void accept()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a binary number: ");
+        num = sc.nextInt();
+    }
+
+    int countOne(int k)
+    {
+        if(k == 0)
+            return 0;
+
+        return (k % 10) + countOne(k / 10);
+    }
+
+    void check()
+    {
+        int c = countOne(num);
+        boolean prime = true;
+
+        if(c &lt; 2)
+            prime = false;
+        else
+        {
+            for(int i = 2; i &lt; c; i++)
+            {
+                if(c % i == 0)
+                {
+                    prime = false;
+                    break;
+                }
+            }
+        }
+
+        if(prime)
+            System.out.println(num + " is a Pernicious number.");
+        else
+            System.out.println(num + " is not a Pernicious number.");
+    }
+
+    public static void main()
+    {
+        Permi ob = new Permi();
+        ob.accept();
+        ob.check();
+    }
+}</code></pre>
+<h3>Dry Run — countOne(10110)</h3>
+<table>
+<tr><th>k</th><th>k % 10</th><th>Next call</th></tr>
+<tr><td>10110</td><td>0</td><td>countOne(1011)</td></tr>
+<tr><td>1011</td><td>1</td><td>countOne(101)</td></tr>
+<tr><td>101</td><td>1</td><td>countOne(10)</td></tr>
+<tr><td>10</td><td>0</td><td>countOne(1)</td></tr>
+<tr><td>1</td><td>1</td><td>countOne(0)</td></tr>
+<tr><td>0</td><td>0</td><td>return 0</td></tr>
+</table>
+<p><b>Final count = 0 + 1 + 1 + 0 + 1 = 3.</b> Since 3 is prime, 10110 is Pernicious.</p>
+</section>
+
+<section id="dudeney" class="card hidden">
+<span class="year">ISC-2023</span>
+<h2>Question 3 — Dudeney Number</h2>
+<div class="question">
+<p><strong>Design a class NumDude</strong> to check if a given number is a <strong>Dudeney number</strong> or not. <strong>[10]</strong></p>
+<p><strong>(A Dudeney number is a positive integer that is a perfect cube, such that the sum of its digits is equal to the cube root of the number.)</strong></p>
+<p><strong>Example:</strong></p>
+<p>5832 = (5 + 8 + 3 + 2)³ = (18)³ = 5832</p>
+<p>Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> NumDude</p>
+<p><strong>Data member / instance variable:</strong></p>
+<ul><li><b>num</b> : to store a positive integer number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>NumDude()</b> : default constructor to initialise the data member with legal initial value</li>
+<li><b>void input()</b> : to accept a positive integer number</li>
+<li><b>int sumDigits(int x)</b> : returns the sum of the digits of number x using <strong>recursive technique</strong></li>
+<li><b>void isDude()</b> : checks whether the given number is a Dudeney number by invoking the function <code>sumDigits()</code> and displays the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>NumDude</strong> giving details of the constructor, <code>void input()</code>, <code>int sumDigits(int)</code>, and <code>void isDude()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class NumDude
+{
+    int num;
+
+    NumDude()
+    {
+        num = 0;
+    }
+
+    void input()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a positive integer: ");
+        num = sc.nextInt();
+    }
+
+    int sumDigits(int x)
+    {
+        if(x == 0)
+            return 0;
+
+        return (x % 10) + sumDigits(x / 10);
+    }
+
+    void isDude()
+    {
+        int s = sumDigits(num);
+        int cube = s * s * s;
+
+        if(cube == num)
+            System.out.println(num + " is a Dudeney number.");
+        else
+            System.out.println(num + " is not a Dudeney number.");
+    }
+
+    public static void main()
+    {
+        NumDude ob = new NumDude();
+        ob.input();
+        ob.isDude();
+    }
+}</code></pre>
+<h3>Dry Run — sumDigits(5832)</h3>
+<pre><code>sumDigits(5832)
+= 2 + sumDigits(583)
+= 2 + 3 + sumDigits(58)
+= 2 + 3 + 8 + sumDigits(5)
+= 2 + 3 + 8 + 5 + sumDigits(0)
+= 18
+
+18 × 18 × 18 = 5832
+
+Therefore, 5832 is a Dudeney number.</code></pre>
+</section>
+
+<section id="fibo" class="card hidden">
+<span class="year">ISC-2021</span>
+<h2>Question 4 — Fibonacci Series</h2>
+<div class="question">
+<p><strong>A class Fibo</strong> has been defined to generate the Fibonacci series 0, 1, 1, 2, 3, 5, 8, 13, ……</p>
+<p><strong>(Fibonacci series are those in which the sum of the previous two terms is equal to the next term.)</strong></p>
+<p><strong>Data member / instance variables:</strong></p>
+<ul><li><b>start</b>: integer to store the start value</li><li><b>end</b>: integer to store the end value</li></ul>
+<p><strong>Member functions / methods:</strong></p>
+<ul>
+<li><b>Fibo()</b>: default constructor</li>
+<li><b>void read()</b>: to accept the numbers</li>
+<li><b>int fibo(int n)</b>: returns the nth term of a Fibonacci series using recursive technique</li>
+<li><b>void display()</b>: displays the Fibonacci series from start to end by invoking the function fibo()</li>
+</ul>
+<p>Specify the class Fibo, giving details of the constructor, <code>void read()</code>, <code>int fibo(int)</code>, and <code>void display()</code>. Define the <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Fibo
+{
+    int start, end;
+
+    Fibo()
+    {
+        start = 0;
+        end = 0;
+    }
+
+    void read()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the start value: ");
+        start = sc.nextInt();
+
+        System.out.print("Enter the end value: ");
+        end = sc.nextInt();
+    }
+
+    int fibo(int n)
+    {
+        if(n == 0)
+            return 0;
+
+        if(n == 1)
+            return 1;
+
+        return fibo(n - 1) + fibo(n - 2);
+    }
+
+    void display()
+    {
+        for(int i = start; i &lt;= end; i++)
+            System.out.print(fibo(i) + " ");
+    }
+
+    public static void main()
+    {
+        Fibo ob = new Fibo();
+        ob.read();
+        ob.display();
+    }
+}</code></pre>
+<h3>Dry Run — fibo(5)</h3>
+<pre><code>fibo(5)
+= fibo(4) + fibo(3)
+= (fibo(3) + fibo(2)) + (fibo(2) + fibo(1))
+= (2 + 1) + (1 + 1)
+= 5</code></pre>
+</section>
+
+<section id="binsearch" class="card hidden">
+<span class="year">ISC-2020</span>
+<h2>Question 5 — Binary Search</h2>
+<div class="question">
+<p><strong>Design a class BinSearch</strong> to search for a particular value in an array.</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>arr[]</b>: to store integer elements</li><li><b>n</b>: integer to store the size of the array</li></ul>
+<p><strong>Member functions / methods:</strong></p>
+<ul>
+<li><b>BinSearch(int nn)</b>: parameterized constructor to initialize n = nn</li>
+<li><b>void fillarray()</b>: to enter elements in the array</li>
+<li><b>void sort()</b>: sorts the array elements in ascending order using any standard sorting technique</li>
+<li><b>int bin_search(int l, int u, int v)</b>: searches for the value v using binary search and recursive technique; returns its location if found, otherwise returns -1</li>
+</ul>
+<p>Define the class <strong>BinSearch</strong> giving details of the constructor, <code>void fillarray()</code>, <code>void sort()</code> and <code>int bin_search(int, int, int)</code>. Define the <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class BinSearch
+{
+    int arr[];
+    int n;
+
+    BinSearch(int nn)
+    {
+        n = nn;
+        arr = new int[n];
+    }
+
+    void fillarray()
+    {
+        Scanner sc = new Scanner(System.in);
+
+        for(int i = 0; i &lt; n; i++)
+            arr[i] = sc.nextInt();
+    }
+
+    void sort()
+    {
+        int t;
+
+        for(int i = 0; i &lt; n - 1; i++)
+        {
+            for(int j = 0; j &lt; n - 1 - i; j++)
+            {
+                if(arr[j] &gt; arr[j + 1])
+                {
+                    t = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = t;
+                }
+            }
+        }
+    }
+
+    int bin_search(int l, int u, int v)
+    {
+        if(l &gt; u)
+            return -1;
+
+        int m = (l + u) / 2;
+
+        if(arr[m] == v)
+            return m;
+
+        if(v &lt; arr[m])
+            return bin_search(l, m - 1, v);
+
+        return bin_search(m + 1, u, v);
+    }
+
+    public static void main()
+    {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the size of the array: ");
+        int nn = sc.nextInt();
+
+        BinSearch ob = new BinSearch(nn);
+        ob.fillarray();
+        ob.sort();
+
+        System.out.print("Enter the value to search: ");
+        int v = sc.nextInt();
+
+        int p = ob.bin_search(0, ob.n - 1, v);
+
+        if(p == -1)
+            System.out.println("Value not found.");
+        else
+            System.out.println("Value found at index " + p);
+    }
+}</code></pre>
+<h3>Dry Run — Search 34</h3>
+<table>
+<tr><th>l</th><th>u</th><th>m</th><th>arr[m]</th><th>Action</th></tr>
+<tr><td>0</td><td>5</td><td>2</td><td>23</td><td>34 &gt; 23 → right half</td></tr>
+<tr><td>3</td><td>5</td><td>4</td><td>45</td><td>34 &lt; 45 → left half</td></tr>
+<tr><td>3</td><td>3</td><td>3</td><td>34</td><td>Found at index 3</td></tr>
+</table>
+</section>
+
+<section id="armnum" class="card hidden">
+<span class="year">ISC-2019</span>
+<h2>Question 6 — Armstrong Number</h2>
+<div class="question">
+<p><strong>Design a class ArmNum to check if a given number is an Armstrong number or not. [10]</strong></p>
+<p><strong>(A number is said to be Armstrong if the sum of its digits raised to the power of the length of the number is equal to the number.)</strong></p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>371 = 3³ + 7³ + 1³</li>
+<li>1634 = 1⁴ + 6⁴ + 3⁴ + 4⁴</li>
+<li>54748 = 5⁵ + 4⁵ + 7⁵ + 4⁵ + 8⁵</li>
+</ul>
+<p>Thus, 371, 1634 and 54748 are all examples of Armstrong numbers.</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>n</b>: to store the number</li><li><b>l</b>: to store the length of the number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>ArmNum(int nn)</b>: parameterized constructor to initialize the data member n = nn</li>
+<li><b>int sum_pow(int i)</b>: returns the sum of each digit raised to the power of the length of the number using recursive technique; e.g. 34 will return 3² + 4²</li>
+<li><b>void isArmstrong()</b>: checks whether the given number is an Armstrong number by invoking the function <code>sum_pow()</code> and displays the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>ArmNum</strong> giving details of the constructor, <code>int sum_pow(int)</code>, and <code>void isArmstrong()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>class ArmNum
+{
+    int n;
+    int l;
+
+    ArmNum(int nn)
+    {
+        n = nn;
+        l = 0;
+
+        int x = n;
+
+        while(x != 0)
+        {
+            l++;
+            x = x / 10;
+        }
+    }
+
+    int sum_pow(int i)
+    {
+        if(i == 0)
+            return 0;
+
+        int d = i % 10;
+        int p = 1;
+
+        for(int j = 1; j &lt;= l; j++)
+            p = p * d;
+
+        return p + sum_pow(i / 10);
+    }
+
+    void isArmstrong()
+    {
+        if(sum_pow(n) == n)
+            System.out.println(n + " is an Armstrong number.");
+        else
+            System.out.println(n + " is not an Armstrong number.");
+    }
+
+    public static void main()
+    {
+        ArmNum ob = new ArmNum(371);
+        ob.isArmstrong();
+    }
+}</code></pre>
+<h3>Dry Run — sum_pow(371)</h3>
+<pre><code>Length l = 3
+
+sum_pow(371)
+= 1³ + sum_pow(37)
+= 1³ + 7³ + sum_pow(3)
+= 1³ + 7³ + 3³ + sum_pow(0)
+= 1 + 343 + 27
+= 371
+
+Therefore, 371 is an Armstrong number.</code></pre>
+</section>
+
+<section id="revno" class="card hidden">
+<span class="year">ISC-2022</span>
+<h2>Question — Reverse a Number</h2>
+<div class="question">
+<p><strong>Design a class Revno</strong> which reverses an integer number.</p>
+<p><strong>Example:</strong> 94765 becomes 56749 on reversing the digits of the number.</p>
+<p>Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Revno</p>
+<p><strong>Data member / instance variable:</strong></p>
+<ul><li><b>num</b> : to store the integer</li></ul>
+<p><strong>Member functions / methods:</strong></p>
+<ul>
+<li><b>Revno()</b> : default constructor</li>
+<li><b>void inputnum()</b> : to accept the number</li>
+<li><b>int reverse(int nn)</b> : returns the reverse of a number by using recursive technique</li>
+<li><b>void display()</b> : displays the original number along with its reverse by invoking the method <code>reverse()</code></li>
+</ul>
+<p>Specify the class <strong>Revno</strong>, giving details of the constructor, <code>void inputnum()</code>, <code>int reverse(int)</code> and <code>void display()</code>. Define the <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Revno
+{
+    int num;
+
+    Revno()
+    {
+        num = 0;
+    }
+
+    void inputnum()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number: ");
+        num = sc.nextInt();
+    }
+
+    int reverse(int nn)
+    {
+        if(nn &lt; 10)
+            return nn;
+
+        int c = String.valueOf(nn).length();
+        int p = (int)Math.pow(10, c - 1);
+        int d = nn % 10;
+
+        return d * p + reverse(nn / 10);
+    }
+
+    void display()
+    {
+        System.out.println("Original number: " + num);
+        System.out.println("Reverse = " + reverse(num));
+    }
+
+    public static void main()
+    {
+        Revno ob = new Revno();
+        ob.inputnum();
+        ob.display();
+    }
+}</code></pre>
+<h3>Dry Run — reverse(94765)</h3>
+<table>
+<tr><th>Call</th><th>nn</th><th>c (digit count)</th><th>p = 10^(c-1)</th><th>d = nn % 10</th></tr>
+<tr><td>reverse(94765)</td><td>94765</td><td>5</td><td>10000</td><td>5</td></tr>
+<tr><td>reverse(9476)</td><td>9476</td><td>4</td><td>1000</td><td>6</td></tr>
+<tr><td>reverse(947)</td><td>947</td><td>3</td><td>100</td><td>7</td></tr>
+<tr><td>reverse(94)</td><td>94</td><td>2</td><td>10</td><td>4</td></tr>
+<tr><td>reverse(9)</td><td>9</td><td>—</td><td>—</td><td>base case → return 9</td></tr>
+</table>
+<pre><code>reverse(9)    = 9
+reverse(94)   = 4×10    + 9    = 49
+reverse(947)  = 7×100   + 49   = 749
+reverse(9476) = 6×1000  + 749  = 6749
+reverse(94765)= 5×10000 + 6749 = 56749</code></pre>
+<div class="note"><b>Note:</b> at each step the last digit <code>d</code> is placed into the "most significant" position of the *reversed* number by multiplying it by a shrinking power of 10 — the power gets smaller as more digits get peeled off — so the digits build up in reverse order as the recursion unwinds.</div>
+</section>
+
+<section id="perfect" class="card hidden">
+<span class="year">ISC-2018</span>
+<h2>Question — Perfect Number</h2>
+<div class="question">
+<p><strong>Design a class Perfect</strong> to check if a given number is a perfect number or not.</p>
+<p><strong>[A number is said to be perfect if the sum of the factors of the number excluding itself is equal to the original number.]</strong></p>
+<p><strong>Example:</strong> 6 = 1 + 2 + 3 (where 1, 2 and 3 are factors of 6, excluding itself)</p>
+<p><strong>Class name:</strong> Perfect</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>num</b> : to store the number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>Perfect(int nn)</b> : parameterized constructor to initialize the data member num = nn</li>
+<li><b>int sum_of_factors(int i)</b> : returns the sum of the factors of the number (num), excluding itself, using recursive technique</li>
+<li><b>void check()</b> : checks whether the given number is perfect by invoking the function <code>sum_of_factors()</code> and displays the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Perfect</strong> giving details of the constructor(), <code>int sum_of_factors(int)</code> and <code>void check()</code>. Define a <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Perfect
+{
+    int num;
+
+    Perfect(int nn)
+    {
+        num = nn;
+    }
+
+    int sum_of_factors(int i)
+    {
+        if(i &gt; num / 2)
+            return 0;
+
+        if(num % i == 0)
+            return i + sum_of_factors(i + 1);
+
+        return sum_of_factors(i + 1);
+    }
+
+    void check()
+    {
+        if(num == sum_of_factors(1))
+            System.out.println(num + " is a Perfect number.");
+        else
+            System.out.println(num + " is not a Perfect number.");
+    }
+
+    public static void main()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number: ");
+        int n = sc.nextInt();
+
+        Perfect ob = new Perfect(n);
+        ob.check();
+    }
+}</code></pre>
+<h3>Dry Run — sum_of_factors(1) for num = 6</h3>
+<table>
+<tr><th>Call</th><th>i</th><th>num % i</th><th>Action</th></tr>
+<tr><td>sum_of_factors(1)</td><td>1</td><td>0</td><td>Factor → 1 + sum_of_factors(2)</td></tr>
+<tr><td>sum_of_factors(2)</td><td>2</td><td>0</td><td>Factor → 2 + sum_of_factors(3)</td></tr>
+<tr><td>sum_of_factors(3)</td><td>3</td><td>0</td><td>Factor → 3 + sum_of_factors(4)</td></tr>
+<tr><td>sum_of_factors(4)</td><td>4</td><td>—</td><td>4 &gt; 6/2 → base case, return 0</td></tr>
+</table>
+<pre><code>sum_of_factors(3) = 3 + 0 = 3
+sum_of_factors(2) = 2 + 3 = 5
+sum_of_factors(1) = 1 + 5 = 6
+
+6 == 6 → 6 is a Perfect number.</code></pre>
+<div class="note"><b>Note:</b> the base case <code>i &gt; num / 2</code> stops the search once <code>i</code> passes the largest possible factor other than <code>num</code> itself, since no factor of <code>num</code> (besides <code>num</code>) can exceed <code>num / 2</code>.</div>
+</section>
+
+<section id="disarium" class="card hidden">
+<span class="year">ISC-2016</span>
+<h2>Question — Disarium Number</h2>
+<div class="question">
+<p><strong>A disarium number</strong> is a number in which the sum of the digits to the power of their respective position is equal to the number itself.</p>
+<p><strong>Example:</strong> 135 = 1<sup>1</sup> + 3<sup>2</sup> + 5<sup>3</sup>. Hence, 135 is a disarium number.</p>
+<p><strong>Design a class Disarium</strong> to check if a given number is a disarium number or not. Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Disarium</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>int num</b> : stores the number</li><li><b>int size</b> : stores the size of the number</li></ul>
+<p><strong>Methods / Member functions:</strong></p>
+<ul>
+<li><b>Disarium(int nn)</b> : parameterized constructor to initialize the data members num = nn and size = 0</li>
+<li><b>void countDigit()</b> : counts the total number of digits and assigns it to size</li>
+<li><b>int sumofDigits(int n, int p)</b> : returns the sum of the digits of the number (n) to the power of their respective positions (p) using recursive technique</li>
+<li><b>void check()</b> : checks whether the number is a disarium number and displays the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Disarium</strong> giving the details of the constructor(), <code>void countDigit()</code>, <code>int sumofDigits(int, int)</code> and <code>void check()</code>. Define the <code>main()</code> function to create an object and call the functions accordingly to enable the task.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Disarium
+{
+    int num;
+    int size;
+
+    Disarium(int nn)
+    {
+        num = nn;
+        size = 0;
+    }
+
+    void countDigit()
+    {
+        int temp = num;
+
+        while(temp != 0)
+        {
+            size++;
+            temp = temp / 10;
+        }
+    }
+
+    int sumofDigits(int n, int p)
+    {
+        if(n == 0)
+            return 0;
+
+        int d = n % 10;
+        int power = (int)Math.pow(d, p);
+
+        return power + sumofDigits(n / 10, p - 1);
+    }
+
+    void check()
+    {
+        countDigit();
+
+        if(num == sumofDigits(num, size))
+            System.out.println(num + " is a Disarium number.");
+        else
+            System.out.println(num + " is not a Disarium number.");
+    }
+
+    public static void main()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number: ");
+        int n = sc.nextInt();
+
+        Disarium ob = new Disarium(n);
+        ob.check();
+    }
+}</code></pre>
+<h3>Dry Run — sumofDigits(135, 3)</h3>
+<table>
+<tr><th>Call</th><th>n</th><th>p</th><th>d = n % 10</th><th>d^p</th></tr>
+<tr><td>sumofDigits(135, 3)</td><td>135</td><td>3</td><td>5</td><td>125</td></tr>
+<tr><td>sumofDigits(13, 2)</td><td>13</td><td>2</td><td>3</td><td>9</td></tr>
+<tr><td>sumofDigits(1, 1)</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>sumofDigits(0, 0)</td><td>0</td><td>0</td><td>—</td><td>base case → return 0</td></tr>
+</table>
+<pre><code>sumofDigits(1, 1)   = 1 + 0   = 1
+sumofDigits(13, 2)  = 9 + 1   = 10
+sumofDigits(135, 3) = 125 + 10 = 135
+
+135 == 135 → 135 is a Disarium number.</code></pre>
+<div class="note"><b>Note:</b> <code>countDigit()</code> runs first to find <code>size</code> (the position of the leftmost digit). <code>sumofDigits()</code> then peels off digits from the <em>right</em> (<code>n % 10</code>), but the exponent <code>p</code> starts at <code>size</code> and decreases by 1 each call — so the rightmost digit correctly gets the last position's power, and the leftmost digit gets power 1.</div>
+</section>
+
+<section id="emirp" class="card hidden">
+<span class="year">ISC-2013</span>
+<h2>Question — Emirp Number</h2>
+<div class="question">
+<p><strong>An emirp number</strong> is a number which is prime backwards and forwards.</p>
+<p><strong>Example:</strong> 13 and 31 are both prime numbers. Thus, 13 is an emirp number.</p>
+<p><strong>Design a class Emirp</strong> to check if a given number is Emirp number or not. Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Emirp</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul>
+<li><b>n</b> : stores the number</li>
+<li><b>rev</b> : stores the reverse of the number</li>
+<li><b>f</b> : stores the divisor</li>
+</ul>
+<p><strong>Member functions:</strong></p>
+<ul>
+<li><b>Emirp(int nn)</b> : to assign n = nn, rev = 0 and f = 2</li>
+<li><b>int isprime(int x)</b> : check if the number is prime using the recursive technique and return 1 if prime otherwise return 0</li>
+<li><b>void isEmirp()</b> : reverse the given number and check if both the original number and the reverse number are prime, by invoking the function <code>isprime(int)</code> and display the result with an appropriate message</li>
+</ul>
+<p>Specify the class <strong>Emirp</strong> giving details of the constructor(int), <code>int isprime(int)</code> and <code>void isEmirp()</code>. Define the <code>main()</code> function to create an object and call the methods to check for Emirp number.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Emirp
+{
+    int n;
+    int rev;
+    int f;
+
+    Emirp(int nn)
+    {
+        n = nn;
+        rev = 0;
+        f = 2;
+    }
+
+    int isprime(int x)
+    {
+        if(x &lt; 2)
+            return 0;
+
+        if(f &gt; x / 2)
+            return 1;
+
+        if(x % f == 0)
+            return 0;
+
+        f++;
+        return isprime(x);
+    }
+
+    void isEmirp()
+    {
+        int temp = n;
+
+        while(temp != 0)
+        {
+            rev = rev * 10 + temp % 10;
+            temp = temp / 10;
+        }
+
+        f = 2;
+        int p1 = isprime(n);
+
+        f = 2;
+        int p2 = isprime(rev);
+
+        if(p1 == 1 &amp;&amp; p2 == 1)
+            System.out.println(n + " is an Emirp number.");
+        else
+            System.out.println(n + " is not an Emirp number.");
+    }
+
+    public static void main()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number: ");
+        int n = sc.nextInt();
+
+        Emirp ob = new Emirp(n);
+        ob.isEmirp();
+    }
+}</code></pre>
+<h3>Dry Run — isprime(13)</h3>
+<table>
+<tr><th>Call</th><th>f</th><th>f &gt; x/2 (6)</th><th>x % f</th><th>Action</th></tr>
+<tr><td>isprime(13)</td><td>2</td><td>No</td><td>1</td><td>f++ → 3, recurse</td></tr>
+<tr><td>isprime(13)</td><td>3</td><td>No</td><td>1</td><td>f++ → 4, recurse</td></tr>
+<tr><td>isprime(13)</td><td>4</td><td>No</td><td>1</td><td>f++ → 5, recurse</td></tr>
+<tr><td>isprime(13)</td><td>5</td><td>No</td><td>3</td><td>f++ → 6, recurse</td></tr>
+<tr><td>isprime(13)</td><td>6</td><td>No</td><td>1</td><td>f++ → 7, recurse</td></tr>
+<tr><td>isprime(13)</td><td>7</td><td>Yes</td><td>—</td><td>base case → return 1 (prime)</td></tr>
+</table>
+<p>The same process is repeated for <code>rev = 31</code> (after resetting <code>f = 2</code>), which is also found to be prime. Since both 13 and 31 are prime, <strong>13 is an Emirp number.</strong></p>
+<div class="note"><b>Note:</b> <code>f</code> is an instance variable, so it must be reset to 2 before <em>each</em> call to <code>isprime()</code> — once for <code>n</code> and once for <code>rev</code> — otherwise the divisor left over from the first call would carry into the second and give a wrong result.</div>
+</section>
+
+<section id="happy" class="card hidden">
+<span class="year">ISC-2012</span>
+<h2>Question — Happy Number</h2>
+<div class="question">
+<p><strong>A happy number</strong> is a number in which the eventual sum of the square of the digits of the number is equal to 1.</p>
+<p><strong>Example:</strong> Consider the number 28.</p>
+<ul>
+<li>2² + 8² = 4 + 64 = 68</li>
+<li>6² + 8² = 36 + 64 = 100</li>
+<li>1² + 0² + 0² = 1</li>
+</ul>
+<p>Hence, 28 is a happy number.</p>
+<p>Now consider the number 12. 1² + 2² = 1 + 4 = 5. Hence, 12 is not a happy number.</p>
+<p><strong>Design a class Happy</strong> to check if a given number is a happy number. Some of the members of the class are given below:</p>
+<p><strong>Class name:</strong> Happy</p>
+<p><strong>Data members / instance variables:</strong></p>
+<ul><li><b>n</b> : stores the number.</li></ul>
+<p><strong>Member functions:</strong></p>
+<ul>
+<li><b>Happy()</b> : constructor to assign 0 to n.</li>
+<li><b>void getNum(int num)</b> : to assign the parameter value to the number n = num.</li>
+<li><b>int sumSquareDigits(int x)</b> : returns the sum of the square of the digits of the number x, using the recursive technique.</li>
+<li><b>void isHappy()</b> : checks if the given number is a happy number by calling the function <code>sumSquareDigits(int)</code> and displays an appropriate message.</li>
+</ul>
+<p>Specify the class <strong>Happy</strong>, giving details of the functions. Also define <code>main()</code> function to create an object and call the methods to check for happy number.</p>
+</div>
+<h3>Solution</h3>
+<pre><code>import java.util.Scanner;
+
+class Happy
+{
+    int n;
+
+    Happy()
+    {
+        n = 0;
+    }
+
+    void getNum(int num)
+    {
+        n = num;
+    }
+
+    int sumSquareDigits(int x)
+    {
+        if(x &lt; 10)
+            return x * x;
+
+        int d = x % 10;
+
+        return d * d + sumSquareDigits(x / 10);
+    }
+
+    void isHappy()
+    {
+        int result = n;
+
+        do
+        {
+            result = sumSquareDigits(result);
+        } while(result &gt; 9);
+
+        if(result == 1)
+            System.out.println(n + " is a Happy number.");
+        else
+            System.out.println(n + " is not a Happy number.");
+    }
+
+    public static void main()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number: ");
+        int num = sc.nextInt();
+
+        Happy ob = new Happy();
+        ob.getNum(num);
+        ob.isHappy();
+    }
+}</code></pre>
+<h3>Dry Run — n = 28</h3>
+<p><strong>sumSquareDigits(28):</strong></p>
+<table>
+<tr><th>Call</th><th>x</th><th>d = x % 10</th><th>d²</th><th>Action</th></tr>
+<tr><td>sumSquareDigits(28)</td><td>28</td><td>8</td><td>64</td><td>64 + sumSquareDigits(2)</td></tr>
+<tr><td>sumSquareDigits(2)</td><td>2</td><td>—</td><td>—</td><td>base case (x &lt; 10) → return 2² = 4</td></tr>
+</table>
+<pre><code>sumSquareDigits(28)  = 64 + 4   = 68
+sumSquareDigits(68)  = 64 + 36  = 100
+sumSquareDigits(100) = 0 + 0 + 1 = 1
+
+result = 1 (single digit) → 28 is a Happy number.</code></pre>
+<div class="note"><b>Note:</b> the <code>do...while</code> loop in <code>isHappy()</code> keeps re-applying <code>sumSquareDigits()</code> to its own result — 28 → 68 → 100 → 1 — stopping only once the result drops to a single digit, then checks if that digit is 1.</div>
+</section>
+
+<section class="card">
+<h2>Recursion Quick Revision</h2>
+<table>
+<tr><th>Year</th><th>Question</th><th>Recursive Function</th><th>Purpose</th></tr>
+<tr><td>2026</td><td>Trimorphic</td><td>check()</td><td>Compare ending digits</td></tr>
+<tr><td>2024</td><td>Decimal-Hex</td><td>convert()</td><td>Base conversion</td></tr>
+<tr><td>2025 Specimen</td><td>LCM</td><td>getLCM()</td><td>LCM by multiples</td></tr>
+<tr><td>2023 Specimen</td><td>Pronic</td><td>isPronic()</td><td>Consecutive product check</td></tr>
+<tr><td>2025</td><td>Pernicious</td><td>countOne()</td><td>Count 1s</td></tr>
+<tr><td>2023</td><td>Dudeney</td><td>sumDigits()</td><td>Find digit sum</td></tr>
+<tr><td>2021</td><td>Fibonacci</td><td>fibo()</td><td>Find nth term</td></tr>
+<tr><td>2020</td><td>Binary Search</td><td>bin_search()</td><td>Recursive search</td></tr>
+<tr><td>2019</td><td>Armstrong</td><td>sum_pow()</td><td>Powered digit sum</td></tr>
+<tr><td>2022</td><td>Reverse Number</td><td>reverse()</td><td>Reverse digits</td></tr>
+<tr><td>2018</td><td>Perfect Number</td><td>sum_of_factors()</td><td>Sum of factors</td></tr>
+<tr><td>2016</td><td>Disarium</td><td>sumofDigits()</td><td>Powered digit sum (positional)</td></tr>
+<tr><td>2013</td><td>Emirp</td><td>isprime()</td><td>Prime check, both ways</td></tr>
+<tr><td>2012</td><td>Happy Number</td><td>sumSquareDigits()</td><td>Sum of squared digits</td></tr>
+</table>
+<div class="note"><b>Exam Tip:</b> Every recursive function must have a base condition and a recursive call that moves the problem towards that base condition.</div>
+</section>
+</div>
+
+<footer>ISC Class 12 Computer Science • Recursion Practice</footer>
+
+<script>
+function showTab(id,btn){
+    document.querySelectorAll('section.card').forEach(c=>{
+        if(c.id) c.classList.add('hidden');
+    });
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById(id).classList.remove('hidden');
+    btn.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

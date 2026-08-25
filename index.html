@@ -78,6 +78,9 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
                         inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
         }
 
         .header h1 {
@@ -93,7 +96,7 @@
         .header p {
             color: var(--text-sub);
             font-size: 0.95rem;
-            margin-bottom: 36px;
+            margin-bottom: 30px;
         }
 
         /* Menu Navigation */
@@ -101,12 +104,13 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            max-height: 320px;
+            max-height: 280px;
             overflow-y: auto;
             padding-right: 4px;
+            margin-bottom: 10px;
         }
 
-        /* Custom Scrollbar for menu list if items grow */
+        /* Custom Scrollbar for menu list */
         .menu-list::-webkit-scrollbar {
             width: 4px;
         }
@@ -200,6 +204,76 @@
             transform: translateX(4px);
             stroke: #ffffff;
         }
+
+        /* --- New Form Styles --- */
+        .add-form-container {
+            margin-top: 16px;
+            padding-top: 24px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-form input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .add-form input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .add-form input:focus {
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, var(--accent-glow), var(--accent-glow-2));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px var(--accent-glow);
+        }
+
+        .reset-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            margin-top: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            color: #ef4444;
+        }
     </style>
 </head>
 <body>
@@ -216,21 +290,39 @@
         <!-- The menu items are injected dynamically from JavaScript -->
         <nav class="menu-list" id="menuList">
         </nav>
+
+        <!-- Form to add new menus from the browser UI -->
+        <div class="add-form-container">
+            <form class="add-form" id="addForm">
+                <div class="input-row">
+                    <input type="text" id="menuTitle" placeholder="Menu Title (e.g. Loops)" required autocomplete="off">
+                </div>
+                <div class="input-row">
+                    <input type="text" id="menuUrl" placeholder="URL (e.g. loops.html)" required autocomplete="off">
+                </div>
+                <button type="submit" class="add-btn">+ Add Module</button>
+            </form>
+            <button class="reset-btn" id="resetBtn" title="Clears your saved menus and restores defaults">Reset to Defaults</button>
+        </div>
     </div>
 
     <script>
-        // ==========================================
-        // ADD OR MODIFY YOUR MENU ITEMS HERE
-        // ==========================================
-        const menuItems = [
-            { title: "Recursion Basics", url: "recursion.html" },
+        // Default items (Recursion Basics removed as requested)
+        const defaultItems = [
             { title: "Recursion Programs", url: "recursionprogs.html" },
             { title: "Memory Address", url: "memaddress.html" }
         ];
 
-        // Function to render menu items automatically
-        document.addEventListener("DOMContentLoaded", () => {
-            const container = document.getElementById("menuList");
+        // Retrieve saved items from localStorage, or use defaults if none exist
+        let menuItems = JSON.parse(localStorage.getItem('portalMenus')) || defaultItems;
+
+        const container = document.getElementById("menuList");
+        const addForm = document.getElementById("addForm");
+        const resetBtn = document.getElementById("resetBtn");
+
+        // Function to render the menu to the DOM
+        function renderMenu() {
+            container.innerHTML = ""; // Clear current list
             
             menuItems.forEach((item, index) => {
                 const menuItem = document.createElement("a");
@@ -247,228 +339,49 @@
                 
                 container.appendChild(menuItem);
             });
+
+            // Scroll to bottom if list gets too long
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Initialize the app
+        document.addEventListener("DOMContentLoaded", renderMenu);
+
+        // Handle adding new menus via the form
+        addForm.addEventListener("submit", (e) => {
+            e.preventDefault(); // Prevent page reload
+            
+            const titleInput = document.getElementById("menuTitle");
+            const urlInput = document.getElementById("menuUrl");
+
+            const newTitle = titleInput.value.trim();
+            const newUrl = urlInput.value.trim();
+
+            if (newTitle && newUrl) {
+                // Add to array
+                menuItems.push({ title: newTitle, url: newUrl });
+                
+                // Save to localStorage so it survives page reloads
+                localStorage.setItem('portalMenus', JSON.stringify(menuItems));
+                
+                // Update UI
+                renderMenu();
+                
+                // Clear inputs
+                titleInput.value = "";
+                urlInput.value = "";
+                titleInput.focus();
+            }
+        });
+
+        // Handle resetting to defaults
+        resetBtn.addEventListener("click", () => {
+            if(confirm("Are you sure you want to clear your custom menus and restore the defaults?")) {
+                localStorage.removeItem('portalMenus');
+                menuItems = [...defaultItems]; // Reset array
+                renderMenu();
+            }
         });
     </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursion Menu</title>
-    <style>
-        :root {
-            --bg-color: #0b0d13;
-            --card-bg: rgba(20, 24, 38, 0.65);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --accent-glow: #6366f1;
-            --accent-glow-2: #a855f7;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-            color: var(--text-main);
-        }
-
-        /* Ambient glowing background elements */
-        .bg-glow-1 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-            top: 20%;
-            left: 30%;
-            filter: blur(90px);
-            animation: float 10s infinite alternate ease-in-out;
-            z-index: 0;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
-            bottom: 20%;
-            right: 30%;
-            filter: blur(90px);
-            animation: float 12s infinite alternate-reverse ease-in-out;
-            z-index: 0;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(0.9); }
-            100% { transform: translate(30px, -40px) scale(1.15); }
-        }
-
-        /* Central Glass Card */
-        .menu-container {
-            position: relative;
-            z-index: 1;
-            width: 90%;
-            max-width: 440px;
-            padding: 42px 32px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            color: var(--text-sub);
-            font-size: 0.95rem;
-            margin-bottom: 36px;
-        }
-
-        /* Menu Navigation */
-        .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .menu-item {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 18px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--text-main);
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Shimmer effect on hover */
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .menu-item:hover::before {
-            left: 100%;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-3px) scale(1.01);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 12px 30px -8px rgba(99, 102, 241, 0.35);
-        }
-
-        .badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: rgba(99, 102, 241, 0.12);
-            color: #818cf8;
-            font-weight: 700;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-
-        .menu-item:hover .badge {
-            background: linear-gradient(135deg, var(--accent-glow), var(--accent-glow-2));
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            flex-grow: 1;
-            text-align: left;
-            letter-spacing: 0.2px;
-        }
-
-        .arrow {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-sub);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.3s ease, stroke 0.3s ease;
-        }
-
-        .menu-item:hover .arrow {
-            transform: translateX(4px);
-            stroke: #ffffff;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="bg-glow-1"></div>
-    <div class="bg-glow-2"></div>
-
-    <div class="menu-container">
-        <div class="header">
-            <h1>Recursion Portal</h1>
-            <p>Select a module to proceed</p>
-        </div>
-
-        <nav class="menu-list">
-            <a href="recursion.html" class="menu-item">
-                <div class="badge">1</div>
-                <span class="title">Recursion Basics</span>
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </a>
-
-            <a href="recursionprogs.html" class="menu-item">
-                <div class="badge">2</div>
-                <span class="title">Recursion Programs</span>
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </a>
-        </nav>
-    </div>
-
 </body>
 </html>

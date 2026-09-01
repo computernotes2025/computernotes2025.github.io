@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Array Operations – Questions & Solutions</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;color:#1f2937}
+header{background:linear-gradient(135deg,#263c8f,#5b4bb7);color:white;padding:28px 22px;text-align:center}
+header h1{margin:0 0 8px;font-size:30px}
+header p{margin:0;opacity:.9}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding:15px;background:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0001}
+.tab{border:0;border-radius:20px;padding:9px 14px;background:#e8ebf7;color:#263c8f;font-weight:bold;cursor:pointer}
+.tab:hover,.tab.active{background:#263c8f;color:white}
+.container{max-width:1150px;margin:25px auto;padding:0 18px}
+.card{background:white;border-radius:16px;padding:25px;box-shadow:0 5px 18px #00000012}
+h2{color:#263c8f;margin-top:0}
+.question{background:#f8f9ff;border-left:5px solid #5b4bb7;padding:15px;border-radius:8px;margin-bottom:18px}
+pre{background:#171923;color:#e8eaf0;padding:18px;border-radius:10px;overflow:auto;line-height:1.45}
+.note{background:#fff7df;border-left:5px solid #e0a100;padding:12px;border-radius:7px;margin:15px 0}
+.hidden{display:none}
+.search{width:100%;padding:13px;border:1px solid #ccd2e5;border-radius:10px;margin-bottom:15px;font-size:15px}
+.footer{text-align:center;padding:30px;color:#667085}
+</style>
+</head>
+<body>
+<header>
+<h1>2D Array Operations</h1>
+<p>ICSE / Java Practice — Questions & Solutions</p>
+</header>
+
+<div class="tabs">
+<button class="tab active" onclick="showTab('home',this)">🏠 Home</button>
+<button class="tab" onclick="showTab('q1',this)">Q1</button>
+<button class="tab" onclick="showTab('q2',this)">Q2</button>
+<button class="tab" onclick="showTab('q3',this)">Q3</button>
+<button class="tab" onclick="showTab('q4',this)">Q4</button>
+<button class="tab" onclick="showTab('q5',this)">Q5</button>
+<button class="tab" onclick="showTab('q6',this)">Q6</button>
+<button class="tab" onclick="showTab('q7',this)">Q7</button>
+<button class="tab" onclick="showTab('q8',this)">Q8</button>
+<button class="tab" onclick="showTab('q9',this)">Q9</button>
+<button class="tab" onclick="showTab('q10',this)">Q10</button>
+<button class="tab" onclick="showTab('q11',this)">Q11</button>
+<button class="tab" onclick="showTab('q12',this)">Q12</button>
+<button class="tab" onclick="showTab('q13',this)">Q13</button>
+<button class="tab" onclick="showTab('q14',this)">Q14</button>
+<button class="tab" onclick="showTab('q15',this)">Q15</button>
+<button class="tab" onclick="showTab('q16',this)">Q16</button>
+<button class="tab" onclick="showTab('q17',this)">Q17</button>
+<button class="tab" onclick="showTab('q18',this)">Q18</button>
+<button class="tab" onclick="showTab('q19',this)">Q19</button>
+<button class="tab" onclick="showTab('q20',this)">Q20</button>
+<button class="tab" onclick="showTab('q21',this)">Q21</button>
+<button class="tab" onclick="showTab('q22',this)">Q22</button>
+<button class="tab" onclick="showTab('q23',this)">Q23</button>
+<button class="tab" onclick="showTab('q24',this)">Q24</button>
+<button class="tab" onclick="showTab('q25',this)">Q25</button>
+</div>
+
+<div class="container">
+<div id="home" class="card">
+<h2>How to use this page</h2>
+<p>Choose a question tab above. Each tab contains the <b>question first</b> and the corresponding <b>Java solution</b>.</p>
+<div class="note"><b>Focus:</b> Only double-dimensional array (2D array) operations. Solutions use basic Java loops and arrays, suitable for BlueJ/ICSE practice.</div>
+<input class="search" placeholder="Tip: Use Ctrl + F to search within the page.">
+</div>
+
+<div id="q1" class="card hidden"><h2>Q1 — Row Sum and Column Sum</h2><div class="question">Input a square matrix and display the sum of each row and each column separately.</div><pre>import java.util.*;
+class RowColumnSum {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int a[][] = new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++)
+                a[i][j] = sc.nextInt();
+
+        for(int i=0;i&lt;n;i++) {
+            int s=0;
+            for(int j=0;j&lt;n;j++) s += a[i][j];
+            System.out.println("Row " + (i+1) + " = " + s);
+        }
+
+        for(int j=0;j&lt;n;j++) {
+            int s=0;
+            for(int i=0;i&lt;n;i++) s += a[i][j];
+            System.out.println("Column " + (j+1) + " = " + s);
+        }
+    }
+}</pre></div>
+
+<div id="q2" class="card hidden"><h2>Q2 — Largest and Smallest Element</h2><div class="question">Input a matrix and find the largest and smallest element along with their positions.</div><pre>import java.util.*;
+class MaxMin {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        int max=a[0][0], min=a[0][0];
+        int mr=0,mc=0,nr=0,nc=0;
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) {
+                if(a[i][j]&gt;max){max=a[i][j];mr=i;mc=j;}
+                if(a[i][j]&lt;min){min=a[i][j];nr=i;nc=j;}
+            }
+
+        System.out.println("Largest = "+max+" at "+(mr+1)+","+(mc+1));
+        System.out.println("Smallest = "+min+" at "+(nr+1)+","+(nc+1));
+    }
+}</pre></div>
+
+<div id="q3" class="card hidden"><h2>Q3 — Diagonal Operations</h2><div class="question">Input a square matrix. Find the sum of the principal diagonal, secondary diagonal and their difference.</div><pre>import java.util.*;
+class DiagonalSum {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        int p=0,s=0;
+        for(int i=0;i&lt;n;i++) {
+            p += a[i][i];
+            s += a[i][n-1-i];
+        }
+
+        System.out.println("Principal diagonal = "+p);
+        System.out.println("Secondary diagonal = "+s);
+        System.out.println("Difference = "+Math.abs(p-s));
+    }
+}</pre></div>
+
+<div id="q4" class="card hidden"><h2>Q4 — Transpose</h2><div class="question">Input a matrix and display its transpose.</div><pre>import java.util.*;
+class Transpose {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int j=0;j&lt;c;j++) {
+            for(int i=0;i&lt;r;i++)
+                System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q5" class="card hidden"><h2>Q5 — Matrix Addition</h2><div class="question">Input two matrices of the same dimensions and display their sum.</div><pre>import java.util.*;
+class MatrixAddition {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c], b[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) b[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++)
+                System.out.print((a[i][j]+b[i][j])+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q6" class="card hidden"><h2>Q6 — Matrix Subtraction</h2><div class="question">Input two matrices of the same dimensions and display the result of subtracting the second matrix from the first.</div><pre>import java.util.*;
+class MatrixSubtraction {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c], b[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) b[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++)
+                System.out.print((a[i][j]-b[i][j])+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q7" class="card hidden"><h2>Q7 — Matrix Multiplication</h2><div class="question">Input two compatible matrices and display their product.</div><pre>import java.util.*;
+class MatrixMultiplication {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r1=sc.nextInt(), c1=sc.nextInt();
+        int r2=sc.nextInt(), c2=sc.nextInt();
+
+        if(c1!=r2) {
+            System.out.println("Multiplication not possible");
+            return;
+        }
+
+        int a[][]=new int[r1][c1], b[][]=new int[r2][c2];
+
+        for(int i=0;i&lt;r1;i++)
+            for(int j=0;j&lt;c1;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r2;i++)
+            for(int j=0;j&lt;c2;j++) b[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r1;i++) {
+            for(int j=0;j&lt;c2;j++) {
+                int s=0;
+                for(int k=0;k&lt;c1;k++)
+                    s += a[i][k]*b[k][j];
+                System.out.print(s+" ");
+            }
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q8" class="card hidden"><h2>Q8 — Interchange Rows</h2><div class="question">Input a matrix and interchange the first row with the last row.</div><pre>import java.util.*;
+class InterchangeRows {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int j=0;j&lt;c;j++) {
+            int t=a[0][j];
+            a[0][j]=a[r-1][j];
+            a[r-1][j]=t;
+        }
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++) System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q9" class="card hidden"><h2>Q9 — Interchange Columns</h2><div class="question">Input a matrix and interchange the first column with the last column.</div><pre>import java.util.*;
+class InterchangeColumns {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            int t=a[i][0];
+            a[i][0]=a[i][c-1];
+            a[i][c-1]=t;
+        }
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++) System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q10" class="card hidden"><h2>Q10 — Rotate Matrix 90° Clockwise</h2><div class="question">Input a square matrix and display the matrix after rotating it by 90° clockwise.</div><pre>import java.util.*;
+class Rotate90 {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        for(int j=0;j&lt;n;j++) {
+            for(int i=n-1;i&gt;=0;i--)
+                System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q11" class="card hidden"><h2>Q11 — Boundary Elements</h2><div class="question">Input a matrix and display only its boundary elements. Also find their sum.</div><pre>import java.util.*;
+class Boundary {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        int sum=0;
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++) {
+                if(i==0 || i==r-1 || j==0 || j==c-1) {
+                    System.out.print(a[i][j]+" ");
+                    sum += a[i][j];
+                } else
+                    System.out.print("  ");
+            }
+            System.out.println();
+        }
+        System.out.println("Boundary sum = "+sum);
+    }
+}</pre></div>
+
+<div id="q12" class="card hidden"><h2>Q12 — Upper Triangular Matrix</h2><div class="question">Input a square matrix and display only the elements above the main diagonal, replacing all other elements by 0.</div><pre>import java.util.*;
+class UpperTriangular {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;n;i++) {
+            for(int j=0;j&lt;n;j++) {
+                if(j&gt;i) System.out.print(a[i][j]+" ");
+                else System.out.print("0 ");
+            }
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q13" class="card hidden"><h2>Q13 — Lower Triangular Matrix</h2><div class="question">Input a square matrix and display only the elements below the main diagonal, replacing all other elements by 0.</div><pre>import java.util.*;
+class LowerTriangular {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;n;i++) {
+            for(int j=0;j&lt;n;j++) {
+                if(i&gt;j) System.out.print(a[i][j]+" ");
+                else System.out.print("0 ");
+            }
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q14" class="card hidden"><h2>Q14 — Symmetric Matrix</h2><div class="question">Input a square matrix and determine whether it is symmetric.</div><pre>import java.util.*;
+class Symmetric {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        boolean flag=true;
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++)
+                if(a[i][j]!=a[j][i]) flag=false;
+
+        if(flag) System.out.println("Symmetric Matrix");
+        else System.out.println("Not a Symmetric Matrix");
+    }
+}</pre></div>
+
+<div id="q15" class="card hidden"><h2>Q15 — Identity Matrix</h2><div class="question">Input a square matrix and check whether it is an identity matrix.</div><pre>import java.util.*;
+class Identity {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        boolean flag=true;
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) {
+                if(i==j && a[i][j]!=1) flag=false;
+                if(i!=j && a[i][j]!=0) flag=false;
+            }
+
+        if(flag) System.out.println("Identity Matrix");
+        else System.out.println("Not an Identity Matrix");
+    }
+}</pre></div>
+
+<div id="q16" class="card hidden"><h2>Q16 — Sparse Matrix</h2><div class="question">Input a matrix and determine whether it is sparse. A matrix is sparse if the number of zeroes is greater than the number of non-zero elements.</div><pre>import java.util.*;
+class Sparse {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+        int z=0,nz=0;
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) {
+                a[i][j]=sc.nextInt();
+                if(a[i][j]==0) z++;
+                else nz++;
+            }
+
+        if(z&gt;nz) System.out.println("Sparse Matrix");
+        else System.out.println("Not a Sparse Matrix");
+    }
+}</pre></div>
+
+<div id="q17" class="card hidden"><h2>Q17 — Row-wise Maximum</h2><div class="question">Input a matrix and display the largest element of every row along with the row number.</div><pre>import java.util.*;
+class RowMaximum {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            int max=a[i][0];
+            for(int j=1;j&lt;c;j++)
+                if(a[i][j]&gt;max) max=a[i][j];
+
+            System.out.println("Row "+(i+1)+" maximum = "+max);
+        }
+    }
+}</pre></div>
+
+<div id="q18" class="card hidden"><h2>Q18 — Column-wise Minimum</h2><div class="question">Input a matrix and display the smallest element of every column along with the column number.</div><pre>import java.util.*;
+class ColumnMinimum {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int j=0;j&lt;c;j++) {
+            int min=a[0][j];
+            for(int i=1;i&lt;r;i++)
+                if(a[i][j]&lt;min) min=a[i][j];
+
+            System.out.println("Column "+(j+1)+" minimum = "+min);
+        }
+    }
+}</pre></div>
+
+<div id="q19" class="card hidden"><h2>Q19 — Interchange Diagonals</h2><div class="question">Input a square matrix and interchange its principal diagonal with its secondary diagonal.</div><pre>import java.util.*;
+class InterchangeDiagonals {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;n;i++) {
+            int t=a[i][i];
+            a[i][i]=a[i][n-1-i];
+            a[i][n-1-i]=t;
+        }
+
+        for(int i=0;i&lt;n;i++) {
+            for(int j=0;j&lt;n;j++) System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q20" class="card hidden"><h2>Q20 — Sort Each Row</h2><div class="question">Input a matrix and sort the elements of each row in ascending order.</div><pre>import java.util.*;
+class SortRows {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c-1;j++)
+                for(int k=0;k&lt;c-1-j;k++)
+                    if(a[i][k]&gt;a[i][k+1]) {
+                        int t=a[i][k];
+                        a[i][k]=a[i][k+1];
+                        a[i][k+1]=t;
+                    }
+        }
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++) System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q21" class="card hidden"><h2>Q21 — Sort Each Column</h2><div class="question">Input a matrix and arrange the elements of each column in ascending order.</div><pre>import java.util.*;
+class SortColumns {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int j=0;j&lt;c;j++) {
+            for(int i=0;i&lt;r-1;i++)
+                for(int k=0;k&lt;r-1-i;k++)
+                    if(a[k][j]&gt;a[k+1][j]) {
+                        int t=a[k][j];
+                        a[k][j]=a[k+1][j];
+                        a[k+1][j]=t;
+                    }
+        }
+
+        for(int i=0;i&lt;r;i++) {
+            for(int j=0;j&lt;c;j++) System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q22" class="card hidden"><h2>Q22 — Sum of Even and Odd Elements</h2><div class="question">Input a matrix and separately calculate the sum of all even and odd elements.</div><pre>import java.util.*;
+class EvenOddSum {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+        int even=0, odd=0;
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) {
+                a[i][j]=sc.nextInt();
+                if(a[i][j]%2==0) even += a[i][j];
+                else odd += a[i][j];
+            }
+
+        System.out.println("Even sum = "+even);
+        System.out.println("Odd sum = "+odd);
+    }
+}</pre></div>
+
+<div id="q23" class="card hidden"><h2>Q23 — Count Elements</h2><div class="question">Input a matrix and count positive elements, negative elements and zeroes.</div><pre>import java.util.*;
+class CountElements {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+        int p=0,n=0,z=0;
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) {
+                a[i][j]=sc.nextInt();
+                if(a[i][j]&gt;0) p++;
+                else if(a[i][j]&lt;0) n++;
+                else z++;
+            }
+
+        System.out.println("Positive = "+p);
+        System.out.println("Negative = "+n);
+        System.out.println("Zeroes = "+z);
+    }
+}</pre></div>
+
+<div id="q24" class="card hidden"><h2>Q24 — Rotate Matrix 180°</h2><div class="question">Input a square matrix and display the matrix after rotating it by 180°.</div><pre>import java.util.*;
+class Rotate180 {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt(), a[][]=new int[n][n];
+
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++) a[i][j]=sc.nextInt();
+
+        for(int i=n-1;i&gt;=0;i--) {
+            for(int j=n-1;j&gt;=0;j--)
+                System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+    }
+}</pre></div>
+
+<div id="q25" class="card hidden"><h2>Q25 — Saddle Point</h2><div class="question">Input a matrix and find the saddle point, if present. A saddle point is an element that is the smallest in its row but largest in its column.</div><pre>import java.util.*;
+class SaddlePoint {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner(System.in);
+        int r=sc.nextInt(), c=sc.nextInt();
+        int a[][]=new int[r][c];
+        boolean found=false;
+
+        for(int i=0;i&lt;r;i++)
+            for(int j=0;j&lt;c;j++) a[i][j]=sc.nextInt();
+
+        for(int i=0;i&lt;r;i++) {
+            int min=a[i][0];
+
+            for(int j=1;j&lt;c;j++)
+                if(a[i][j]&lt;min) min=a[i][j];
+
+            for(int j=0;j&lt;c;j++) {
+                if(a[i][j]==min) {
+                    boolean largest=true;
+
+                    for(int k=0;k&lt;r;k++)
+                        if(a[k][j]&gt;min) largest=false;
+
+                    if(largest) {
+                        System.out.println("Saddle point = "+min);
+                        found=true;
+                    }
+                }
+            }
+        }
+
+        if(!found) System.out.println("No saddle point");
+    }
+}</pre></div>
+</div>
+
+<div class="footer">2D Array Operations • Java Practice • Questions + Solutions</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.card').forEach(x=>x.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

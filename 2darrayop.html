@@ -4,28 +4,199 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2D Array Operations – Questions & Solutions</title>
+
+<!-- Google Fonts & Prism.js -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;color:#1f2937}
-header{background:linear-gradient(135deg,#263c8f,#5b4bb7);color:white;padding:28px 22px;text-align:center}
-header h1{margin:0 0 8px;font-size:30px}
-header p{margin:0;opacity:.9}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;padding:15px;background:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0001}
-.tab{border:0;border-radius:20px;padding:9px 14px;background:#e8ebf7;color:#263c8f;font-weight:bold;cursor:pointer}
-.tab:hover,.tab.active{background:#263c8f;color:white}
-.container{max-width:1150px;margin:25px auto;padding:0 18px}
-.card{background:white;border-radius:16px;padding:25px;box-shadow:0 5px 18px #00000012}
-h2{color:#263c8f;margin-top:0}
-.question{background:#f8f9ff;border-left:5px solid #5b4bb7;padding:15px;border-radius:8px;margin-bottom:18px}
-pre{background:#171923;color:#e8eaf0;padding:18px;border-radius:10px;overflow:auto;line-height:1.45}
-.note{background:#fff7df;border-left:5px solid #e0a100;padding:12px;border-radius:7px;margin:15px 0}
-.hidden{display:none}
-.search{width:100%;padding:13px;border:1px solid #ccd2e5;border-radius:10px;margin-bottom:15px;font-size:15px}
-.footer{text-align:center;padding:30px;color:#667085}
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #334155;
+    --card-bg: white;
+    --card-border: #f1f5f9;
+    --heading-color: #0f172a;
+    --question-bg: #e0e7ff;
+    --question-text: #1e1b4b;
+    --tab-bg: #ffffff;
+    --tab-text: #475569;
+    --tab-border: #cbd5e1;
+    --tab-hover: #f1f5f9;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --input-text: #334155;
+    --tabs-wrapper-bg: rgba(255, 255, 255, 0.85);
+    --note-bg: #fef9c3;
+    --note-text: #854d0e;
+    --note-border: #eab308;
+}
+
+body.dark {
+    --bg-color: #0f172a;
+    --text-color: #cbd5e1;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --heading-color: #f8fafc;
+    --question-bg: #312e81;
+    --question-text: #e0e7ff;
+    --tab-bg: #1e293b;
+    --tab-text: #94a3b8;
+    --tab-border: #334155;
+    --tab-hover: #334155;
+    --input-bg: #1e293b;
+    --input-border: #334155;
+    --input-text: #f8fafc;
+    --tabs-wrapper-bg: rgba(15, 23, 42, 0.85);
+    --note-bg: #422006;
+    --note-text: #fde047;
+    --note-border: #ca8a04;
+}
+
+* { box-sizing: border-box; }
+body { 
+    margin: 0; 
+    font-family: 'Inter', sans-serif; 
+    background: var(--bg-color); 
+    color: var(--text-color); 
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header { 
+    position: relative;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed); 
+    color: white; 
+    padding: 40px 20px; 
+    text-align: center; 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+header h1 { margin: 0 0 12px; font-size: 36px; font-weight: 700; letter-spacing: -0.5px; }
+header p { margin: 0; font-size: 16px; opacity: 0.9; font-weight: 400; }
+
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+.theme-btn:hover { background: rgba(255, 255, 255, 0.4); transform: rotate(15deg); }
+
+.tabs { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    padding: 20px; 
+    background: var(--tabs-wrapper-bg); 
+    backdrop-filter: blur(12px);
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+    border-bottom: 1px solid var(--tab-border);
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+.tab { 
+    border: 1px solid var(--tab-border); 
+    border-radius: 999px; 
+    padding: 10px 18px; 
+    background: var(--tab-bg); 
+    color: var(--tab-text); 
+    font-weight: 600; 
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer; 
+    transition: all 0.2s ease;
+}
+.tab:hover { background: var(--tab-hover); transform: translateY(-1px); }
+.tab.active { 
+    background: #4f46e5; 
+    color: white; 
+    border-color: #4f46e5;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+
+.search { 
+    width: 100%; 
+    padding: 16px 20px; 
+    border: 2px solid var(--input-border); 
+    border-radius: 12px; 
+    margin-bottom: 30px; 
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease;
+    background: var(--input-bg);
+    color: var(--input-text);
+}
+.search:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.card { 
+    background: var(--card-bg); 
+    border-radius: 20px; 
+    padding: 40px; 
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    border: 1px solid var(--card-border);
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.card:not(.hidden) { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 { color: var(--heading-color); margin-top: 0; font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+.question { 
+    background: var(--question-bg); 
+    border-left: 6px solid #4f46e5; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--question-text);
+    line-height: 1.6;
+}
+pre { border-radius: 12px !important; margin: 0 !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+code[class*="language-"], pre[class*="language-"] {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+}
+
+.note { 
+    background: var(--note-bg); 
+    border-left: 5px solid var(--note-border); 
+    padding: 16px; 
+    border-radius: 8px; 
+    margin: 20px 0;
+    color: var(--note-text);
+    line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+.footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; font-weight: 500; }
 </style>
 </head>
 <body>
 <header>
+<button id="themeToggle" class="theme-btn" title="Toggle Theme">🌙</button>
 <h1>2D Array Operations</h1>
 <p>ICSE / Java Practice — Questions & Solutions</p>
 </header>
@@ -60,11 +231,12 @@ pre{background:#171923;color:#e8eaf0;padding:18px;border-radius:10px;overflow:au
 </div>
 
 <div class="container">
+<input class="search" id="searchInput" placeholder="Search across all questions (e.g. transpose, rotate)...">
+
 <div id="home" class="card">
 <h2>How to use this page</h2>
-<p>Choose a question tab above. Each tab contains the <b>question first</b> and the corresponding <b>Java solution</b>.</p>
+<p>Choose a question tab above, or use the search bar to instantly filter down specific operations.</p>
 <div class="note"><b>Focus:</b> Only double-dimensional array (2D array) operations. Solutions use basic Java loops and arrays, suitable for BlueJ/ICSE practice.</div>
-<input class="search" placeholder="Tip: Use Ctrl + F to search within the page.">
 </div>
 
 <div id="q1" class="card hidden"><h2>Q1 — Row Sum and Column Sum</h2><div class="question">Input a square matrix and display the sum of each row and each column separately.</div><pre>import java.util.*;
@@ -629,13 +801,74 @@ class SaddlePoint {
 
 <div class="footer">2D Array Operations • Java Practice • Questions + Solutions</div>
 
+<!-- Syntax Highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
 <script>
-function showTab(id,btn){
-  document.querySelectorAll('.card').forEach(x=>x.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  btn.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+// Format code blocks for Prism.js
+document.querySelectorAll('pre').forEach(pre => {
+    const code = document.createElement('code');
+    code.className = 'language-java';
+    code.innerHTML = pre.innerHTML;
+    pre.innerHTML = '';
+    pre.appendChild(code);
+});
+Prism.highlightAll();
+
+// Theme Toggle Logic
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    themeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+});
+
+// Search Logic
+const searchInput = document.getElementById('searchInput');
+const allCards = document.querySelectorAll('.card');
+
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    
+    // Clear search, restore active tab state
+    if (query === '') {
+        const activeTabBtn = document.querySelector('.tab.active');
+        if (activeTabBtn) {
+            const activeId = activeTabBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+            allCards.forEach(card => card.classList.add('hidden'));
+            document.getElementById(activeId).classList.remove('hidden');
+        }
+        return;
+    }
+
+    // Filter matching cards and display them simultaneously
+    allCards.forEach(card => {
+        if (card.id === 'home') {
+            card.classList.add('hidden');
+            return;
+        }
+        
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(query)) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+});
+
+// Tab switching logic
+function showTab(id, btn) {
+    // Reset search when explicitly clicking a tab
+    searchInput.value = '';
+    
+    allCards.forEach(x => x.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Slight delay to allow display change before scrolling
+    setTimeout(() => window.scrollTo({top: 0, behavior: 'smooth'}), 10);
 }
 </script>
 </body>

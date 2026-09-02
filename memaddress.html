@@ -5,24 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Offset Lab — 2D Array Memory Address Guide</title>
 <meta name="description" content="Visualize row-major and column-major storage, calculate 2D array addresses, and practice with solved questions[cite: 1].">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-primary: #090d16;
-  --bg-secondary: #111827;
-  --bg-card: #161f33;
+  --bg-primary: #050810;
+  --bg-secondary: #0a0f1c;
+  --bg-card: #111827;
   --bg-card-hover: #1e293b;
-  --border-color: #2a3958;
+  --border-color: #1f2e4d;
   --border-glow: #3b82f655;
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
   --accent-primary: #3b82f6;
-  --accent-glow: #60a5fa33;
+  --accent-glow: #3b82f633;
   --accent-green: #10b981;
-  --accent-purple: #8b5cf6;
   --accent-row: #3b82f6;
   --accent-col: #ec4899;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
@@ -31,21 +33,40 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--bg-primary);
+  background-image: 
+    linear-gradient(rgba(31, 46, 77, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 46, 77, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+  background-attachment: fixed;
   color: var(--text-main);
   font-family: var(--font-sans);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.bg-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #0a0f1c 0%, #050810 100%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
+  position: relative;
 }
 
-/* Header */
 .site-header {
   display: flex;
   justify-content: space-between;
@@ -55,8 +76,9 @@ main {
   margin-bottom: 3rem;
   position: sticky;
   top: 0;
-  background: rgba(9, 13, 22, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(5, 8, 16, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 100;
 }
 
@@ -64,7 +86,7 @@ main {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.05em;
   color: var(--text-main);
   text-decoration: none;
@@ -77,6 +99,7 @@ main {
   border-radius: 8px;
   display: flex;
   color: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .site-header nav {
@@ -88,6 +111,7 @@ main {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.95rem;
+  font-weight: 500;
   transition: color 0.2s;
 }
 
@@ -95,8 +119,13 @@ main {
   color: var(--text-main);
 }
 
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
 .header-cta {
-  background: var(--bg-card);
+  background: rgba(17, 24, 39, 0.8);
   border: 1px solid var(--border-color);
   color: var(--text-main);
   padding: 0.5rem 1rem;
@@ -106,84 +135,93 @@ main {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-cta:hover {
   border-color: var(--accent-primary);
   background: var(--bg-card-hover);
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-1px);
 }
 
-/* Hero Section */
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 4rem;
   align-items: center;
-  padding: 4rem 0;
+  padding: 4rem 0 6rem;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--bg-card);
+  background: rgba(17, 24, 39, 0.8);
   border: 1px solid var(--border-color);
-  padding: 0.35rem 0.85rem;
+  padding: 0.4rem 1rem;
   border-radius: 50px;
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--accent-primary);
   margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .hero h1 {
-  font-size: 3.5rem;
+  font-size: 4rem;
   line-height: 1.1;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .hero h1 em {
-  color: var(--accent-primary);
+  color: transparent;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
   font-style: normal;
 }
 
 .hero-intro {
   color: var(--text-muted);
   font-size: 1.15rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  max-width: 90%;
 }
 
 .hero-actions {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .primary-button {
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: #fff;
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.75rem;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: opacity 0.2s, transform 0.1s;
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+  transition: all 0.3s;
 }
 
 .primary-button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.6);
 }
 
 .text-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 0.2s;
 }
 
@@ -193,97 +231,126 @@ main {
 
 .hero-meta {
   display: flex;
-  gap: 2.5rem;
+  gap: 3rem;
   border-top: 1px solid var(--border-color);
-  padding-top: 1.5rem;
+  padding-top: 2rem;
 }
 
 .hero-meta div strong {
   display: block;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 800;
   color: var(--text-main);
 }
 
 .hero-meta div span {
   font-size: 0.85rem;
+  font-weight: 500;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Hero Visual / Illustration */
 .hero-visual {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 20px;
+  padding: 2.5rem;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
 }
 
 .coordinate-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 1rem;
+  padding: 1.25rem;
   border-radius: 12px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .coordinate-label {
   font-size: 0.75rem;
   color: var(--text-muted);
+  font-weight: 700;
   letter-spacing: 0.05em;
 }
 
 .coordinate-card strong {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-family: var(--font-mono);
   color: var(--accent-primary);
 }
 
 .coordinate-offset {
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--accent-green);
 }
 
 .memory-stack {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  max-height: 250px;
+  gap: 6px;
+  max-height: 280px;
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+.memory-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.memory-stack::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+  border-radius: 4px;
+}
+
+.memory-stack::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
 }
 
 .memory-block {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.memory-block:hover {
+  transform: translateX(4px);
+  border-color: var(--text-muted);
 }
 
 .memory-block.target {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.1);
   border-color: var(--accent-primary);
   color: var(--accent-primary);
+  box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
-/* Sections */
 .section {
-  padding: 4rem 0;
+  padding: 5rem 0;
   border-top: 1px solid var(--border-color);
 }
 
 .section-heading {
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 
 .section-heading.compact {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .kicker {
@@ -291,98 +358,102 @@ main {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .section-heading h2 {
-  font-size: 2.5rem;
+  font-size: 2.75rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .section-heading p {
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  max-width: 600px;
 }
 
-/* Visualizer Card */
 .visualizer-card {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.6);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 .visualizer-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .tiny-label {
   font-size: 0.75rem;
   color: var(--text-muted);
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .visualizer-toolbar h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
+  margin-top: 0.25rem;
 }
 
 .segmented-control {
-  background: var(--bg-card);
+  background: rgba(5, 8, 16, 0.8);
   border: 1px solid var(--border-color);
-  padding: 4px;
-  border-radius: 10px;
+  padding: 6px;
+  border-radius: 12px;
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
 .segmented-control button {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .segmented-control button.active {
   background: var(--accent-primary);
   color: #fff;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .visualizer-body {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
+  gap: 3rem;
   align-items: center;
-  margin-bottom: 2rem;
 }
 
 .panel-caption {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .matrix-grid {
@@ -394,198 +465,136 @@ main {
 .matrix-cell {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 1rem 0.5rem;
-  border-radius: 8px;
+  padding: 1.25rem 0.5rem;
+  border-radius: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.matrix-cell:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
 }
 
 .matrix-cell small {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
 
 .matrix-cell strong {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .flow-arrow {
   color: var(--text-muted);
+  opacity: 0.5;
 }
 
 .linear-track {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .linear-cell {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 0.75rem 0.25rem;
-  border-radius: 6px;
+  padding: 1rem 0.25rem;
+  border-radius: 8px;
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .linear-cell small {
   display: block;
   color: var(--text-muted);
-  font-size: 0.65rem;
-}
-
-.foundation-strip {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.foundation-copy {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.step-number {
-  background: var(--accent-glow);
-  color: var(--accent-primary);
-  border: 1px solid var(--accent-primary);
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
-.foundation-copy h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-}
-
-.foundation-copy p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.address-ruler {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.address-ruler div {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
-
-.address-ruler div span {
-  display: block;
-  color: var(--text-muted);
   font-size: 0.7rem;
+  margin-bottom: 0.25rem;
 }
 
-.address-ruler div strong {
-  display: block;
-  color: var(--text-main);
-  font-size: 0.95rem;
-}
-
-.ruler-legend {
-  display: flex;
-  gap: 1.5rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-}
-
-/* Formulas Section */
 .formula-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 2.5rem;
 }
 
 .formula-card {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.6);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 20px;
+  padding: 2.5rem;
   position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.formula-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .formula-card-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--accent-primary);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
 .formula-card-head b {
   font-family: var(--font-mono);
-  font-size: 1.25rem;
-  color: var(--text-muted);
+  font-size: 1.5rem;
+  color: var(--border-color);
 }
 
 .formula-description {
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
 }
 
 .formula-code {
-  background: var(--bg-card);
+  background: rgba(5, 8, 16, 0.8);
   border: 1px solid var(--border-color);
-  padding: 1.25rem;
-  border-radius: 10px;
+  padding: 1.5rem;
+  border-radius: 12px;
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   letter-spacing: 0.05em;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .formula-code mark {
   background: var(--accent-glow);
   color: var(--accent-primary);
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
 }
 
 .formula-details {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   border-top: 1px solid var(--border-color);
-  padding-top: 1.25rem;
+  padding-top: 1.5rem;
 }
 
 .formula-details div {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .formula-details span {
@@ -596,67 +605,45 @@ main {
   font-family: var(--font-mono);
 }
 
-.memory-rule {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.memory-rule svg {
-  color: var(--accent-primary);
-  flex-shrink: 0;
-}
-
-.memory-rule p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.memory-rule strong {
-  color: var(--text-main);
-}
-
-/* Calculator Section */
 .calculator-section {
-  padding: 4rem 0;
+  padding: 5rem 0;
   border-top: 1px solid var(--border-color);
 }
 
 .calculator-shell {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.7);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 3rem;
+  border-radius: 24px;
+  padding: 3.5rem;
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 3rem;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 4rem;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
 }
 
 .calculator-intro h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   margin: 1rem 0;
 }
 
 .calculator-intro p {
   color: var(--text-muted);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
 }
 
 .calculator-order {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .calculator-order button {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 1rem;
+  padding: 1.25rem;
   border-radius: 12px;
   text-align: left;
   cursor: pointer;
@@ -664,35 +651,40 @@ main {
   align-items: center;
   justify-content: space-between;
   color: var(--text-muted);
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 
 .calculator-order button span {
   display: flex;
   flex-direction: column;
   font-weight: 600;
+  font-size: 1.05rem;
   color: var(--text-main);
 }
 
 .calculator-order button span small {
-  font-weight: normal;
+  font-weight: 500;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
 }
 
 .calculator-order button svg:last-child {
   opacity: 0;
   color: var(--accent-primary);
-  transition: opacity 0.2s;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateX(-10px);
 }
 
 .calculator-order button.active {
   border-color: var(--accent-primary);
   background: var(--bg-card-hover);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .calculator-order button.active svg:last-child {
   opacity: 1;
+  transform: translateX(0);
 }
 
 .calculator-form {
@@ -704,19 +696,25 @@ main {
 .field-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .field-grid label {
-  background: var(--bg-card);
+  background: rgba(5, 8, 16, 0.6);
   border: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
+  padding: 1rem;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-muted);
+  transition: border-color 0.2s;
+}
+
+.field-grid label:focus-within {
+  border-color: var(--text-main);
 }
 
 .field-grid input {
@@ -724,96 +722,105 @@ main {
   border: none;
   color: var(--text-main);
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   outline: none;
   width: 100%;
 }
 
 .target-fields {
-  background: var(--bg-card);
+  background: rgba(5, 8, 16, 0.6);
   border: 1px solid var(--border-color);
-  padding: 1rem;
-  border-radius: 10px;
+  padding: 1.25rem;
+  border-radius: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text-muted);
 }
 
 .target-fields div {
   font-family: var(--font-mono);
   color: var(--text-main);
-  font-weight: 600;
 }
 
 .target-fields input {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-main);
-  width: 45px;
+  width: 55px;
   text-align: center;
   font-family: var(--font-mono);
-  padding: 0.25rem;
-  border-radius: 4px;
+  padding: 0.4rem;
+  border-radius: 6px;
+  outline: none;
+}
+
+.target-fields input:focus {
+  border-color: var(--accent-primary);
 }
 
 .result-card {
-  background: var(--bg-card);
+  background: linear-gradient(to right, var(--bg-card), rgba(17, 24, 39, 0.9));
   border: 1px solid var(--accent-primary);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  box-shadow: 0 0 20px var(--accent-glow);
+  gap: 1.5rem;
+  box-shadow: 0 0 25px var(--accent-glow), inset 0 0 0 1px rgba(59, 130, 246, 0.2);
+  margin-top: 0.5rem;
 }
 
 .result-equation span, .result-address span {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--text-muted);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
 }
 
 .result-equation code {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-main);
   display: block;
+  margin-bottom: 0.25rem;
 }
 
 .result-equation strong {
   color: var(--accent-green);
   font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 .result-address strong {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-family: var(--font-mono);
   color: var(--accent-primary);
   display: block;
+  margin-bottom: 0.25rem;
 }
 
 .result-address small {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
 
-/* Practice Section */
 .practice-section {
   border-top: 1px solid var(--border-color);
-  padding-top: 4rem;
+  padding-top: 5rem;
 }
 
 .practice-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
   gap: 1.5rem;
 }
@@ -822,44 +829,47 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .filter-tabs {
   display: flex;
-  gap: 0.5rem;
-  background: var(--bg-secondary);
+  gap: 6px;
+  background: rgba(10, 15, 28, 0.6);
   border: 1px solid var(--border-color);
-  padding: 4px;
-  border-radius: 10px;
+  padding: 6px;
+  border-radius: 12px;
 }
 
 .filter-tabs button {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 
 .filter-tabs button span {
   background: var(--bg-card);
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
   font-size: 0.75rem;
+  font-family: var(--font-mono);
 }
 
 .filter-tabs button.active {
   background: var(--accent-primary);
   color: #fff;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .filter-tabs button.active span {
@@ -868,49 +878,52 @@ main {
 }
 
 .expand-all {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.6);
   border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
-  transition: border-color 0.2s;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
 .expand-all:hover {
   border-color: var(--accent-primary);
+  background: var(--bg-card-hover);
 }
 
 .question-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .question-card {
-  background: var(--bg-secondary);
+  background: rgba(10, 15, 28, 0.6);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .question-card:hover {
-  border-color: var(--accent-primary);
+  border-color: var(--text-muted);
 }
 
 .question-button {
   width: 100%;
   background: transparent;
   border: none;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;
   cursor: pointer;
   text-align: left;
   color: var(--text-main);
@@ -918,56 +931,65 @@ main {
 
 .question-number {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
   font-family: var(--font-mono);
   flex-shrink: 0;
+  letter-spacing: 0.05em;
 }
 
 .type-badge.row {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.1);
   color: var(--accent-row);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .type-badge.col {
-  background: rgba(236, 72, 153, 0.15);
+  background: rgba(236, 72, 153, 0.1);
   color: var(--accent-col);
-  border: 1px solid rgba(236, 72, 153, 0.3);
+  border: 1px solid rgba(236, 72, 153, 0.2);
 }
 
 .question-copy {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
 }
 
 .question-copy small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--text-muted);
   font-family: var(--font-mono);
+  letter-spacing: 0.05em;
 }
 
 .question-copy strong {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 500;
+  line-height: 1.5;
 }
 
 .question-toggle {
   color: var(--text-muted);
-  transition: transform 0.2s;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-card.open {
+  border-color: var(--accent-primary);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .question-card.open .question-toggle {
@@ -977,10 +999,10 @@ main {
 
 .question-solution {
   display: none;
-  background: var(--bg-card);
+  background: rgba(5, 8, 16, 0.8);
   border-top: 1px solid var(--border-color);
-  padding: 1.5rem;
-  font-size: 0.9rem;
+  padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -991,7 +1013,7 @@ main {
 .solution-steps {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
   font-family: var(--font-mono);
 }
 
@@ -999,7 +1021,6 @@ main {
   color: var(--text-main);
 }
 
-/* Footer */
 footer {
   border-top: 1px solid var(--border-color);
   padding: 3rem 0;
@@ -1007,44 +1028,50 @@ footer {
   justify-content: space-between;
   align-items: center;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .footer-brand {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   color: var(--text-main);
 }
 
 footer a {
   color: var(--text-muted);
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
 footer a:hover {
   color: var(--text-main);
 }
 
+@media(max-width: 900px) {
+  .hero, .calculator-shell { grid-template-columns: 1fr; gap: 3rem; }
+  .visualizer-body { grid-template-columns: 1fr; gap: 2rem; }
+  .flow-arrow { transform: rotate(90deg); margin: 0 auto; }
+}
 @media(max-width: 768px) {
-  .hero, .calculator-shell, .formula-grid, .visualizer-body {
-    grid-template-columns: 1fr;
-  }
-  .site-header nav {
-    display: none;
-  }
-  .hero h1 {
-    font-size: 2.5rem;
-  }
+  .formula-grid { grid-template-columns: 1fr; }
+  .site-header nav { display: none; }
+  .hero h1 { font-size: 2.75rem; }
+  .question-button { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .question-solution { padding: 1.5rem; }
+  .header-actions .header-cta:first-child { display: none; }
 }
 </style>
 </head>
 <body>
+<div class="bg-overlay"></div>
 <main>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Offset Lab home">
       <span class="brand-mark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid-3x3"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
       </span>
       <span>OFFSET/LAB</span>
     </a>
@@ -1053,12 +1080,14 @@ footer a:hover {
       <a href="#formulas">Formulas</a>
       <a href="#practice">Practice</a>
     </nav>
-    <a class="header-cta" href="#calculator">🖩 Open calculator <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
-    <a class="header-cta" href="index.html">🏠Back To Hub <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+    <div class="header-actions">
+      <a class="header-cta" href="#calculator">🖩 Open calculator</a>
+      <a class="header-cta" href="index.html">🏠 Hub</a>
+    </div>
   </header>
 
   <section class="hero" id="top">
-    <div class="hero-copy reveal">
+    <div class="hero-copy gsap-hero-stagger">
       <p class="eyebrow">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg> 
         Memory architecture, made visible
@@ -1075,7 +1104,7 @@ footer a:hover {
         <div><strong>1</strong><span>Reliable method</span></div>
       </div>
     </div>
-    <div class="hero-visual reveal delay-one" aria-label="Memory offset illustration">
+    <div class="hero-visual" aria-label="Memory offset illustration">
       <div class="coordinate-card">
         <span class="coordinate-label">TARGET CELL</span>
         <strong>A[2][3]</strong>
@@ -1099,12 +1128,12 @@ footer a:hover {
   </section>
 
   <section class="section visual-section" id="visualizer">
-    <div class="section-heading">
+    <div class="section-heading gsap-scroll-fade">
       <p class="kicker"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"></path></svg> The core idea</p>
       <h2>Memory is a line.<br>Your matrix is not.</h2>
       <p>A 2D array must be flattened into one continuous sequence of addresses[cite: 1].</p>
     </div>
-    <div class="visualizer-card">
+    <div class="visualizer-card gsap-scroll-fade">
       <div class="visualizer-toolbar">
         <div>
           <span class="tiny-label">3 × 4 SAMPLE MATRIX</span>
@@ -1137,21 +1166,20 @@ footer a:hover {
         <div class="linear-panel">
           <span class="panel-caption">PHYSICAL MEMORY (<span id="visOrderLabel">ROW MAJOR</span>)</span>
           <div class="linear-track" id="linearTrack">
-            <!-- Dynamically populated via JS -->
           </div>
-          <p id="visDesc" style="font-size:0.85rem; color: var(--text-muted);"><span class="order-dot row" style="display:inline-block; width:8px; height:8px; background:var(--accent-primary); border-radius:50%;"></span> Complete each row before moving down[cite: 1].</p>
+          <p id="visDesc" style="font-size:0.9rem; color: var(--text-muted); font-weight:500;"><span class="order-dot row" style="display:inline-block; width:10px; height:10px; background:var(--accent-primary); border-radius:50%; margin-right:6px;"></span> Complete each row before moving down[cite: 1].</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="section formula-section" id="formulas">
-    <div class="section-heading compact">
+    <div class="section-heading compact gsap-scroll-fade">
       <p class="kicker"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path></svg> Formula map</p>
       <h2>One formula.<br>One swapped priority.</h2>
     </div>
     <div class="formula-grid">
-      <article class="formula-card row-formula">
+      <article class="formula-card gsap-scroll-fade">
         <div class="formula-card-head"><span>ROW MAJOR</span><b>01</b></div>
         <p class="formula-description">Skip complete rows, then move across the target row[cite: 1].</p>
         <div class="formula-code">B + W [ <mark>C</mark>(I − Lr) + (J − Lc) ]</div>
@@ -1161,7 +1189,7 @@ footer a:hover {
           <div><span>COLUMN OFFSET</span><strong>J − Lc</strong></div>
         </div>
       </article>
-      <article class="formula-card col-formula">
+      <article class="formula-card gsap-scroll-fade">
         <div class="formula-card-head"><span>COLUMN MAJOR</span><b>02</b></div>
         <p class="formula-description">Skip complete columns, then move down the target column[cite: 1].</p>
         <div class="formula-code">B + W [ <mark>R</mark>(J − Lc) + (I − Lr) ]</div>
@@ -1175,7 +1203,7 @@ footer a:hover {
   </section>
 
   <section class="calculator-section" id="calculator">
-    <div class="calculator-shell">
+    <div class="calculator-shell gsap-scroll-fade">
       <div class="calculator-intro">
         <p class="kicker"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect></svg> Address calculator</p>
         <h2>Check your working in seconds.</h2>
@@ -1222,14 +1250,14 @@ footer a:hover {
   </section>
 
   <section class="section practice-section" id="practice">
-    <div class="practice-head">
+    <div class="practice-head gsap-scroll-fade">
       <div class="section-heading compact" style="margin-bottom:0;">
         <p class="kicker"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg> Solved practice</p>
         <h2>Fifteen years.<br>Every pattern.</h2>
       </div>
-      <p style="color:var(--text-muted)">Work through the question first, then reveal the arithmetic one line at a time[cite: 1].</p>
+      <p style="color:var(--text-muted); font-size:1.1rem; max-width: 500px;">Work through the question first, then reveal the arithmetic one line at a time[cite: 1].</p>
     </div>
-    <div class="practice-controls">
+    <div class="practice-controls gsap-scroll-fade">
       <div class="filter-tabs" id="practiceFilterTabs">
         <button class="active" data-filter="all">All questions<span>15</span></button>
         <button data-filter="row">Row major<span>7</span></button>
@@ -1238,8 +1266,7 @@ footer a:hover {
       <button class="expand-all" id="expandAllBtn">Toggle all solutions <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>
     </div>
     <div class="question-list" id="questionList">
-      <!-- 1 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">01</span>
           <span class="type-badge row">ROW</span>
@@ -1255,8 +1282,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 2 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">02</span>
           <span class="type-badge col">COLUMN</span>
@@ -1272,8 +1298,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 3 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">03</span>
           <span class="type-badge row">ROW</span>
@@ -1288,8 +1313,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 4 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">04</span>
           <span class="type-badge row">ROW</span>
@@ -1304,8 +1328,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 5 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">05</span>
           <span class="type-badge col">COLUMN</span>
@@ -1320,8 +1343,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 6 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">06</span>
           <span class="type-badge row">ROW</span>
@@ -1336,8 +1358,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 7 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">07</span>
           <span class="type-badge col">COLUMN</span>
@@ -1352,8 +1373,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 8 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">08</span>
           <span class="type-badge row">ROW</span>
@@ -1368,8 +1388,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 9 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">09</span>
           <span class="type-badge col">COLUMN</span>
@@ -1382,8 +1401,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 10 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">10</span>
           <span class="type-badge col">COLUMN</span>
@@ -1398,8 +1416,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 11 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">11</span>
           <span class="type-badge row">ROW</span>
@@ -1414,8 +1431,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 12 -->
-      <article class="question-card" data-type="row">
+      <article class="question-card gsap-q-card" data-type="row">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">12</span>
           <span class="type-badge row">ROW</span>
@@ -1430,8 +1446,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 13 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">13</span>
           <span class="type-badge col">COLUMN</span>
@@ -1446,8 +1461,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 14 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">14</span>
           <span class="type-badge col">COLUMN</span>
@@ -1461,8 +1475,7 @@ footer a:hover {
           </div>
         </div>
       </article>
-      <!-- 15 -->
-      <article class="question-card" data-type="col">
+      <article class="question-card gsap-q-card" data-type="col">
         <button class="question-button" aria-expanded="false">
           <span class="question-number">15</span>
           <span class="type-badge col">COLUMN</span>
@@ -1490,8 +1503,31 @@ footer a:hover {
   </footer>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
-// Visualizer State & Toggle
+gsap.registerPlugin(ScrollTrigger);
+
+const tl = gsap.timeline();
+tl.from(".site-header", { y: -20, opacity: 0, duration: 0.6, ease: "power2.out" })
+  .from(".gsap-hero-stagger > *", { y: 20, opacity: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.3")
+  .from(".hero-visual", { x: 30, opacity: 0, duration: 0.7, ease: "power3.out" }, "-=0.4")
+  .from(".memory-block", { x: 20, opacity: 0, duration: 0.3, stagger: 0.05 }, "-=0.3");
+
+gsap.utils.toArray('.gsap-scroll-fade').forEach(el => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: "top 85%" },
+    y: 30, opacity: 0, duration: 0.6, ease: "power2.out"
+  });
+});
+
+gsap.utils.toArray('.gsap-q-card').forEach(el => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: "top 90%" },
+    y: 20, opacity: 0, duration: 0.4, ease: "power2.out"
+  });
+});
+
 const visOrderToggle = document.getElementById('visOrderToggle');
 const linearTrack = document.getElementById('linearTrack');
 const visOrderLabel = document.getElementById('visOrderLabel');
@@ -1509,13 +1545,19 @@ function renderVisualizer(order) {
     cell.innerHTML = `<small>${idx}</small><strong>${val}</strong>`;
     linearTrack.appendChild(cell);
   });
+  
   if(order === 'row') {
     visOrderLabel.textContent = 'ROW MAJOR';
-    visDesc.innerHTML = '<span style="display:inline-block; width:8px; height:8px; background:var(--accent-primary); border-radius:50%; margin-right:4px;"></span> Complete each row before moving down[cite: 1].';
+    visDesc.innerHTML = '<span class="order-dot row" style="display:inline-block; width:10px; height:10px; background:var(--accent-primary); border-radius:50%; margin-right:6px;"></span> Complete each row before moving down[cite: 1].';
   } else {
     visOrderLabel.textContent = 'COLUMN MAJOR';
-    visDesc.innerHTML = '<span style="display:inline-block; width:8px; height:8px; background:var(--accent-col); border-radius:50%; margin-right:4px;"></span> Complete each column before moving right[cite: 1].';
+    visDesc.innerHTML = '<span class="order-dot col" style="display:inline-block; width:10px; height:10px; background:var(--accent-col); border-radius:50%; margin-right:6px;"></span> Complete each column before moving right[cite: 1].';
   }
+  
+  gsap.fromTo('.linear-cell', 
+    { opacity: 0, scale: 0.9 }, 
+    { opacity: 1, scale: 1, duration: 0.3, stagger: 0.03, ease: "back.out(1.5)" }
+  );
 }
 
 visOrderToggle.querySelectorAll('button').forEach(btn => {
@@ -1527,7 +1569,6 @@ visOrderToggle.querySelectorAll('button').forEach(btn => {
 });
 renderVisualizer('row');
 
-// Calculator Logic
 let currentCalcOrder = 'row';
 const calcOrderToggle = document.getElementById('calcOrderToggle');
 calcOrderToggle.querySelectorAll('button').forEach(btn => {
@@ -1543,6 +1584,8 @@ const calcInputs = ['calcB', 'calcW', 'calcLr', 'calcUr', 'calcLc', 'calcUc', 'c
 calcInputs.forEach(id => {
   document.getElementById(id).addEventListener('input', runCalculator);
 });
+
+const fmtNum = n => n < 0 ? `(${n})` : n;
 
 function runCalculator() {
   const B = parseFloat(document.getElementById('calcB').value) || 0;
@@ -1562,10 +1605,10 @@ function runCalculator() {
 
   if(currentCalcOrder === 'row') {
     offset = C * (I - Lr) + (J - Lc);
-    eqText = `${C} × (${I} − ${Lr}) + (${J} − ${Lc})`;
+    eqText = `${C} × (${fmtNum(I)} − ${fmtNum(Lr)}) + (${fmtNum(J)} − ${fmtNum(Lc)})`;
   } else {
     offset = R * (J - Lc) + (I - Lr);
-    eqText = `${R} × (${J} − ${Lc}) + (${I} − ${Lr})`;
+    eqText = `${R} × (${fmtNum(J)} − ${fmtNum(Lc)}) + (${fmtNum(I)} − ${fmtNum(Lr)})`;
   }
 
   const finalAddr = B + W * offset;
@@ -1577,7 +1620,6 @@ function runCalculator() {
 }
 runCalculator();
 
-// Practice Filter & Accordions
 const filterTabs = document.getElementById('practiceFilterTabs');
 const questionCards = document.querySelectorAll('.question-card');
 
@@ -1589,10 +1631,12 @@ filterTabs.querySelectorAll('button').forEach(btn => {
     questionCards.forEach(card => {
       if(filter === 'all' || card.getAttribute('data-type') === filter) {
         card.style.display = 'block';
+        gsap.fromTo(card, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 });
       } else {
         card.style.display = 'none';
       }
     });
+    ScrollTrigger.refresh();
   });
 });
 
@@ -1602,6 +1646,15 @@ questionCards.forEach(card => {
     card.classList.toggle('open');
     const expanded = card.classList.contains('open');
     btn.setAttribute('aria-expanded', expanded);
+    if (expanded) {
+      gsap.fromTo(card.querySelector('.question-solution'), 
+        { height: 0, opacity: 0 }, 
+        { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" }
+      );
+    } else {
+      card.querySelector('.question-solution').style.height = '';
+      card.querySelector('.question-solution').style.opacity = '';
+    }
   });
 });
 
@@ -1620,6 +1673,7 @@ expandAllBtn.addEventListener('click', () => {
       }
     }
   });
+  ScrollTrigger.refresh();
 });
 </script>
 </body>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISC Computer Science · Recursion Notebook</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            800: '#0b3b5c',
+                            900: '#07263d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Roboto', 'system-ui', 'sans-serif'],
+                        mono: ['Consolas', 'Fira Code', 'Monaco', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Initial Dark Mode Script to Prevent FOUC -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 p-4 sm:p-6 lg:p-8">
+
+    <!-- Sticky / Header Bar -->
+    <div class="max-w-7xl mx-auto mb-8">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-slate-200 dark:border-slate-800 pb-4 gap-4">
+            <div id="header-title" class="flex items-center gap-3">
+                <div class="p-3 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-500/30 transform transition hover:rotate-12">
+                    <i class="fas fa-code-branch text-2xl sm:text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-brand-800 dark:text-blue-400 tracking-tight">ISC Computer Science</h1>
+                    <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Recursion Interactive Notebook</p>
+                </div>
+            </div>
+
+            <!-- Light / Dark Theme Switcher Button -->
+            <button id="theme-toggle" class="self-end sm:self-auto relative group flex items-center justify-between gap-3 px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer" aria-label="Toggle Theme">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Theme</span>
+                <div class="relative w-7 h-7 flex items-center justify-center">
+                    <i id="sun-icon" class="fas fa-sun text-amber-500 text-lg absolute transition-all duration-300"></i>
+                    <i id="moon-icon" class="fas fa-moon text-blue-400 text-lg absolute transition-all duration-300 opacity-0"></i>
+                </div>
+            </button>
+        </header>
+
+        <!-- Dynamic Navigation Tabs -->
+        <nav class="mt-6">
+            <div id="tabHeaders" class="flex flex-wrap gap-2 p-2 bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-factorial"><i class="fas fa-calculator text-blue-500"></i> Factorial</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-perm-comb"><i class="fas fa-shuffle text-indigo-500"></i> P &amp; C</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-special"><i class="fas fa-star text-amber-500"></i> Special</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-power"><i class="fas fa-bolt text-yellow-500"></i> Power</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-fib"><i class="fas fa-chart-line text-emerald-500"></i> Fibonacci</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent active-tab" data-tab="tab-gcd-lcm"><i class="fas fa-divide text-teal-500"></i> GCD &amp; LCM</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-prime"><i class="fas fa-shield-alt text-cyan-500"></i> Prime</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-digits"><i class="fas fa-sort-numeric-up text-violet-500"></i> Digits</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-conversion"><i class="fas fa-exchange-alt text-fuchsia-500"></i> Base</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-array"><i class="fas fa-list-ul text-rose-500"></i> Arrays</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-mindmap"><i class="fas fa-brain text-purple-500"></i> Mind Maps</button>
+                <button class="tab-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all flex items-center gap-2 border border-transparent" data-tab="tab-mcq"><i class="fas fa-question-circle text-pink-500"></i> MCQs</button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto">
+
+        <!-- 1. FACTORIAL -->
+        <div id="tab-factorial" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-calculator text-blue-500"></i> Factorial Implementation Methods</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full mb-3">Recursive</span>
+                        <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-arrow-right text-blue-500 group-hover:translate-x-1 transition-transform"></i> Method 1: Classic Direct</h3>
+                        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs sm:text-sm font-mono overflow-x-auto my-2">int factorial(int n) {
+    if (n == 0) return 1;
+    else return n * factorial(n - 1);
+}</pre>
+                    </div>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2 border-l-4 border-blue-500"><i class="fas fa-check-circle text-blue-500"></i> Shortest and standard ISC answer.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full mb-3">Recursive</span>
+                        <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-arrow-right text-blue-500 group-hover:translate-x-1 transition-transform"></i> Method 2: State Accumulator</h3>
+                        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs sm:text-sm font-mono overflow-x-auto my-2">int f = 1;
+int factorial(int n) {
+    if (n == 0) return f;
+    f = f * n;
+    return factorial(n - 1);
+}</pre>
+                    </div>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2 border-l-4 border-blue-500"><i class="fas fa-database text-blue-500"></i> Multiplies during call-stack push.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full mb-3">Recursive</span>
+                        <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-arrow-right text-blue-500 group-hover:translate-x-1 transition-transform"></i> Method 3: Upward Counter</h3>
+                        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs sm:text-sm font-mono overflow-x-auto my-2">int f = 1;
+int factorial(int n, int i) {
+    if (i &lt;= n) {
+        f = f * i;
+        return factorial(n, i + 1);
+    }
+    return f;
+}</pre>
+                    </div>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2 border-l-4 border-blue-500"><i class="fas fa-sync-alt text-blue-500"></i> Iterative style using counter i.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-500 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-full mb-3">Iterative</span>
+                        <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-code text-emerald-500 group-hover:rotate-12 transition-transform"></i> Iterative Fallback</h3>
+                        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs sm:text-sm font-mono overflow-x-auto my-2">int factorial(int n) {
+    int f = 1;
+    for (int i = 1; i &lt;= n; i++) f *= i;
+    return f;
+}</pre>
+                    </div>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2 border-l-4 border-emerald-500"><i class="fas fa-clock text-emerald-500"></i> Non-recursive comparison loop.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. PERMUTATIONS & COMBINATIONS -->
+        <div id="tab-perm-comb" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-shuffle text-indigo-500"></i> Permutations &amp; Combinations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-arrows-spin text-indigo-500"></i> Permutation P(n, r)</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int perm(int n, int r) {
+    return factorial(n) / factorial(n - r);
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 border-l-4 border-indigo-500"><i class="fas fa-calculator text-indigo-500 mr-1"></i> nPr = n! / (n-r)!</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-object-group text-indigo-500"></i> Combination C(n, r)</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int comb(int n, int r) {
+    return factorial(n) / (factorial(r) * factorial(n - r));
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 border-l-4 border-indigo-500"><i class="fas fa-calculator text-indigo-500 mr-1"></i> nCr = n! / (r! × (n-r)!)</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-folder-open text-indigo-500"></i> Full ISC Class</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">class Permutation {
+    int n, r;
+    int factorial(int num) {
+        if (num == 0) return 1;
+        return num * factorial(num - 1);
+    }
+    void compute() { 
+        int res = factorial(n) / factorial(n - r);
+        System.out.println("P("+n+","+r+") = "+res);
+    }
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SPECIAL & KRISHNAMURTHY -->
+        <div id="tab-special" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-star text-amber-500"></i> Special &amp; Krishnamurthy</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-amber-500 transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-check-circle text-amber-500"></i> Special Number</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void isSpecial(int n) {
+    int d, s = 0, copy = n;
+    while (n &gt; 0) {
+        d = n % 10;
+        s += factorial(d);
+        n /= 10;
+    }
+    if (s == copy) System.out.println("Special");
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 border-l-4 border-amber-500"><i class="fas fa-lightbulb text-amber-500 mr-1"></i> Digit factorial sum equals original.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-amber-500 transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2 flex items-center gap-2"><i class="fas fa-dice text-amber-500"></i> Example 145</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">145 = 1! + 4! + 5! = 145</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs text-slate-600 dark:text-slate-300 border-l-4 border-amber-500"><i class="fas fa-info-circle text-amber-500 mr-1"></i> 1, 2, 145 are Special numbers.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. POWER & SERIES -->
+        <div id="tab-power" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-bolt text-yellow-500"></i> Power &amp; Series</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-yellow-500 transition-all">
+                    <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full mb-3">Recursive</span>
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-crown text-yellow-500 mr-2"></i> Power a^b</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">double power(int a, int b) {
+    if (b == 0) return 1.0;
+    return a * power(a, b - 1);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-yellow-500 transition-all">
+                    <span class="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-full mb-3">Iterative</span>
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-crown text-yellow-500 mr-2"></i> Power Iterative</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">double power(int a, int b) {
+    double p = 1;
+    for (int i=1; i&lt;=b; i++) p *= a;
+    return p;
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-yellow-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-list-ol text-yellow-500 mr-2"></i> Series Calculation</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void calcSeries(int x, int n) {
+    double sum = 0;
+    for(int i=0; i&lt;n; i++) {
+        sum += power(x,i) / factorial(i);
+    }
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. FIBONACCI -->
+        <div id="tab-fib" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-chart-line text-emerald-500"></i> Fibonacci</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-angle-right text-emerald-500 mr-2"></i> nth Term Direct</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int fib(int n) {
+    if (n &lt;= 1) return 0;
+    else if (n == 2) return 1;
+    else return fib(n-1)+fib(n-2);
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs border-l-4 border-emerald-500"><i class="fas fa-bolt text-emerald-500 mr-1"></i> Dual-recursion tree structure.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-print text-emerald-500 mr-2"></i> Generate First N</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void printFib(int limit) {
+    for(int i=1; i&lt;=limit; i++)
+        System.out.print(fib(i) + " ");
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-sync-alt text-emerald-500 mr-2"></i> Tail Recursion</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int a=0,b=1,c=0;
+void fib(int i, int limit) {
+    if(i &lt;= limit) {
+        c = a + b;
+        System.out.print(c + " ");
+        a = b; b = c; 
+        fib(i + 1, limit);
+    }
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs border-l-4 border-emerald-500"><i class="fas fa-arrow-right text-emerald-500 mr-1"></i> Efficient linear generator.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. GCD & LCM (ACTIVE DEFAULT) -->
+        <div id="tab-gcd-lcm" class="panel block bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-divide text-teal-500"></i> GCD &amp; LCM</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-arrow-right text-teal-500 mr-2"></i> GCD Modulo</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int gcd(int p, int q) {
+    if (q == 0) return p;
+    return gcd(q, p % q);
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs border-l-4 border-teal-500"><i class="fas fa-rocket text-teal-500 mr-1"></i> Euclidean algorithm.</div>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-arrow-right text-teal-500 mr-2"></i> GCD Subtraction</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int gcd(int p, int q) {
+    if (p == q) return p;
+    if (p &gt; q) return gcd(p - q, q);
+    return gcd(p, q - p);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-arrow-right text-teal-500 mr-2"></i> LCM Incremental</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int lcm = 1;
+int calcLCM(int a, int b) {
+    if (lcm % a == 0 &amp;&amp; lcm % b == 0) return lcm;
+    lcm++;
+    return calcLCM(a, b);
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. PRIME, TWIN & EMIRP -->
+        <div id="tab-prime" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-shield-alt text-cyan-500"></i> Prime &amp; Emirp</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-check text-cyan-500 mr-2"></i> Factor Counting</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int count = 0;
+int prime(int n, int i) {
+    if (i &lt;= n) { 
+        if (n % i == 0) count++; 
+        return prime(n, i + 1); 
+    }
+    return count;
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-double-check text-cyan-500 mr-2"></i> Early Exit</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int isPrime(int n, int i) {
+    if (i == n) return 1;
+    if (n % i == 0 || n == 1) return 0;
+    return isPrime(n, i + 1);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-all">
+                    <h3 class="text-lg font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-rotate-left text-cyan-500 mr-2"></i> Emirp (ISC 2013)</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">class Emirp {
+    int n, rev = 0;
+    int isprime(int x, int i) { ... }
+    void isEmirp() { 
+        // reverse n, check both prime
+    }
+}</pre>
+                    <div class="mt-4 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs border-l-4 border-cyan-500"><i class="fas fa-info-circle text-cyan-500 mr-1"></i> Prime both forward &amp; backward.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. DIGITS, MAGIC & ARMSTRONG -->
+        <div id="tab-digits" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-sort-numeric-up text-violet-500"></i> Digits &amp; Magic</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-violet-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-arrow-right text-violet-500 mr-2"></i> Sum of Digits</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int sumDig(int n) {
+    if(n == 0) return 0;
+    return (n % 10) + sumDig(n / 10);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-violet-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-arrow-left text-violet-500 mr-2"></i> LIFO Print</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void printDigitsFirst(int n) {
+    if(n &gt; 0) { 
+        printDigitsFirst(n/10); 
+        System.out.print(n%10 + " "); 
+    }
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-violet-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-magic text-violet-500 mr-2"></i> Magic Number</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void isMagic(int n) {
+    while(n &gt; 9) n = sumDig(n);
+    if(n == 1) 
+        System.out.println("Magic");
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-violet-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-smile text-violet-500 mr-2"></i> Happy Number</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int sumSqDigits(int x) {
+    if(x == 0) return 0;
+    int d = x % 10; 
+    return d*d + sumSqDigits(x/10);
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. BASE CONVERSIONS -->
+        <div id="tab-conversion" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-exchange-alt text-fuchsia-500"></i> Base Conversions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-fuchsia-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-code text-fuchsia-500 mr-2"></i> Decimal → Binary</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void binary(int n) {
+    if(n &gt; 0) { 
+        binary(n/2); 
+        System.out.print(n%2); 
+    }
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-fuchsia-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-code text-fuchsia-500 mr-2"></i> Binary → Decimal</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int dec=0, c=0;
+int binaryToDecimal(long n) {
+    if(n &gt; 0) { 
+        dec += (n%10)*Math.pow(2,c++); 
+        return binaryToDecimal(n/10); 
+    }
+    return dec;
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-fuchsia-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-code text-fuchsia-500 mr-2"></i> Decimal → Hex</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">String hexa(int n) {
+    if(n &gt; 0) { 
+        int d = n % 16; 
+        char ch = (d &lt; 10) ? (char)(d+48) : (char)(d+55); 
+        return hexa(n/16) + ch; 
+    }
+    return "";
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-fuchsia-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-biohazard text-fuchsia-500 mr-2"></i> Evil Number</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int binaryOnes(int n) {
+    if(n &gt; 0) 
+        return (n%2==1?1:0) + binaryOnes(n/2);
+    return 0;
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. ARRAY & SORTING -->
+        <div id="tab-array" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-list-ul text-rose-500"></i> Arrays &amp; Sorting</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-rose-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-search text-rose-500 mr-2"></i> Linear Search</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int linearSearch(int A[], int i, int key) {
+    if(i == A.length) return -1;
+    if(A[i] == key) return 1;
+    return linearSearch(A, i + 1, key);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-rose-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-search-plus text-rose-500 mr-2"></i> Binary Search</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">int binSearch(int A[], int l, int u, int key) {
+    if(u &lt; l) return -1;
+    int mid = (l + u) / 2;
+    if(A[mid] == key) return 1;
+    if(key &gt; A[mid]) return binSearch(A, mid + 1, u, key);
+    return binSearch(A, l, mid - 1, key);
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-rose-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-sort-amount-down text-rose-500 mr-2"></i> Selection Sort</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void selectionSort(int A[], int i) {
+    if(i &lt; A.length - 1) {
+        for(int j = i + 1; j &lt; A.length; j++) 
+            if(A[i] &gt; A[j]) swap(A, i, j);
+        selectionSort(A, i + 1);
+    }
+}</pre>
+                </div>
+                <div class="animate-item bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 hover:border-rose-500 transition-all">
+                    <h3 class="text-base font-semibold text-brand-800 dark:text-slate-100 mb-3 border-b border-dashed border-slate-300 dark:border-slate-700 pb-2"><i class="fas fa-sort-amount-up text-rose-500 mr-2"></i> Bubble Sort</h3>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto my-2">void bubbleSort(int A[], int i) {
+    if(i &lt; A.length - 1) {
+        for(int j = 0; j &lt; A.length - 1 - i; j++) 
+            if(A[j] &gt; A[j+1]) swap(A, j, j+1);
+        bubbleSort(A, i + 1);
+    }
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. MIND MAP -->
+        <div id="tab-mindmap" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-x-auto">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-brain text-purple-500"></i> Recursion Mind Maps</h2>
+            
+            <div class="min-w-[700px] flex flex-col items-center gap-6 py-4">
+                <!-- Root -->
+                <div class="animate-item bg-gradient-to-r from-brand-800 to-blue-600 text-white font-bold text-xl px-8 py-4 rounded-2xl shadow-xl transform hover:scale-105 transition-transform">
+                    Java Recursion
+                </div>
+                <div class="text-blue-500 text-xl animate-bounce">↓</div>
+
+                <!-- Level 1 -->
+                <div class="flex justify-center gap-4 w-full">
+                    <div class="animate-item bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-2 border-blue-500 flex-1 text-center shadow-md">
+                        <strong class="block text-brand-800 dark:text-blue-400 mb-2">Definition</strong>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Method calls itself</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Breaks large problems</span>
+                        </div>
+                    </div>
+                    <div class="animate-item bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-2 border-blue-500 flex-1 text-center shadow-md">
+                        <strong class="block text-brand-800 dark:text-blue-400 mb-2">Components</strong>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Base Case</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Recursive Case</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Termination</span>
+                        </div>
+                    </div>
+                    <div class="animate-item bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-2 border-blue-500 flex-1 text-center shadow-md">
+                        <strong class="block text-brand-800 dark:text-blue-400 mb-2">Types</strong>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Direct</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Indirect</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Tail</span>
+                            <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full">Head</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-blue-500 text-xl">↓</div>
+
+                <!-- Level 2: Head vs Tail -->
+                <div class="flex justify-center gap-6 w-full">
+                    <div class="animate-item bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-2 border-rose-500 flex-1 text-center shadow-md">
+                        <strong class="block text-rose-500 mb-2">Head Recursion</strong>
+                        <div class="flex flex-wrap justify-center gap-2 mb-3">
+                            <span class="bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200 text-xs px-2.5 py-1 rounded-full">Recursive call first</span>
+                            <span class="bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200 text-xs px-2.5 py-1 rounded-full">Work after call</span>
+                        </div>
+                        <pre class="bg-slate-900 text-left text-xs font-mono p-3 rounded-lg text-slate-200"><span class="text-blue-400">void</span> <span class="text-amber-300">fun</span>(<span class="text-blue-400">int</span> n) {
+  <span class="text-blue-400">if</span>(n&gt;0) {
+    fun(n-1); <span class="text-emerald-400">// call first</span>
+    System.out.print(n); 
+  }
+}</pre>
+                    </div>
+                    <div class="animate-item bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-2 border-emerald-500 flex-1 text-center shadow-md">
+                        <strong class="block text-emerald-500 mb-2">Tail Recursion</strong>
+                        <div class="flex flex-wrap justify-center gap-2 mb-3">
+                            <span class="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 text-xs px-2.5 py-1 rounded-full">Recursive call last</span>
+                            <span class="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 text-xs px-2.5 py-1 rounded-full">No work after call</span>
+                        </div>
+                        <pre class="bg-slate-900 text-left text-xs font-mono p-3 rounded-lg text-slate-200"><span class="text-blue-400">void</span> <span class="text-amber-300">fun</span>(<span class="text-blue-400">int</span> n) {
+  <span class="text-blue-400">if</span>(n&gt;0) {
+    System.out.print(n); 
+    fun(n-1); <span class="text-emerald-400">// call last</span>
+  }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="text-blue-500 text-xl">↓</div>
+
+                <!-- Call Stack Visualizer -->
+                <div class="animate-item bg-slate-100 dark:bg-slate-800/80 p-6 rounded-2xl border border-slate-300 dark:border-slate-700 w-full max-w-xl text-center">
+                    <strong class="text-purple-600 dark:text-purple-400 block text-lg mb-3">Call Stack Execution Frame</strong>
+                    <div class="flex flex-col items-center gap-1.5 font-mono text-xs text-white">
+                        <div class="w-4/5 bg-brand-800 dark:bg-blue-600 p-2 rounded-lg shadow-md hover:scale-105 transition-transform">factorial(5) → 120</div>
+                        <div class="w-4/5 bg-brand-800/90 dark:bg-blue-600/90 p-2 rounded-lg shadow-md hover:scale-105 transition-transform">factorial(4) → 24</div>
+                        <div class="w-4/5 bg-brand-800/80 dark:bg-blue-600/80 p-2 rounded-lg shadow-md hover:scale-105 transition-transform">factorial(3) → 6</div>
+                        <div class="w-4/5 bg-brand-800/70 dark:bg-blue-600/70 p-2 rounded-lg shadow-md hover:scale-105 transition-transform">factorial(2) → 2</div>
+                        <div class="w-4/5 bg-emerald-600 p-2 rounded-lg shadow-md hover:scale-105 transition-transform">factorial(1) ← Base Condition</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. MCQs PANEL -->
+        <div id="tab-mcq" class="panel hidden bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 class="text-2xl font-bold text-brand-800 dark:text-blue-400 mb-6 flex items-center gap-3"><i class="fas fa-question-circle text-pink-500"></i> Recursion MCQs (30 Questions)</h2>
+            <div id="mcq-container-target" class="max-w-4xl mx-auto space-y-6">
+                <!-- Dynamically populated or pre-rendered via script for high speed -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="mt-12 text-center text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 pb-8">
+        <i class="fas fa-graduation-cap text-blue-500 mr-1"></i> Recursion Notes &amp; Method Reference · ISC Computer Science Syllabus
+    </footer>
+
+    <!-- INTERACTIVE ENGINE & MCQ DATA -->
+    <script>
+        // MCQ Master Data array
+        const mcqData = [
+            // Section A
+            { sec: "Section A: Basics of Recursion", id: "mcq1", qno: "Q1", q: "What is recursion in Java?", options: ["A. A method calling another", "B. A method calling itself", "C. A loop inside a method", "D. A method without parameters"], ans: "B", exp: "Recursion is a technique where a method calls itself directly or indirectly." },
+            { id: "mcq2", qno: "Q2", q: "A recursive method must contain:", options: ["A. Scanner", "B. Loop", "C. Base case", "D. Array"], ans: "C", exp: "A base case is essential to stop infinite recursion." },
+            { id: "mcq3", qno: "Q3", q: "The main purpose of a base case is to:", options: ["A. Increase memory", "B. Stop recursive calls", "C. Repeat execution", "D. Create objects"], ans: "B", exp: "Base case terminates recursion and prevents stack overflow." },
+            { id: "mcq4", qno: "Q4", q: "If no base case, recursion causes:", options: ["A. Syntax error", "B. Logical error", "C. StackOverflowError", "D. Compilation error"], ans: "C", exp: "Infinite recursion fills stack space resulting in StackOverflowError." },
+            { id: "mcq5", qno: "Q5", q: "Recursion breaks a problem into:", options: ["A. Larger problems", "B. Smaller subproblems", "C. Multiple loops", "D. Classes"], ans: "B", exp: "Recursion divides complex problems into smaller, identical subproblems." },
+
+            // Section B
+            { sec: "Section B: Base Case & Recursive Case", id: "mcq6", qno: "Q6", q: "Identify base case in the snippet below:", code: "int fun(int n) { if(n==0) return 1; return n*fun(n-1); }", options: ["A. return n*fun(n-1)", "B. fun(n-1)", "C. if(n==0) return 1", "D. int fun(int n)"], ans: "C", exp: "The condition `n==0` returns directly without making further calls." },
+            { id: "mcq7", qno: "Q7", q: "The statement which calls the function again is:", options: ["A. Base case", "B. Recursive case", "C. Return", "D. Declaration"], ans: "B", exp: "The recursive case contains the call to the function itself." },
+            { id: "mcq8", qno: "Q8", q: "A recursive function terminates when:", options: ["A. Loop ends", "B. Base condition true", "C. Memory full", "D. Method overloaded"], ans: "B", exp: "When the base condition evaluates to true, stack unwinding starts." },
+
+            // Section C
+            { sec: "Section C: Types of Recursion", id: "mcq9", qno: "Q9", q: "When a method calls itself directly:", options: ["A. Indirect", "B. Direct", "C. Tail", "D. Nested"], ans: "B", exp: "Direct recursion occurs when a function explicitly invokes itself." },
+            { id: "mcq10", qno: "Q10", q: "Which involves two or more methods calling each other?", options: ["A. Direct", "B. Tail", "C. Indirect", "D. Linear"], ans: "C", exp: "Indirect recursion happens when Method A calls B and B calls A." },
+            { id: "mcq11", qno: "Q11", q: "In tail recursion, recursive call is:", options: ["A. First statement", "B. Middle", "C. Last statement", "D. Not present"], ans: "C", exp: "In tail recursion, the recursive call is the final operation performed." },
+            { id: "mcq12", qno: "Q12", q: "Which recursion has no operation after recursive call?", options: ["A. Head", "B. Tail", "C. Tree", "D. Indirect"], ans: "B", exp: "Tail recursion executes nothing after returning from the call." },
+
+            // Section D
+            { sec: "Section D: Output-Based", id: "mcq13", qno: "Q13", q: "What is the output of fun(4)?", code: "void fun(int n) { if(n==0) return; System.out.print(n+\" \"); fun(n-1); }", options: ["A. 1 2 3 4", "B. 4 3 2 1", "C. 4 4 4 4", "D. No output"], ans: "B", exp: "Prints before making recursive call → descending order." },
+            { id: "mcq14", qno: "Q14", q: "What is the output of fun(5)?", code: "void fun(int n) { if(n==0) return; fun(n-1); System.out.print(n+\" \"); }", options: ["A. 5 4 3 2 1", "B. 1 2 3 4 5", "C. 0 1 2 3 4", "D. Infinite"], ans: "B", exp: "Prints during call-stack unwinding → ascending order." },
+            { id: "mcq15", qno: "Q15", q: "How many times does fun() execute for fun(6)?", code: "void fun(int n) { if(n==0) return; fun(n-1); }", options: ["A. 5", "B. 6", "C. 7", "D. Infinite"], ans: "C", exp: "Executed for n = 6, 5, 4, 3, 2, 1, 0 → Total 7 times." },
+
+            // Section E
+            { sec: "Section E: Recursion and Stack", id: "mcq16", qno: "Q16", q: "Each recursive call is stored in:", options: ["A. Heap", "B. Queue", "C. Stack", "D. Array"], ans: "C", exp: "The call stack holds activation records for active function calls." },
+            { id: "mcq17", qno: "Q17", q: "Excessive recursive calls cause:", options: ["A. ArrayIndexOutOfBounds", "B. StackOverflowError", "C. NullPointer", "D. Syntax error"], ans: "B", exp: "Depleting available call stack memory triggers StackOverflowError." },
+            { id: "mcq18", qno: "Q18", q: "Recursion uses more memory because:", options: ["A. Uses many variables", "B. Each call occupies stack", "C. Uses arrays", "D. Creates objects"], ans: "B", exp: "Each frame stores local parameters and return address." },
+
+            // Section F
+            { sec: "Section F: Advantages & Disadvantages", id: "mcq19", qno: "Q19", q: "Advantage of recursion:", options: ["A. Less memory", "B. Shorter code", "C. Faster always", "D. No base case"], ans: "B", exp: "Recursion simplifies repetitive structures into concise code." },
+            { id: "mcq20", qno: "Q20", q: "Disadvantage of recursion:", options: ["A. Shorter code", "B. Easy tree traversal", "C. More stack memory", "D. Better decomposition"], ans: "C", exp: "Overhead of storing multiple stack frames increases memory usage." },
+
+            // Section G
+            { sec: "Section G: Applications", id: "mcq21", qno: "Q21", q: "Which problem is naturally solved using recursion?", options: ["A. Tree traversal", "B. Print once", "C. Input taking", "D. Declaring variables"], ans: "A", exp: "Data structures like Trees and Graphs have inherently recursive definitions." },
+            { id: "mcq22", qno: "Q22", q: "Binary search requires:", options: ["A. Unsorted array", "B. Sorted array", "C. Character array", "D. Empty array"], ans: "B", exp: "Binary search uses sorted divide-and-conquer strategy." },
+            { id: "mcq23", qno: "Q23", q: "Time complexity of recursive binary search:", options: ["A. O(n)", "B. O(n²)", "C. O(log n)", "D. O(1)"], ans: "C", exp: "Reduces search space by half in every step → O(log n)." },
+            { id: "mcq24", qno: "Q24", q: "Binary search reduces search space by:", options: ["A. One element", "B. Half each time", "C. Double", "D. Random"], ans: "B", exp: "Halves the array interval at each recursive invocation." },
+
+            // Section H
+            { sec: "Section H: Complexity", id: "mcq25", qno: "Q25", q: "Time complexity of this function:", code: "void fun(int n) { if(n==1) return; fun(n-1); }", options: ["A. O(1)", "B. O(log n)", "C. O(n)", "D. O(n²)"], ans: "C", exp: "Makes (n-1) calls linearly → O(n)." },
+            { id: "mcq26", qno: "Q26", q: "Recursive factorial complexity:", options: ["A. O(n)", "B. O(log n)", "C. O(n²)", "D. O(1)"], ans: "A", exp: "Factorial requires n recursive calls." },
+            { id: "mcq27", qno: "Q27", q: "Max recursive calls for 128 elements binary search:", options: ["A. 5", "B. 6", "C. 7", "D. 128"], ans: "C", exp: "log2(128) = 7 maximum recursive calls." },
+
+            // Section I
+            { sec: "Section I: Assertion–Reason", id: "mcq28", qno: "Q28", q: "Assertion (A): Every recursive function requires a base case.\nReason (R): Base case prevents infinite recursion.", options: ["A. Both true, R explains A", "B. Both true, R does not explain A", "C. A true, R false", "D. A false, R true"], ans: "A", exp: "Without a base case, recursion runs infinitely, making R the exact reason for A." },
+            { id: "mcq29", qno: "Q29", q: "Assertion (A): Tail recursion is easier to optimize.\nReason (R): No statements execute after recursive call.", options: ["A. Both true, R explains A", "B. Both true, R does not explain A", "C. A true, R false", "D. A false, R true"], ans: "A", exp: "Tail Call Optimization (TCO) reuses the current stack frame because no work remains after the call." },
+            { id: "mcq30", qno: "Q30", q: "Assertion (A): Indirect recursion means a method calls itself directly.\nReason (R): Two methods call each other in indirect recursion.", options: ["A. Both true", "B. Both false", "C. A false, R true", "D. A true, R false"], ans: "C", exp: "Indirect recursion involves mutual calls between multiple methods, making Assertion false." }
+        ];
+
+        // Render MCQs into DOM
+        const mcqTarget = document.getElementById('mcq-container-target');
+        let currentSection = "";
+
+        mcqData.forEach((item, index) => {
+            if (item.sec && item.sec !== currentSection) {
+                currentSection = item.sec;
+                const secHeader = document.createElement('h3');
+                secHeader.className = "text-xl font-bold text-brand-800 dark:text-blue-400 mt-8 mb-4 border-b-2 border-blue-500 pb-2 flex items-center gap-2";
+                secHeader.innerHTML = `<i class="fas fa-layer-group text-blue-500 text-sm"></i> ${currentSection}`;
+                mcqTarget.appendChild(secHeader);
+            }
+
+            const card = document.createElement('div');
+            card.className = "animate-item bg-slate-50 dark:bg-slate-800/70 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all";
+            
+            const optLetter = ['A', 'B', 'C', 'D'];
+            const optionsHTML = item.options.map((opt, i) => `
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 cursor-pointer transition-all">
+                    <input type="radio" name="${item.id}" value="${optLetter[i]}" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-200">${opt}</span>
+                </label>
+            `).join('');
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">${item.qno}</span>
+                </div>
+                <h4 class="text-base font-semibold text-slate-800 dark:text-slate-100 mb-3 whitespace-pre-line">${item.q}</h4>
+                ${item.code ? `<pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono mb-4 overflow-x-auto">${item.code}</pre>` : ''}
+                <div class="space-y-2 mb-4">${optionsHTML}</div>
+                <button onclick="checkMCQ('${item.id}', '${item.ans}', \`${item.exp.replace(/'/g, "\\'")}\`)" class="px-5 py-2 bg-blue-600 hover:bg-brand-800 text-white rounded-full font-semibold text-xs transition-all shadow-md active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-check-circle"></i> Check Answer
+                </button>
+                <div id="${item.id}-result" class="hidden mt-4 p-4 rounded-xl text-xs sm:text-sm font-semibold border transition-all"></div>
+            `;
+            mcqTarget.appendChild(card);
+        });
+
+        // Interactive MCQ Evaluation Function with GSAP Animation
+        function checkMCQ(qId, correctOption, explanation) {
+            const selected = document.querySelector(`input[name="${qId}"]:checked`);
+            const resDiv = document.getElementById(`${qId}-result`);
+
+            resDiv.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'bg-rose-100', 'text-rose-800', 'border-rose-300', 'dark:bg-emerald-900/50', 'dark:text-emerald-200', 'dark:bg-rose-900/50', 'dark:text-rose-200');
+
+            if(!selected) {
+                resDiv.className = 'mt-4 p-3 rounded-xl text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-900/50 dark:text-amber-200';
+                resDiv.innerHTML = '⚠️ Please select an option first!';
+            } else {
+                const isCorrect = selected.value === correctOption;
+                if(isCorrect) {
+                    resDiv.className = 'mt-4 p-4 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-900/50 dark:text-emerald-200';
+                    resDiv.innerHTML = `✅ <strong>Correct!</strong><br><span class="font-normal mt-1 block">${explanation}</span>`;
+                } else {
+                    resDiv.className = 'mt-4 p-4 rounded-xl text-xs sm:text-sm font-semibold bg-rose-100 text-rose-800 border border-rose-300 dark:bg-rose-900/50 dark:text-rose-200';
+                    resDiv.innerHTML = `❌ <strong>Incorrect!</strong> (Correct Answer: <strong>${correctOption}</strong>)<br><span class="font-normal mt-1 block">${explanation}</span>`;
+                }
+            }
+
+            // GSAP Animated Pop
+            gsap.fromTo(resDiv, 
+                { scale: 0.9, opacity: 0, y: -5 }, 
+                { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.7)" }
+            );
+        }
+
+        // GSAP & TAB ENGINE SETUP
+        document.addEventListener("DOMContentLoaded", () => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.panel');
+            let currentTabId = 'tab-gcd-lcm';
+
+            // Initial Header Animation
+            gsap.from("#header-title", { opacity: 0, y: -20, duration: 0.8, ease: "power3.out" });
+            gsap.from(".tab-btn", { opacity: 0, y: 10, duration: 0.5, stagger: 0.03, ease: "power2.out" });
+
+            function setTabActiveUI(tabId) {
+                tabs.forEach(btn => {
+                    const isActive = btn.dataset.tab === tabId;
+                    if(isActive) {
+                        btn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30', 'scale-105');
+                        btn.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-blue-50');
+                    } else {
+                        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30', 'scale-105');
+                        btn.classList.add('text-slate-600', 'dark:text-slate-300');
+                    }
+                });
+            }
+
+            // Set default active tab
+            setTabActiveUI(currentTabId);
+            const defaultPanel = document.getElementById(currentTabId);
+            gsap.fromTo(defaultPanel.querySelectorAll('.animate-item'),
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }
+            );
+
+            // Tab Switching Handler
+            tabs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.tab;
+                    if (targetId === currentTabId) return;
+
+                    const activePanel = document.getElementById(currentTabId);
+                    const nextPanel = document.getElementById(targetId);
+
+                    setTabActiveUI(targetId);
+
+                    // GSAP Switch Transition
+                    gsap.to(activePanel, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.2,
+                        onComplete: () => {
+                            activePanel.classList.add('hidden');
+                            nextPanel.classList.remove('hidden');
+
+                            gsap.fromTo(nextPanel,
+                                { opacity: 0, y: 15 },
+                                { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+                            );
+
+                            const items = nextPanel.querySelectorAll('.animate-item');
+                            if(items.length > 0) {
+                                gsap.fromTo(items,
+                                    { opacity: 0, y: 20, scale: 0.97 },
+                                    { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.04, ease: 'back.out(1.2)' }
+                                );
+                            }
+
+                            currentTabId = targetId;
+                        }
+                    });
+                });
+            });
+
+            // THEME TOGGLE SYSTEM
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+
+            function syncThemeUI(isDark) {
+                if(isDark) {
+                    document.documentElement.classList.add('dark');
+                    gsap.to(sunIcon, { rotation: 180, scale: 0, opacity: 0, duration: 0.3 });
+                    gsap.to(moonIcon, { rotation: 0, scale: 1, opacity: 1, duration: 0.3 });
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    gsap.to(sunIcon, { rotation: 0, scale: 1, opacity: 1, duration: 0.3 });
+                    gsap.to(moonIcon, { rotation: -180, scale: 0, opacity: 0, duration: 0.3 });
+                }
+            }
+
+            // Sync initial state
+            syncThemeUI(document.documentElement.classList.contains('dark'));
+
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                syncThemeUI(isDark);
+            });
+        });
+    </script>
+</body>
+</html>

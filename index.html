@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+ 
 <title>Computers ISC Class 12 2026 — Nav Hub</title>
 
 <!-- GSAP -->
@@ -13,6 +14,7 @@
 <style>
     :root {
         --bg: #070910;
+
         --glass: rgba(16, 20, 35, 0.68);
         --glass-hover: rgba(23, 28, 48, 0.82);
 
@@ -357,7 +359,6 @@
             0 0 30px rgba(99,102,241,0.08);
     }
 
-    /* Moving light */
     .menu-item::before {
         content: "";
 
@@ -388,7 +389,6 @@
         left: 140%;
     }
 
-    /* Cursor glow */
     .menu-item::after {
         content: "";
 
@@ -551,40 +551,16 @@
         display: flex;
 
         align-items: center;
-
         justify-content: center;
 
-        background: #05060b;
+        background:
+            rgba(5, 6, 11, 0.97);
 
         pointer-events: none;
 
         visibility: hidden;
 
         opacity: 0;
-    }
-
-    .transition-orb {
-        position: absolute;
-
-        width: 30px;
-        height: 30px;
-
-        border-radius: 50%;
-
-        background:
-            radial-gradient(
-                circle,
-                #c4b5fd 0%,
-                #818cf8 35%,
-                #4f46e5 65%,
-                transparent 72%
-            );
-
-        box-shadow:
-            0 0 60px #6366f1,
-            0 0 140px rgba(99,102,241,0.8);
-
-        transform: scale(0);
     }
 
     .transition-content {
@@ -600,52 +576,42 @@
     .transition-number {
         display: block;
 
+        margin-bottom: 10px;
+
         color: #818cf8;
 
-        font-size: 0.8rem;
+        font-size: 0.75rem;
 
         font-weight: 700;
 
-        letter-spacing: 0.18em;
+        letter-spacing: 0.16em;
 
         text-transform: uppercase;
-
-        margin-bottom: 12px;
     }
 
     .transition-title {
-        font-size: clamp(2rem, 7vw, 4rem);
+        font-size:
+            clamp(1.8rem, 6vw, 3rem);
 
-        font-weight: 800;
+        font-weight: 750;
 
-        letter-spacing: -1.5px;
+        letter-spacing: -1px;
 
-        background:
-            linear-gradient(
-                135deg,
-                white,
-                #c7d2fe 55%,
-                #a78bfa
-            );
-
-        -webkit-background-clip: text;
-        background-clip: text;
-
-        -webkit-text-fill-color: transparent;
+        color: #f8fafc;
     }
 
     .transition-line {
         width: 0;
 
-        height: 2px;
+        height: 1px;
 
-        margin: 20px auto 0;
+        margin: 16px auto 0;
 
         background:
             linear-gradient(
                 90deg,
                 transparent,
-                #818cf8,
+                rgba(129,140,248,0.8),
                 transparent
             );
     }
@@ -690,6 +656,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+
         *,
         *::before,
         *::after {
@@ -697,21 +664,25 @@
         }
     }
 </style>
+ 
 
 </head>
 
 <body>
 
+ 
 <!-- =========================================================
      BACKGROUND
 ========================================================= -->
 
 <div class="background">
+
     <div class="grid"></div>
 
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
     <div class="glow glow-3"></div>
+
 </div>
 
 
@@ -754,12 +725,8 @@
 <div
     class="page-transition"
     id="pageTransition"
+    aria-hidden="true"
 >
-
-    <div
-        class="transition-orb"
-        id="transitionOrb"
-    ></div>
 
     <div
         class="transition-content"
@@ -795,8 +762,7 @@
     /* =========================================================
        MENU ENTRIES
        
-       THIS IS THE ONLY PLACE YOU NEED TO EDIT
-       TO ADD MORE PAGES.
+       Add more pages here.
     ========================================================= */
 
     const defaultItems = [
@@ -827,11 +793,6 @@
          * {
          *     title: "Loops",
          *     url: "loops"
-         * },
-         *
-         * {
-         *     title: "Arrays",
-         *     url: "arrays"
          * }
          */
     ];
@@ -846,9 +807,6 @@
 
     const pageTransition =
         document.getElementById("pageTransition");
-
-    const transitionOrb =
-        document.getElementById("transitionOrb");
 
     const transitionContent =
         document.getElementById("transitionContent");
@@ -871,8 +829,8 @@
         ".menu-container",
         {
             opacity: 0,
-            y: 35,
-            scale: 0.97
+            y: 30,
+            scale: 0.98
         }
     );
 
@@ -880,7 +838,79 @@
         ".header > *",
         {
             opacity: 0,
-            y: 18
+            y: 16
+        }
+    );
+
+
+    /* =========================================================
+       RESET TRANSITION
+       
+       This is the important Back-button fix.
+    ========================================================= */
+
+    function resetPageTransition() {
+
+        gsap.killTweensOf(
+            [
+                pageTransition,
+                transitionContent,
+                transitionLine
+            ]
+        );
+
+        gsap.set(
+            pageTransition,
+            {
+                opacity: 0,
+                visibility: "hidden",
+                pointerEvents: "none"
+            }
+        );
+
+        gsap.set(
+            transitionContent,
+            {
+                opacity: 0,
+                y: 20,
+                scale: 0.98
+            }
+        );
+
+        gsap.set(
+            transitionLine,
+            {
+                width: 0
+            }
+        );
+
+        /*
+         * Re-enable the page.
+         */
+        document.body.style.pointerEvents =
+            "";
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    /*
+     * pageshow fires when:
+     *
+     * - the page loads normally
+     * - the browser restores it from bfcache
+     * - the user presses Back
+     * - the user presses Forward
+     *
+     * This prevents the transition overlay from
+     * remaining stuck after Back.
+     */
+    window.addEventListener(
+        "pageshow",
+        () => {
+
+            resetPageTransition();
         }
     );
 
@@ -901,10 +931,6 @@
                     document.createElement("a");
 
 
-                /*
-                 * Relative URLs are exactly what we want
-                 * for username.github.io.
-                 */
                 menuItem.href =
                     item.url;
 
@@ -940,9 +966,11 @@
                         viewBox="0 0 24 24"
                         aria-hidden="true"
                     >
+
                         <path
                             d="M5 12h14M12 5l7 7-7 7"
                         ></path>
+
                     </svg>
 
                 `;
@@ -956,23 +984,23 @@
 
 
         /*
-         * Animate buttons.
+         * Animate menu entries.
          */
         gsap.fromTo(
             ".menu-item",
             {
                 opacity: 0,
-                y: 18,
-                scale: 0.98
+                y: 16,
+                scale: 0.985
             },
             {
                 opacity: 1,
                 y: 0,
                 scale: 1,
 
-                duration: 0.55,
+                duration: 0.5,
 
-                stagger: 0.08,
+                stagger: 0.07,
 
                 ease: "power3.out"
             }
@@ -1028,14 +1056,17 @@
                         );
 
 
+                        /*
+                         * Very subtle 3D movement.
+                         */
                         const rotateX =
                             ((y / rect.height) - 0.5)
-                            * -3;
+                            * -2.5;
 
 
                         const rotateY =
                             ((x / rect.width) - 0.5)
-                            * 3;
+                            * 2.5;
 
 
                         gsap.to(
@@ -1067,7 +1098,7 @@
                                 rotateX: 0,
                                 rotateY: 0,
 
-                                duration: 0.35,
+                                duration: 0.3,
 
                                 ease: "power3.out"
                             }
@@ -1077,15 +1108,15 @@
 
 
                 /*
-                 * Navigation transition.
+                 * Click → transition → page.
                  */
                 item.addEventListener(
                     "click",
                     (event) => {
 
                         /*
-                         * Preserve normal browser
-                         * behavior for modifier clicks.
+                         * Keep Ctrl/Cmd/Shift/Alt clicks
+                         * behaving like normal links.
                          */
                         if (
                             event.ctrlKey ||
@@ -1118,7 +1149,7 @@
 
 
     /* =========================================================
-       PAGE TRANSITION
+       SUBTLE PAGE TRANSITION
     ========================================================= */
 
     function startPageTransition(
@@ -1132,10 +1163,14 @@
 
 
         /*
-         * Disable interactions while transitioning.
+         * Disable interaction during transition.
          */
         document.body.style.pointerEvents =
             "none";
+
+
+        document.body.style.overflow =
+            "hidden";
 
 
         transitionTitle.textContent =
@@ -1156,35 +1191,13 @@
             "auto";
 
 
-        const rect =
-            clickedItem.getBoundingClientRect();
-
-
-        const startX =
-            rect.left +
-            rect.width / 2;
-
-
-        const startY =
-            rect.top +
-            rect.height / 2;
-
-
         /*
-         * Start glowing orb at the clicked button.
+         * Reset transition elements before playing.
          */
         gsap.set(
-            transitionOrb,
+            pageTransition,
             {
-                x:
-                    startX -
-                    window.innerWidth / 2,
-
-                y:
-                    startY -
-                    window.innerHeight / 2,
-
-                scale: 0.3
+                opacity: 0
             }
         );
 
@@ -1193,8 +1206,8 @@
             transitionContent,
             {
                 opacity: 0,
-                y: 30,
-                scale: 0.96
+                y: 18,
+                scale: 0.985
             }
         );
 
@@ -1212,14 +1225,14 @@
 
 
         /*
-         * Button presses inward.
+         * Subtle press on selected item.
          */
         tl.to(
             clickedItem,
             {
-                scale: 0.96,
+                scale: 0.975,
 
-                duration: 0.15,
+                duration: 0.12,
 
                 ease: "power2.out"
             }
@@ -1227,40 +1240,22 @@
 
 
         /*
-         * Fade in the transition screen.
+         * Simple dark fade.
          */
         tl.to(
             pageTransition,
             {
                 opacity: 1,
 
-                duration: 0.25
+                duration: 0.28,
+
+                ease: "power2.inOut"
             }
         );
 
 
         /*
-         * Expand the glow from the button.
-         */
-        tl.to(
-            transitionOrb,
-            {
-                scale:
-                    Math.max(
-                        window.innerWidth,
-                        window.innerHeight
-                    ) / 28,
-
-                duration: 0.9,
-
-                ease: "expo.inOut"
-            },
-            "<"
-        );
-
-
-        /*
-         * Show the destination name.
+         * Title appears.
          */
         tl.to(
             transitionContent,
@@ -1271,38 +1266,37 @@
 
                 scale: 1,
 
-                duration: 0.65,
+                duration: 0.4,
 
                 ease: "power3.out"
             },
-            "-=0.45"
+            "-=0.08"
         );
 
 
         /*
-         * Loading line.
+         * Small loading line.
          */
         tl.to(
             transitionLine,
             {
-                width: 170,
+                width: 130,
 
-                duration: 0.5,
+                duration: 0.3,
 
                 ease: "power2.out"
             },
-            "-=0.35"
+            "-=0.18"
         );
 
 
         /*
-         * Tiny pause so the splash
-         * actually feels visible.
+         * Brief pause.
          */
         tl.to(
             {},
             {
-                duration: 0.42
+                duration: 0.22
             }
         );
 
@@ -1310,8 +1304,9 @@
         /*
          * Navigate.
          *
-         * Because the URL is relative, this works
-         * naturally on username.github.io.
+         * Relative URLs work directly on:
+         *
+         * https://username.github.io/
          */
         tl.call(
             () => {
@@ -1361,7 +1356,7 @@
 
 
         /*
-         * Main card enters.
+         * Card.
          */
         tl.to(
             ".menu-container",
@@ -1372,7 +1367,7 @@
 
                 scale: 1,
 
-                duration: 0.85,
+                duration: 0.7,
 
                 ease: "expo.out"
             }
@@ -1380,7 +1375,7 @@
 
 
         /*
-         * Header elements.
+         * Header.
          */
         tl.to(
             ".header > *",
@@ -1389,25 +1384,25 @@
 
                 y: 0,
 
-                duration: 0.55,
+                duration: 0.45,
 
-                stagger: 0.09
+                stagger: 0.08
             },
-            "-=0.55"
+            "-=0.4"
         );
 
 
         /*
-         * Ambient background movement.
+         * Gentle ambient background.
          */
         gsap.to(
             ".glow-1",
             {
-                x: 80,
-                y: 60,
-                scale: 1.15,
+                x: 60,
+                y: 45,
+                scale: 1.08,
 
-                duration: 8,
+                duration: 9,
 
                 repeat: -1,
                 yoyo: true,
@@ -1420,11 +1415,11 @@
         gsap.to(
             ".glow-2",
             {
-                x: -70,
-                y: -50,
-                scale: 1.1,
+                x: -55,
+                y: -40,
+                scale: 1.06,
 
-                duration: 10,
+                duration: 11,
 
                 repeat: -1,
                 yoyo: true,
@@ -1437,9 +1432,9 @@
         gsap.to(
             ".glow-3",
             {
-                scale: 1.25,
+                scale: 1.12,
 
-                duration: 7,
+                duration: 8,
 
                 repeat: -1,
                 yoyo: true,

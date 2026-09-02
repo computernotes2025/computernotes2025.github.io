@@ -709,7 +709,7 @@ int binaryToDecimal(long n) {
 
             // Initial Header Animation
             gsap.from("#header-title", { opacity: 0, y: -20, duration: 0.8, ease: "power3.out" });
-            gsap.from(".tab-btn", { opacity: 0, y: 10, duration: 0.5, stagger: 0.03, ease: "power2.out" });
+            gsap.from(".tab-btn", { y: 10, duration: 0.5, stagger: 0.03, ease: "power2.out" });
 
             function setTabActiveUI(tabId) {
                 tabs.forEach(btn => {

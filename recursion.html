@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0041)https://celadon-melba-9527f6.netlify.app/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Recursion - Complete Learning Platform</title>
     <style>
@@ -16,7 +16,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
-            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -25,8 +24,6 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.95);
             min-height: 100vh;
-            position: relative;
-            transition: background 0.3s ease;
         }
 
         h1 {
@@ -35,27 +32,6 @@
             padding: 30px 0;
             font-size: 2.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* Dark Mode Toggle Button */
-        #theme-toggle {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            background: #4a47a3;
-            color: white;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        #theme-toggle:hover {
-            transform: translateY(-2px);
-            background: #764ba2;
         }
 
         .tabs {
@@ -67,7 +43,7 @@
             padding-bottom: 10px;
         }
 
-        .tab-btn, .tab {
+        .tab-btn {
             padding: 12px 25px;
             background: #f0f0f0;
             border: none;
@@ -81,12 +57,12 @@
             min-width: 150px;
         }
 
-        .tab-btn:hover, .tab:hover {
+        .tab-btn:hover {
             background: #e0e0e0;
             transform: translateY(-2px);
         }
 
-        .tab-btn.active, .tab.active {
+        .tab-btn.active {
             background: #4a47a3;
             color: white;
             box-shadow: 0 -3px 10px rgba(74, 71, 163, 0.3);
@@ -167,7 +143,6 @@
             width: 2px;
             height: 15px;
             background: #4a47a3;
-            transition: background 0.3s ease;
         }
 
         .mindmap-child {
@@ -193,7 +168,6 @@
             font-size: 0.85rem;
             color: #4a47a3;
             border: 1px solid #4a47a3;
-            transition: all 0.3s ease;
         }
 
         .connector {
@@ -209,7 +183,6 @@
             font-size: 1.5rem;
             color: #4a47a3;
             animation: bounce 2s infinite;
-            transition: color 0.3s ease;
         }
 
         @keyframes bounce {
@@ -229,9 +202,15 @@
             overflow-x: auto;
         }
 
-        .mindmap-code .keyword { color: #569cd6; }
-        .mindmap-code .function { color: #dcdcaa; }
-        .mindmap-code .comment { color: #6a9955; }
+        .mindmap-code .keyword {
+            color: #569cd6;
+        }
+        .mindmap-code .function {
+            color: #dcdcaa;
+        }
+        .mindmap-code .comment {
+            color: #6a9955;
+        }
 
         .callstack-visual {
             display: flex;
@@ -242,7 +221,6 @@
             padding: 15px;
             background: #f0f0f0;
             border-radius: 8px;
-            transition: background 0.3s ease;
         }
 
         .stack-frame {
@@ -270,14 +248,22 @@
             padding: 25px;
             margin-bottom: 30px;
             border-left: 5px solid #4a47a3;
-            transition: all 0.3s ease;
         }
 
         .program-title {
             color: #4a47a3;
             font-size: 1.3rem;
             margin-bottom: 15px;
-            transition: color 0.3s ease;
+        }
+
+        .program-title .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #4a47a3;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 10px;
         }
 
         .code-block {
@@ -291,11 +277,21 @@
             position: relative;
         }
 
-        .code-block .keyword { color: #569cd6; }
-        .code-block .function { color: #dcdcaa; }
-        .code-block .comment { color: #6a9955; }
-        .code-block .string { color: #ce9178; }
-        .code-block .number { color: #b5cea8; }
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        .code-block .function {
+            color: #dcdcaa;
+        }
+        .code-block .comment {
+            color: #6a9955;
+        }
+        .code-block .string {
+            color: #ce9178;
+        }
+        .code-block .number {
+            color: #b5cea8;
+        }
 
         .output-box {
             background: #2d2d2d;
@@ -336,7 +332,6 @@
             margin: 30px 0 15px 0;
             padding-bottom: 10px;
             border-bottom: 3px solid #4a47a3;
-            transition: all 0.3s ease;
         }
 
         .mcq-question {
@@ -346,21 +341,18 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             border-left: 5px solid #4a47a3;
-            transition: all 0.3s ease;
         }
 
         .mcq-question .qno {
             color: #4a47a3;
             font-weight: bold;
             font-size: 0.9rem;
-            transition: color 0.3s ease;
         }
 
         .mcq-question h4 {
             color: #333;
             margin: 10px 0 15px 0;
             font-size: 1.05rem;
-            transition: color 0.3s ease;
         }
 
         .mcq-question .code-snippet {
@@ -370,7 +362,6 @@
             font-family: 'Courier New', monospace;
             margin: 10px 0;
             border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
         }
 
         .mcq-options {
@@ -408,7 +399,6 @@
             padding: 15px;
             border-radius: 8px;
             font-weight: bold;
-            transition: all 0.3s ease;
         }
 
         .mcq-result.correct {
@@ -427,7 +417,6 @@
             font-weight: normal;
             margin-top: 10px;
             color: #555;
-            transition: color 0.3s ease;
         }
 
         .check-btn {
@@ -441,7 +430,19 @@
             transition: all 0.3s ease;
         }
 
-        .check-btn:hover { background: #764ba2; }
+        .check-btn:hover {
+            background: #764ba2;
+        }
+
+        .answer-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            background: #28a745;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
 
         /* Previous Year Questions */
         .pyq-card {
@@ -451,14 +452,12 @@
             margin-bottom: 25px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             border-left: 5px solid #764ba2;
-            transition: all 0.3s ease;
         }
 
         .pyq-card .year {
             color: #764ba2;
             font-weight: bold;
             font-size: 0.9rem;
-            transition: color 0.3s ease;
         }
 
         .pyq-card .question {
@@ -474,10 +473,11 @@
             margin-top: 15px;
             display: none;
             border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
         }
 
-        .pyq-card .solution.show { display: block; }
+        .pyq-card .solution.show {
+            display: block;
+        }
 
         .show-solution-btn {
             background: #764ba2;
@@ -490,146 +490,479 @@
             margin-top: 10px;
         }
 
-        .show-solution-btn:hover { background: #4a47a3; }
-
-        /* =========================================================
-           DARK THEME (NEW)
-        ========================================================= */
-        body.dark-mode {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: #f1f5f9;
+        .show-solution-btn:hover {
+            background: #4a47a3;
         }
-        
-        body.dark-mode .container { background: rgba(15, 23, 42, 0.95); color: #f1f5f9; }
-        body.dark-mode h1 { color: #818cf8; }
-        
-        body.dark-mode .tabs { border-bottom-color: #334155; }
-        body.dark-mode .tab-btn, body.dark-mode .tab { background: #1e293b; color: #94a3b8; }
-        body.dark-mode .tab-btn:hover, body.dark-mode .tab:hover { background: #334155; }
-        body.dark-mode .tab-btn.active, body.dark-mode .tab.active { background: #6366f1; color: white; }
-        
-        body.dark-mode .mindmap-node { background: #1e293b; color: #f1f5f9; border-color: #6366f1; }
-        body.dark-mode .mindmap-child { background: #0f172a; border-color: #6366f1; }
-        body.dark-mode .mindmap-child .mindmap-sub span { background: #1e293b; color: #818cf8; border-color: #6366f1; }
-        body.dark-mode .connector::before { color: #818cf8; }
-        body.dark-mode .mindmap-level::before { background: #6366f1; }
-        body.dark-mode .callstack-visual { background: #0f172a; }
-        body.dark-mode .stack-frame { background: #4f46e5; }
-        
-        body.dark-mode .program-section, 
-        body.dark-mode .mcq-question, 
-        body.dark-mode .pyq-card {
-            background: #1e293b;
-            border-left-color: #6366f1;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        
-        body.dark-mode .program-title { color: #818cf8; }
-        
-        body.dark-mode .mcq-section-title { color: #818cf8; border-bottom-color: #334155; }
-        body.dark-mode .mcq-question h4 { color: #f1f5f9; }
-        body.dark-mode .mcq-question .qno { color: #818cf8; }
-        body.dark-mode .mcq-question .code-snippet, 
-        body.dark-mode .pyq-card .solution {
-            background: #0f172a;
-            border-color: #334155;
-            color: #cbd5e1;
-        }
-        
-        body.dark-mode .mcq-options label { background: #0f172a; color: #cbd5e1; }
-        body.dark-mode .mcq-options label:hover { background: #334155; border-color: #6366f1; }
-        
-        body.dark-mode .mcq-result.correct { background: #064e3b; color: #6ee7b7; border-color: #065f46; }
-        body.dark-mode .mcq-result.wrong { background: #451a1f; color: #fca5a5; border-color: #7f1d1d; }
-        body.dark-mode .mcq-result .explanation { color: #94a3b8; }
-        
-        body.dark-mode .pyq-card .year { color: #a5b4fc; }
-        body.dark-mode #theme-toggle { background: #6366f1; }
-        body.dark-mode #theme-toggle:hover { background: #4f46e5; }
 
         @media (max-width: 768px) {
-            .tabs { flex-direction: column; }
-            .tab-btn, .tab { width: 100%; text-align: center; }
-            .mindmap-level { flex-direction: column; align-items: center; }
-            .mindmap-child { max-width: 100%; width: 100%; }
-            .mindmap-container { padding: 10px; }
-            #theme-toggle { position: static; display: block; margin: 0 auto 20px auto; width: fit-content; }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .mindmap-level {
+                flex-direction: column;
+                align-items: center;
+            }
+            .mindmap-child {
+                max-width: 100%;
+                width: 100%;
+            }
+            .mindmap-container {
+                padding: 10px;
+            }
         }
 
-        /* =========================================================
-           PAGE TRANSITION (KEPT EXACTLY AS IS)
-        ========================================================= */
-        #pageTransition{
-            position:fixed;
-            inset:0;
-            z-index:99999;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#080b12;
-            opacity:1;
-            visibility:visible;
-            pointer-events:auto;
-        }
+    /* =========================================================
+       PAGE TRANSITION
+    ========================================================= */
 
-        #pageTransitionContent{
-            text-align:center;
-            opacity:0;
-            transform:translateY(14px);
-        }
+    #pageTransition{
+        position:fixed;
+        inset:0;
 
-        #pageTransitionLabel{
-            display:block;
-            margin-bottom:10px;
-            color:#818cf8;
-            font-size:.75rem;
-            font-weight:700;
-            letter-spacing:.16em;
-            text-transform:uppercase;
-        }
+        z-index:99999;
 
-        #pageTransitionTitle{
-            color:#f8fafc;
-            font-size:clamp(1.7rem,5vw,2.8rem);
-            font-weight:700;
-            letter-spacing:-.8px
-        }
+        display:flex;
+        align-items:center;
+        justify-content:center;
 
-        #pageTransitionLine{
-            width:0;
-            height:1px;
-            margin:15px auto 0;
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(129,140,248,.8),
-                    transparent
-                );
-        }
-    </style>
+        background:#080b12;
+
+        opacity:1;
+        visibility:visible;
+
+        pointer-events:auto;
+    }
+
+    #pageTransitionContent{
+        text-align:center;
+
+        opacity:0;
+        transform:translateY(14px);
+    }
+
+    #pageTransitionLabel{
+        display:block;
+
+        margin-bottom:10px;
+
+        color:#818cf8;
+
+        font-size:.75rem;
+        font-weight:700;
+
+        letter-spacing:.16em;
+        text-transform:uppercase;
+    }
+
+    #pageTransitionTitle{
+        color:#f8fafc;
+
+        font-size:clamp(1.7rem,5vw,2.8rem);
+
+        font-weight:700;
+
+        letter-spacing:-.8px
+    }
+
+    #pageTransitionLine{
+        width:0;
+        height:1px;
+
+        margin:15px auto 0;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(129,140,248,.8),
+                transparent
+            );
+    }
+
+    
+/* =========================================================
+   MODERN THEME SYSTEM
+========================================================= */
+
+:root{
+    --page-bg:#eef2ff;
+    --surface:rgba(255,255,255,.96);
+    --surface-soft:#f8f9ff;
+    --text:#1f2937;
+    --text-muted:#64748b;
+    --heading:#312e81;
+    --border:#e2e8f0;
+    --accent:#4f46e5;
+    --accent-2:#7c3aed;
+    --accent-soft:#e8eaff;
+    --code-bg:#111827;
+    --shadow:0 14px 40px rgba(30,41,59,.10);
+}
+
+body.dark{
+    --page-bg:#080b12;
+    --surface:#111827;
+    --surface-soft:#172033;
+    --text:#e5e7eb;
+    --text-muted:#94a3b8;
+    --heading:#c4b5fd;
+    --border:#273449;
+    --accent:#818cf8;
+    --accent-2:#a78bfa;
+    --accent-soft:#1e1b4b;
+    --code-bg:#0b1120;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at top left, rgba(124,58,237,.12), transparent 35%),
+        radial-gradient(circle at top right, rgba(79,70,229,.10), transparent 30%),
+        var(--page-bg);
+    color:var(--text);
+    transition:background .35s ease,color .35s ease;
+}
+
+.container{
+    background:var(--surface);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    transition:background .35s ease,box-shadow .35s ease;
+}
+
+h1,
+.program-title,
+.mcq-section-title,
+.mcq-question h4,
+.pyq-card .question,
+.pyq-card .year{
+    transition:color .35s ease;
+}
+
+h1{
+    color:var(--heading);
+}
+
+.mindmap-node,
+.mindmap-child,
+.program-section,
+.mcq-question,
+.pyq-card,
+.callstack-visual{
+    background:var(--surface-soft);
+    border-color:var(--border);
+    box-shadow:var(--shadow);
+    transition:
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.mindmap-child .mindmap-sub span{
+    background:var(--accent-soft);
+    color:var(--accent);
+    border-color:var(--accent);
+}
+
+.mindmap-code,
+.code-block,
+.output-box{
+    background:var(--code-bg);
+}
+
+.mindmap-level::before{
+    background:var(--accent);
+}
+
+.connector::before{
+    color:var(--accent);
+}
+
+.callstack-visual{
+    background:var(--surface-soft);
+}
+
+.mcq-options label,
+.mcq-question .code-snippet,
+.pyq-card .solution{
+    background:var(--surface-soft);
+    border-color:var(--border);
+    color:var(--text);
+}
+
+.note{
+    background:rgba(250,204,21,.10);
+}
+
+#themeToggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:9998;
+
+    width:48px;
+    height:48px;
+
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:50%;
+
+    background:rgba(15,23,42,.78);
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:21px;
+    cursor:pointer;
+
+    box-shadow:0 10px 28px rgba(0,0,0,.18);
+    backdrop-filter:blur(12px);
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+#themeToggle:hover{
+    transform:rotate(12deg) scale(1.08);
+    box-shadow:0 14px 34px rgba(0,0,0,.28);
+}
+
+body.dark #themeToggle{
+    background:rgba(30,41,59,.88);
+}
+
+#pageReveal{
+    visibility:hidden;
+}
+
+/* =========================================================
+   TAB + HUB BUTTON THEME FIX
+========================================================= */
+
+.tabs{
+    background:rgba(248,249,255,.72);
+    border-bottom:1px solid var(--border);
+    border-radius:16px;
+    padding:8px;
+    box-shadow:0 8px 24px rgba(30,41,59,.07);
+    transition:background .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+
+.tab-btn{
+    background:var(--surface-soft);
+    color:var(--text-muted);
+    border:1px solid var(--border);
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(30,41,59,.05);
+    transition:
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.tab-btn:hover{
+    background:var(--accent-soft);
+    color:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 8px 20px rgba(79,70,229,.12);
+}
+
+.tab-btn.active{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 8px 22px rgba(79,70,229,.25);
+}
+
+.tab{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px 20px;
+    min-width:170px;
+    border:1px solid var(--accent);
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(79,70,229,.22);
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
+}
+
+.tab:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(79,70,229,.32);
+    filter:brightness(1.06);
+}
+
+.tab:active{
+    transform:translateY(0) scale(.98);
+}
+
+body.dark .tabs{
+    background:rgba(11,17,32,.78);
+    box-shadow:0 10px 30px rgba(0,0,0,.22);
+}
+
+body.dark .tab-btn{
+    background:var(--surface-soft);
+    color:var(--text-muted);
+    border-color:var(--border);
+    box-shadow:0 5px 16px rgba(0,0,0,.18);
+}
+
+body.dark .tab-btn:hover{
+    background:var(--accent-soft);
+    color:#c7d2fe;
+    border-color:var(--accent);
+}
+
+body.dark .tab-btn.active{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff;
+    border-color:transparent;
+}
+
+@media (max-width:768px){
+    .tabs{
+        padding:8px;
+    }
+
+    .tab,
+    .tab-btn{
+        width:100%;
+        min-width:0;
+    }
+}
+
+@media (max-width:768px){
+    #themeToggle{
+        top:12px;
+        right:12px;
+        width:44px;
+        height:44px;
+    }
+}
+
+
+
+/* =========================================================
+   DARK MODE CONSISTENCY FIXES
+========================================================= */
+
+body.dark .container,
+body.dark .mindmap-node,
+body.dark .mindmap-child,
+body.dark .program-section,
+body.dark .mcq-question,
+body.dark .pyq-card,
+body.dark .callstack-visual,
+body.dark .mcq-options label,
+body.dark .mcq-question .code-snippet,
+body.dark .pyq-card .solution {
+    color:var(--text);
+}
+
+body.dark .mindmap-node,
+body.dark .mindmap-child {
+    background:var(--surface-soft) !important;
+}
+
+body.dark .mindmap-node strong,
+body.dark .mindmap-node p,
+body.dark .mindmap-node div:not(.mindmap-code):not(.mindmap-sub):not(.stack-frame),
+body.dark .mindmap-node span:not(.keyword):not(.function):not(.comment),
+body.dark .program-section,
+body.dark .program-section h2,
+body.dark .pyq-card,
+body.dark .pyq-card .question,
+body.dark .mcq-question,
+body.dark .mcq-question h4 {
+    color:var(--text);
+}
+
+/* The Recursive Function card contains inline light-mode backgrounds.
+   Override those inline values only while dark mode is active. */
+body.dark .mindmap-child[style*="max-width: 400px"] > div[style*="background: #f8f9ff"],
+body.dark .mindmap-child[style*="max-width: 400px"] > div[style*="background:#f8f9ff"] {
+    background:var(--surface) !important;
+    color:var(--text) !important;
+    border:1px solid var(--border) !important;
+}
+
+body.dark .mindmap-child[style*="max-width: 400px"] > div[style*="background: #fff3cd"],
+body.dark .mindmap-child[style*="max-width: 400px"] > div[style*="background:#fff3cd"] {
+    background:#2d2608 !important;
+    color:#fde68a !important;
+    border:1px solid #ca8a04 !important;
+}
+
+body.dark .mindmap-child .mindmap-sub span[style*="background: #d4edda"],
+body.dark .mindmap-child .mindmap-sub span[style*="background:#d4edda"] {
+    background:#12351f !important;
+    color:#86efac !important;
+    border-color:#22c55e !important;
+}
+
+body.dark .mindmap-child .mindmap-sub span[style*="background: #fff3cd"],
+body.dark .mindmap-child .mindmap-sub span[style*="background:#fff3cd"] {
+    background:#2d2608 !important;
+    color:#fde68a !important;
+    border-color:#ca8a04 !important;
+}
+
+/* Keep intentionally colored labels readable in dark mode. */
+body.dark .mindmap-code,
+body.dark .code-block,
+body.dark .output-box {
+    color:#d4d4d4;
+}
+
+body.dark .mcq-options label,
+body.dark .mcq-question .code-snippet {
+    color:var(--text) !important;
+}
+
+body.dark .note {
+    color:#fde68a;
+    background:#2d2608;
+    border-left-color:#ca8a04;
+}
+
+</style>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
 </head>
 <body>
-    <!-- PAGE TRANSITION UI INJECTED FOR THE STYLES PROVIDED -->
-    <div id="pageTransition">
-        <div id="pageTransitionContent">
-            <span id="pageTransitionLabel">Loading</span>
-            <div id="pageTransitionTitle">Recursion Module</div>
-            <div id="pageTransitionLine"></div>
-        </div>
-    </div>
-
+<button id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">🌙</button>
     <div class="container">
-        <button id="theme-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
         <h1>📚 Class 12 - Recursion Complete Learning Platform</h1>
         
         <div class="tabs">
-            <button class="tab" onclick="window.location.href='index.html'">🏠 Back To Hub</button>
-            <button class="tab-btn active" onclick="switchTab('mindmap')">🧠 Mind Map</button>
-            <button class="tab-btn" onclick="switchTab('programs')">💻 Programs</button>
-            <button class="tab-btn" onclick="switchTab('pyq')">📝 Previous Year Questions</button>
-            <button class="tab-btn" onclick="switchTab('mcq')">❓ MCQs (30 Questions)</button>
+            <button class="tab active" onclick="window.location.href='index.html'">🏠 Back To Hub</button>
+            <button class="tab-btn active" onclick="switchTab(&#39;mindmap&#39;)">🧠 Mind Map</button>
+            <button class="tab-btn" onclick="switchTab(&#39;programs&#39;)">💻 Programs</button>
+            <button class="tab-btn" onclick="switchTab(&#39;pyq&#39;)">📝 Previous Year Questions</button>
+            <button class="tab-btn" onclick="switchTab(&#39;mcq&#39;)">❓ MCQs (30 Questions)</button>
         </div>
 
         <!-- Mind Map Tab -->
@@ -681,13 +1014,13 @@
                                 <span style="background: #d4edda; border-color: #28a745;">Base Case</span>
                                 <span style="background: #fff3cd; border-color: #ffc107;">Recursive Case</span>
                             </div>
-                            <div style="margin-top: 10px; font-size: 0.9rem; text-align: left; padding: 10px; background: #f8f9ff; border-radius: 6px; color: #333;">
+                            <div style="margin-top: 10px; font-size: 0.9rem; text-align: left; padding: 10px; background: #f8f9ff; border-radius: 6px;">
                                 <strong>Base Case:</strong> Termination condition<br>
                                 → Stops further calls<br>
                                 → Prevents infinite recursion<br>
                                 → Avoids StackOverflowError
                             </div>
-                            <div style="margin-top: 10px; font-size: 0.9rem; text-align: left; padding: 10px; background: #fff3cd; border-radius: 6px; color: #333;">
+                            <div style="margin-top: 10px; font-size: 0.9rem; text-align: left; padding: 10px; background: #fff3cd; border-radius: 6px;">
                                 <strong>Recursive Case:</strong> Function calls itself<br>
                                 → Reduces problem size<br>
                                 → Progresses toward base case
@@ -964,7 +1297,7 @@
                 </div>
             </div>
 
-            <!-- Additional PYQ Content Remains Same Below - omitted for brevity but conceptually rendered identical to original -->
+            <!-- Program 2: LCM -->
             <div class="pyq-card">
                 <div class="year">📅 ISC 2025 Specimen</div>
                 <div class="question">
@@ -1015,13 +1348,418 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Program 3: Evil Number -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2024 Specimen</div>
+                <div class="question">
+                    <strong>Q3. Evil Number</strong><br>
+                    An Evil Number is a number which contains an even number of 1's in its binary equivalent.<br>
+                    <em>Example: 10 = 1010 (2 ones → even) → Evil Number</em>
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> Evil {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> num;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private String</span> bin;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Evil</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bin = <span class="string">""</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">acceptNum</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter a positive integer: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">rec_bin</span>(<span class="keyword">int</span> x) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (x == 0) <span class="keyword">return</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rec_bin(x / 2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bin += (x % 2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">check</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rec_bin(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> ones = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; bin.length(); i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (bin.charAt(i) == '1') ones++;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Binary: "</span> + bin);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (ones % 2 == 0)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is an Evil Number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is NOT an Evil Number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evil obj = <span class="keyword">new</span> Evil();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.acceptNum();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.check();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 4: Dudeney Number -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2023</div>
+                <div class="question">
+                    <strong>Q4. Dudeney Number</strong><br>
+                    A Dudeney number is a positive integer that is a perfect cube, such that the sum of its digits is equal to the cube root of the number.<br>
+                    <em>Example: 5832 = (5+8+3+2)³ = 18³</em>
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> NumDude {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> num;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">NumDude</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">input</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter a positive integer: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">sumDigits</span>(<span class="keyword">int</span> x) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (x == 0) <span class="keyword">return</span> 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (x % 10) + sumDigits(x / 10);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">isDude</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> sum = sumDigits(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> cubeRoot = (<span class="keyword">int</span>)Math.round(Math.pow(num, 1.0/3));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (cubeRoot * cubeRoot * cubeRoot == num &amp;&amp; sum == cubeRoot)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is a Dudeney number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is NOT a Dudeney number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumDude obj = <span class="keyword">new</span> NumDude();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.input();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.isDude();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 5: Fibonacci Series -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2021</div>
+                <div class="question">
+                    <strong>Q5. Fibonacci Series</strong><br>
+                    A class <strong>Fibo</strong> has been defined to generate the Fibonacci series: 0, 1, 1, 2, 3, 5, 8, 13, ...
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> Fibo {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> start, end;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Fibo</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = end = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">read</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter start: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter end: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">fibo</span>(<span class="keyword">int</span> n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (n == 0) <span class="keyword">return</span> 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (n == 1) <span class="keyword">return</span> 1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> fibo(n - 1) + fibo(n - 2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">display</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Fibonacci Series: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= end; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(fibo(i) + <span class="string">" "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fibo obj = <span class="keyword">new</span> Fibo();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.read();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.display();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 6: Binary Search -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2020</div>
+                <div class="question">
+                    <strong>Q6. Binary Search</strong><br>
+                    Design a class <strong>BinSearch</strong> to search for a particular value in an array using recursive binary search.
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> BinSearch {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> arr[];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> n;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">BinSearch</span>(<span class="keyword">int</span> nn) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = nn;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr = <span class="keyword">new int</span>[n];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">fillarray</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Enter "</span> + n + <span class="string">" elements:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; n; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">sort</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(arr);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">bin_search</span>(<span class="keyword">int</span> l, <span class="keyword">int</span> u, <span class="keyword">int</span> v) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (l &gt; u) <span class="keyword">return</span> -1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> mid = (l + u) / 2;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (arr[mid] == v) <span class="keyword">return</span> mid;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (arr[mid] &gt; v)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> bin_search(l, mid - 1, v);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> bin_search(mid + 1, u, v);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter size: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> size = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BinSearch obj = <span class="keyword">new</span> BinSearch(size);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.fillarray();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.sort();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter value to search: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> val = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> pos = obj.bin_search(0, size-1, val);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (pos == -1)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Not found"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Found at index "</span> + pos);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 7: Armstrong Number -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2019</div>
+                <div class="question">
+                    <strong>Q7. Armstrong Number</strong><br>
+                    Design a class <strong>ArmNum</strong> to check if a given number is an Armstrong number or not.<br>
+                    <em>Example: 371 = 3³ + 7³ + 1³, 1634 = 1⁴ + 6⁴ + 3⁴ + 4⁴</em>
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> ArmNum {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> n, l;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">ArmNum</span>(<span class="keyword">int</span> nn) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = nn;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l = String.valueOf(n).length();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">sum_pow</span>(<span class="keyword">int</span> i) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (i == 0) <span class="keyword">return</span> 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<span class="keyword">int</span>)Math.pow(i % 10, l) + sum_pow(i / 10);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">isArmstrong</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (sum_pow(n) == n)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(n + <span class="string">" is an Armstrong number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(n + <span class="string">" is NOT an Armstrong number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter number: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArmNum obj = <span class="keyword">new</span> ArmNum(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.isArmstrong();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 8: Perfect Number -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2018</div>
+                <div class="question">
+                    <strong>Q8. Perfect Number</strong><br>
+                    Design a class <strong>Perfect</strong> to check if a given number is a perfect number or not.<br>
+                    <em>Example: 6 = 1 + 2 + 3 (factors excluding itself)</em>
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> Perfect {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> num;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Perfect</span>(<span class="keyword">int</span> nn) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = nn;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">sum_of_factors</span>(<span class="keyword">int</span> i) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (i == 1) <span class="keyword">return</span> 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (num % i == 0)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> i + sum_of_factors(i - 1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> sum_of_factors(i - 1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">check</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> sum = sum_of_factors(num - 1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (sum == num)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is a Perfect number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is NOT a Perfect number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter number: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perfect obj = <span class="keyword">new</span> Perfect(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.check();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 9: Palindrome -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2017</div>
+                <div class="question">
+                    <strong>Q9. Palindrome Number</strong><br>
+                    A class <strong>Palin</strong> has been defined to check whether a positive number is a Palindrome number or not.
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> Palin {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> num, revnum;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Palin</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = revnum = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">accept</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter a number: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">reverse</span>(<span class="keyword">int</span> y) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (y == 0) <span class="keyword">return</span> revnum;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revnum = revnum * 10 + (y % 10);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> reverse(y / 10);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">check</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reverse(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (num == revnum)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is a Palindrome"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is NOT a Palindrome"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Palin obj = <span class="keyword">new</span> Palin();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.accept();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.check();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program 10: Disarium Number -->
+            <div class="pyq-card">
+                <div class="year">📅 ISC 2016</div>
+                <div class="question">
+                    <strong>Q10. Disarium Number</strong><br>
+                    A disarium number is a number in which the sum of the digits to the power of their respective positions is equal to the number itself.<br>
+                    <em>Example: 135 = 1¹ + 3² + 5³</em>
+                </div>
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution">
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <span class="keyword">public class</span> Disarium {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> num, size;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Disarium</span>(<span class="keyword">int</span> nn) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = nn;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">countDigit</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = String.valueOf(num).length();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> <span class="function">sumofDigits</span>(<span class="keyword">int</span> n, <span class="keyword">int</span> p) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (n == 0) <span class="keyword">return</span> 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<span class="keyword">int</span>)Math.pow(n % 10, p) + sumofDigits(n / 10, p - 1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="function">check</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countDigit();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> sum = sumofDigits(num, size);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (sum == num)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is a Disarium number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + <span class="string">" is NOT a Disarium number"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Enter number: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> num = sc.nextInt();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disarium obj = <span class="keyword">new</span> Disarium(num);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.check();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- MCQs Tab (Sample mapped structure for brevity) -->
+        <!-- MCQs Tab - ALL 30 Questions -->
         <div id="mcq" class="tab-content">
             <div class="mcq-container">
                 <h2 class="mcq-section-title">Section A: Basics of Recursion</h2>
                 
+                <!-- Q1 -->
                 <div class="mcq-question">
                     <div class="qno">Q1.</div>
                     <h4>What is recursion in Java?</h4>
@@ -1031,10 +1769,11 @@
                         <label><input type="radio" name="mcq1" value="C"> C. A loop inside a method</label>
                         <label><input type="radio" name="mcq1" value="D"> D. A method without parameters</label>
                     </div>
-                    <button class="check-btn" onclick="checkMCQ('mcq1', 'B', 'Recursion is a technique where a method calls itself to solve a problem by breaking it down into smaller subproblems.')">Check Answer</button>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq1&#39;, &#39;B&#39;, &#39;Recursion is a technique where a method calls itself to solve a problem by breaking it down into smaller subproblems.&#39;)">Check Answer</button>
                     <div id="mcq1-result" class="mcq-result"></div>
                 </div>
-                
+
+                <!-- Q2 -->
                 <div class="mcq-question">
                     <div class="qno">Q2.</div>
                     <h4>A recursive method must contain:</h4>
@@ -1044,150 +1783,972 @@
                         <label><input type="radio" name="mcq2" value="C"> C. Base case</label>
                         <label><input type="radio" name="mcq2" value="D"> D. Array</label>
                     </div>
-                    <button class="check-btn" onclick="checkMCQ('mcq2', 'C', 'A base case is essential in recursion to stop the recursive calls and prevent infinite recursion.')">Check Answer</button>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq2&#39;, &#39;C&#39;, &#39;A base case is essential in recursion to stop the recursive calls and prevent infinite recursion.&#39;)">Check Answer</button>
                     <div id="mcq2-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="mcq-question">
+                    <div class="qno">Q3.</div>
+                    <h4>The main purpose of a base case is to:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq3" value="A"> A. Increase memory usage</label>
+                        <label><input type="radio" name="mcq3" value="B"> B. Stop recursive calls</label>
+                        <label><input type="radio" name="mcq3" value="C"> C. Repeat execution</label>
+                        <label><input type="radio" name="mcq3" value="D"> D. Create objects</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq3&#39;, &#39;B&#39;, &#39;The base case provides the termination condition that stops the recursive calls and returns a value.&#39;)">Check Answer</button>
+                    <div id="mcq3-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="mcq-question">
+                    <div class="qno">Q4.</div>
+                    <h4>If a recursive function does not have a base case, it may cause:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq4" value="A"> A. Syntax error</label>
+                        <label><input type="radio" name="mcq4" value="B"> B. Logical error</label>
+                        <label><input type="radio" name="mcq4" value="C"> C. StackOverflowError</label>
+                        <label><input type="radio" name="mcq4" value="D"> D. Compilation error</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq4&#39;, &#39;C&#39;, &#39;Without a base case, the recursive function calls itself infinitely, eventually causing StackOverflowError.&#39;)">Check Answer</button>
+                    <div id="mcq4-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="mcq-question">
+                    <div class="qno">Q5.</div>
+                    <h4>Recursion works by breaking a problem into:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq5" value="A"> A. Larger problems</label>
+                        <label><input type="radio" name="mcq5" value="B"> B. Smaller subproblems</label>
+                        <label><input type="radio" name="mcq5" value="C"> C. Multiple loops</label>
+                        <label><input type="radio" name="mcq5" value="D"> D. Classes</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq5&#39;, &#39;B&#39;, &#39;Recursion divides a complex problem into smaller, similar subproblems until reaching the base case.&#39;)">Check Answer</button>
+                    <div id="mcq5-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section B: Base Case and Recursive Case</h2>
+
+                <!-- Q6 -->
+                <div class="mcq-question">
+                    <div class="qno">Q6.</div>
+                    <h4>Identify the base case:</h4>
+                    <div class="code-snippet">
+                        int fun(int n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if(n==0)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return n*fun(n-1);<br>
+                        }
+                    </div>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq6" value="A"> A. return n*fun(n-1)</label>
+                        <label><input type="radio" name="mcq6" value="B"> B. fun(n-1)</label>
+                        <label><input type="radio" name="mcq6" value="C"> C. if(n==0) return 1</label>
+                        <label><input type="radio" name="mcq6" value="D"> D. int fun(int n)</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq6&#39;, &#39;C&#39;, &#39;The base case is when n==0, which returns 1 and stops the recursion.&#39;)">Check Answer</button>
+                    <div id="mcq6-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="mcq-question">
+                    <div class="qno">Q7.</div>
+                    <h4>The statement which calls the function again is called:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq7" value="A"> A. Base case</label>
+                        <label><input type="radio" name="mcq7" value="B"> B. Recursive case</label>
+                        <label><input type="radio" name="mcq7" value="C"> C. Return statement</label>
+                        <label><input type="radio" name="mcq7" value="D"> D. Declaration</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq7&#39;, &#39;B&#39;, &#39;The recursive case is where the function calls itself with a reduced problem size.&#39;)">Check Answer</button>
+                    <div id="mcq7-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="mcq-question">
+                    <div class="qno">Q8.</div>
+                    <h4>A recursive function terminates when:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq8" value="A"> A. Loop ends</label>
+                        <label><input type="radio" name="mcq8" value="B"> B. Base condition becomes true</label>
+                        <label><input type="radio" name="mcq8" value="C"> C. Memory becomes full</label>
+                        <label><input type="radio" name="mcq8" value="D"> D. Method is overloaded</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq8&#39;, &#39;B&#39;, &#39;The recursive function stops when the base condition is satisfied, preventing further recursive calls.&#39;)">Check Answer</button>
+                    <div id="mcq8-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section C: Types of Recursion</h2>
+
+                <!-- Q9 -->
+                <div class="mcq-question">
+                    <div class="qno">Q9.</div>
+                    <h4>When a method calls itself directly, it is called:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq9" value="A"> A. Indirect recursion</label>
+                        <label><input type="radio" name="mcq9" value="B"> B. Direct recursion</label>
+                        <label><input type="radio" name="mcq9" value="C"> C. Tail recursion</label>
+                        <label><input type="radio" name="mcq9" value="D"> D. Nested recursion</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq9&#39;, &#39;B&#39;, &#39;Direct recursion occurs when a method calls itself directly without any intermediate methods.&#39;)">Check Answer</button>
+                    <div id="mcq9-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="mcq-question">
+                    <div class="qno">Q10.</div>
+                    <h4>Which recursion involves two or more methods calling each other?</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq10" value="A"> A. Direct recursion</label>
+                        <label><input type="radio" name="mcq10" value="B"> B. Tail recursion</label>
+                        <label><input type="radio" name="mcq10" value="C"> C. Indirect recursion</label>
+                        <label><input type="radio" name="mcq10" value="D"> D. Linear recursion</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq10&#39;, &#39;C&#39;, &#39;Indirect recursion involves multiple methods calling each other in a circular manner.&#39;)">Check Answer</button>
+                    <div id="mcq10-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q11 -->
+                <div class="mcq-question">
+                    <div class="qno">Q11.</div>
+                    <h4>In tail recursion, the recursive call is:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq11" value="A"> A. First statement</label>
+                        <label><input type="radio" name="mcq11" value="B"> B. Middle statement</label>
+                        <label><input type="radio" name="mcq11" value="C"> C. Last statement</label>
+                        <label><input type="radio" name="mcq11" value="D"> D. Not present</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq11&#39;, &#39;C&#39;, &#39;In tail recursion, the recursive call is the last statement executed in the function.&#39;)">Check Answer</button>
+                    <div id="mcq11-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q12 -->
+                <div class="mcq-question">
+                    <div class="qno">Q12.</div>
+                    <h4>Which recursion performs no operation after the recursive call?</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq12" value="A"> A. Head recursion</label>
+                        <label><input type="radio" name="mcq12" value="B"> B. Tail recursion</label>
+                        <label><input type="radio" name="mcq12" value="C"> C. Tree recursion</label>
+                        <label><input type="radio" name="mcq12" value="D"> D. Indirect recursion</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq12&#39;, &#39;B&#39;, &#39;Tail recursion has no operations after the recursive call, making it easier to optimize.&#39;)">Check Answer</button>
+                    <div id="mcq12-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section D: Output-Based MCQs</h2>
+
+                <!-- Q13 -->
+                <div class="mcq-question">
+                    <div class="qno">Q13.</div>
+                    <h4>Find the output:</h4>
+                    <div class="code-snippet">
+                        void fun(int n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if(n==0) return;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.print(n+" ");<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fun(n-1);<br>
+                        }<br>
+                        fun(4);
+                    </div>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq13" value="A"> A. 1 2 3 4</label>
+                        <label><input type="radio" name="mcq13" value="B"> B. 4 3 2 1</label>
+                        <label><input type="radio" name="mcq13" value="C"> C. 4 4 4 4</label>
+                        <label><input type="radio" name="mcq13" value="D"> D. No output</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq13&#39;, &#39;B&#39;, &#39;This is tail recursion. It prints the number before the recursive call, so it prints in descending order: 4, 3, 2, 1.&#39;)">Check Answer</button>
+                    <div id="mcq13-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q14 -->
+                <div class="mcq-question">
+                    <div class="qno">Q14.</div>
+                    <h4>Find the output:</h4>
+                    <div class="code-snippet">
+                        void fun(int n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if(n==0) return;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fun(n-1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.print(n+" ");<br>
+                        }<br>
+                        fun(5);
+                    </div>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq14" value="A"> A. 5 4 3 2 1</label>
+                        <label><input type="radio" name="mcq14" value="B"> B. 1 2 3 4 5</label>
+                        <label><input type="radio" name="mcq14" value="C"> C. 0 1 2 3 4</label>
+                        <label><input type="radio" name="mcq14" value="D"> D. Infinite output</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq14&#39;, &#39;B&#39;, &#39;This is head recursion. It recurses first, then prints during unwinding, giving ascending order: 1, 2, 3, 4, 5.&#39;)">Check Answer</button>
+                    <div id="mcq14-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q15 -->
+                <div class="mcq-question">
+                    <div class="qno">Q15.</div>
+                    <h4>How many times will fun() execute?</h4>
+                    <div class="code-snippet">
+                        void fun(int n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if(n==0) return;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fun(n-1);<br>
+                        }<br>
+                        fun(6);
+                    </div>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq15" value="A"> A. 5</label>
+                        <label><input type="radio" name="mcq15" value="B"> B. 6</label>
+                        <label><input type="radio" name="mcq15" value="C"> C. 7</label>
+                        <label><input type="radio" name="mcq15" value="D"> D. Infinite</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq15&#39;, &#39;C&#39;, &#39;The function executes for n=6,5,4,3,2,1,0 - total 7 times (including the base case).&#39;)">Check Answer</button>
+                    <div id="mcq15-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section E: Recursion and Stack</h2>
+
+                <!-- Q16 -->
+                <div class="mcq-question">
+                    <div class="qno">Q16.</div>
+                    <h4>Each recursive call is stored in:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq16" value="A"> A. Heap</label>
+                        <label><input type="radio" name="mcq16" value="B"> B. Queue</label>
+                        <label><input type="radio" name="mcq16" value="C"> C. Stack</label>
+                        <label><input type="radio" name="mcq16" value="D"> D. Array</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq16&#39;, &#39;C&#39;, &#39;Each recursive call is stored in the call stack, which keeps track of all active function calls.&#39;)">Check Answer</button>
+                    <div id="mcq16-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q17 -->
+                <div class="mcq-question">
+                    <div class="qno">Q17.</div>
+                    <h4>Excessive recursive calls result in:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq17" value="A"> A. ArrayIndexOutOfBoundsException</label>
+                        <label><input type="radio" name="mcq17" value="B"> B. StackOverflowError</label>
+                        <label><input type="radio" name="mcq17" value="C"> C. NullPointerException</label>
+                        <label><input type="radio" name="mcq17" value="D"> D. Syntax error</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq17&#39;, &#39;B&#39;, &#39;Too many recursive calls fill the call stack memory, causing a StackOverflowError.&#39;)">Check Answer</button>
+                    <div id="mcq17-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q18 -->
+                <div class="mcq-question">
+                    <div class="qno">Q18.</div>
+                    <h4>Memory requirement of recursion is higher because:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq18" value="A"> A. It uses many variables</label>
+                        <label><input type="radio" name="mcq18" value="B"> B. Each call occupies stack memory</label>
+                        <label><input type="radio" name="mcq18" value="C"> C. It uses arrays</label>
+                        <label><input type="radio" name="mcq18" value="D"> D. It creates objects</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq18&#39;, &#39;B&#39;, &#39;Each recursive call creates a new frame on the stack, consuming more memory compared to iterative solutions.&#39;)">Check Answer</button>
+                    <div id="mcq18-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section F: Advantages and Disadvantages</h2>
+
+                <!-- Q19 -->
+                <div class="mcq-question">
+                    <div class="qno">Q19.</div>
+                    <h4>Which is an advantage of recursion?</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq19" value="A"> A. Less memory usage</label>
+                        <label><input type="radio" name="mcq19" value="B"> B. Shorter and simpler code</label>
+                        <label><input type="radio" name="mcq19" value="C"> C. Faster execution always</label>
+                        <label><input type="radio" name="mcq19" value="D"> D. No base case required</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq19&#39;, &#39;B&#39;, &#39;Recursion often leads to shorter, cleaner, and more understandable code for complex problems.&#39;)">Check Answer</button>
+                    <div id="mcq19-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q20 -->
+                <div class="mcq-question">
+                    <div class="qno">Q20.</div>
+                    <h4>Which is a disadvantage of recursion?</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq20" value="A"> A. Code becomes shorter</label>
+                        <label><input type="radio" name="mcq20" value="B"> B. Easy tree traversal</label>
+                        <label><input type="radio" name="mcq20" value="C"> C. More stack memory required</label>
+                        <label><input type="radio" name="mcq20" value="D"> D. Better problem decomposition</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq20&#39;, &#39;C&#39;, &#39;Recursion consumes more stack memory as each call stores its own data on the call stack.&#39;)">Check Answer</button>
+                    <div id="mcq20-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section G: Applications of Recursion</h2>
+
+                <!-- Q21 -->
+                <div class="mcq-question">
+                    <div class="qno">Q21.</div>
+                    <h4>Which problem is naturally solved using recursion?</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq21" value="A"> A. Tree traversal</label>
+                        <label><input type="radio" name="mcq21" value="B"> B. Printing a message once</label>
+                        <label><input type="radio" name="mcq21" value="C"> C. Taking input</label>
+                        <label><input type="radio" name="mcq21" value="D"> D. Declaring variables</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq21&#39;, &#39;A&#39;, &#39;Tree traversal problems are naturally solved using recursion due to their hierarchical structure.&#39;)">Check Answer</button>
+                    <div id="mcq21-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q22 -->
+                <div class="mcq-question">
+                    <div class="qno">Q22.</div>
+                    <h4>Recursive binary search can be applied only on:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq22" value="A"> A. Unsorted array</label>
+                        <label><input type="radio" name="mcq22" value="B"> B. Sorted array</label>
+                        <label><input type="radio" name="mcq22" value="C"> C. Character array only</label>
+                        <label><input type="radio" name="mcq22" value="D"> D. Empty array only</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq22&#39;, &#39;B&#39;, &#39;Binary search requires a sorted array to function correctly as it relies on comparing middle elements.&#39;)">Check Answer</button>
+                    <div id="mcq22-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q23 -->
+                <div class="mcq-question">
+                    <div class="qno">Q23.</div>
+                    <h4>Time complexity of recursive binary search is:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq23" value="A"> A. O(n)</label>
+                        <label><input type="radio" name="mcq23" value="B"> B. O(n²)</label>
+                        <label><input type="radio" name="mcq23" value="C"> C. O(log n)</label>
+                        <label><input type="radio" name="mcq23" value="D"> D. O(1)</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq23&#39;, &#39;C&#39;, &#39;Binary search has O(log n) time complexity as it divides the search space in half each time.&#39;)">Check Answer</button>
+                    <div id="mcq23-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q24 -->
+                <div class="mcq-question">
+                    <div class="qno">Q24.</div>
+                    <h4>Binary search reduces the search space by:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq24" value="A"> A. One element</label>
+                        <label><input type="radio" name="mcq24" value="B"> B. Half each time</label>
+                        <label><input type="radio" name="mcq24" value="C"> C. Double each time</label>
+                        <label><input type="radio" name="mcq24" value="D"> D. Random size</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq24&#39;, &#39;B&#39;, &#39;Binary search eliminates half of the search space at each step by comparing with the middle element.&#39;)">Check Answer</button>
+                    <div id="mcq24-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section H: Complexity-Based MCQs</h2>
+
+                <!-- Q25 -->
+                <div class="mcq-question">
+                    <div class="qno">Q25.</div>
+                    <h4>What is the time complexity of this function?</h4>
+                    <div class="code-snippet">
+                        void fun(int n) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if(n==1) return;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fun(n-1);<br>
+                        }
+                    </div>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq25" value="A"> A. O(1)</label>
+                        <label><input type="radio" name="mcq25" value="B"> B. O(log n)</label>
+                        <label><input type="radio" name="mcq25" value="C"> C. O(n)</label>
+                        <label><input type="radio" name="mcq25" value="D"> D. O(n²)</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq25&#39;, &#39;C&#39;, &#39;This function makes n-1 recursive calls, so it has linear time complexity O(n).&#39;)">Check Answer</button>
+                    <div id="mcq25-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q26 -->
+                <div class="mcq-question">
+                    <div class="qno">Q26.</div>
+                    <h4>Recursive factorial has complexity:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq26" value="A"> A. O(n)</label>
+                        <label><input type="radio" name="mcq26" value="B"> B. O(log n)</label>
+                        <label><input type="radio" name="mcq26" value="C"> C. O(n²)</label>
+                        <label><input type="radio" name="mcq26" value="D"> D. O(1)</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq26&#39;, &#39;A&#39;, &#39;Recursive factorial makes n recursive calls, giving it O(n) time complexity.&#39;)">Check Answer</button>
+                    <div id="mcq26-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q27 -->
+                <div class="mcq-question">
+                    <div class="qno">Q27.</div>
+                    <h4>Binary search on 128 elements requires maximum recursive calls:</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq27" value="A"> A. 5</label>
+                        <label><input type="radio" name="mcq27" value="B"> B. 6</label>
+                        <label><input type="radio" name="mcq27" value="C"> C. 7</label>
+                        <label><input type="radio" name="mcq27" value="D"> D. 128</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq27&#39;, &#39;C&#39;, &#39;128 = 2⁷, so maximum 7 recursive calls are needed (log₂ 128 = 7).&#39;)">Check Answer</button>
+                    <div id="mcq27-result" class="mcq-result"></div>
+                </div>
+
+                <h2 class="mcq-section-title">Section I: Assertion–Reason MCQs</h2>
+
+                <!-- Q28 -->
+                <div class="mcq-question">
+                    <div class="qno">Q28.</div>
+                    <h4>Assertion (A): Every recursive function requires a base case.<br>
+                    Reason (R): Base case prevents infinite recursion.</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq28" value="A"> A. Both true and R explains A</label>
+                        <label><input type="radio" name="mcq28" value="B"> B. Both true but R does not explain A</label>
+                        <label><input type="radio" name="mcq28" value="C"> C. A true but R false</label>
+                        <label><input type="radio" name="mcq28" value="D"> D. A false but R true</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq28&#39;, &#39;A&#39;, &#39;Base case is essential in recursion, and it prevents infinite recursion by providing a termination condition.&#39;)">Check Answer</button>
+                    <div id="mcq28-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q29 -->
+                <div class="mcq-question">
+                    <div class="qno">Q29.</div>
+                    <h4>Assertion (A): Tail recursion is easier to optimize.<br>
+                    Reason (R): No statements are executed after recursive call.</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq29" value="A"> A. Both true and R explains A</label>
+                        <label><input type="radio" name="mcq29" value="B"> B. Both true but R does not explain A</label>
+                        <label><input type="radio" name="mcq29" value="C"> C. A true but R false</label>
+                        <label><input type="radio" name="mcq29" value="D"> D. A false but R true</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq29&#39;, &#39;A&#39;, &#39;Tail recursion is easier to optimize because there are no operations after the recursive call, allowing tail call optimization.&#39;)">Check Answer</button>
+                    <div id="mcq29-result" class="mcq-result"></div>
+                </div>
+
+                <!-- Q30 -->
+                <div class="mcq-question">
+                    <div class="qno">Q30.</div>
+                    <h4>Assertion (A): Indirect recursion means a method calls itself directly.<br>
+                    Reason (R): Two methods call each other in indirect recursion.</h4>
+                    <div class="mcq-options">
+                        <label><input type="radio" name="mcq30" value="A"> A. Both true</label>
+                        <label><input type="radio" name="mcq30" value="B"> B. Both false</label>
+                        <label><input type="radio" name="mcq30" value="C"> C. A false but R true</label>
+                        <label><input type="radio" name="mcq30" value="D"> D. A true but R false</label>
+                    </div>
+                    <button class="check-btn" onclick="checkMCQ(&#39;mcq30&#39;, &#39;C&#39;, &#39;A is false - indirect recursion involves multiple methods calling each other, not a method calling itself directly. R is true.&#39;)">Check Answer</button>
+                    <div id="mcq30-result" class="mcq-result"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialization & Page Transition
-        document.addEventListener("DOMContentLoaded", () => {
-            const tl = gsap.timeline();
-            if(document.getElementById('pageTransition')) {
-                tl.to("#pageTransitionContent", {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: "power3.out"
-                })
-                .to("#pageTransitionLine", {
-                    width: "80%",
-                    duration: 0.8,
-                    ease: "power3.inOut"
-                }, "-=0.3")
-                .to("#pageTransition", {
-                    opacity: 0,
-                    visibility: "hidden",
-                    duration: 0.8,
-                    ease: "power2.inOut",
-                    delay: 0.4
-                });
-            }
-            
-            // Auto-load Theme
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('theme-toggle').innerText = '☀️ Light Mode';
-            }
-        });
+        // =========================================================
+        // TAB SWITCHING
+        // =========================================================
 
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            document.getElementById('theme-toggle').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-        }
-
-        // Tab Switching
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            tabs.forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
+
+            buttons.forEach(btn => {
                 btn.classList.remove('active');
             });
-            document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
+
+            const target = document.getElementById(tabId);
+            target.classList.add('active');
+
+            const clickedButton = [...buttons].find(
+                btn => btn.getAttribute('onclick')?.includes(`'${tabId}'`)
+            );
+
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+
+            if (window.gsap) {
+                gsap.fromTo(
+                    target.children,
+                    {
+                        y:18,
+                        opacity:0
+                    },
+                    {
+                        y:0,
+                        opacity:1,
+                        duration:.45,
+                        stagger:.06,
+                        ease:"power2.out"
+                    }
+                );
+            }
         }
 
-        // Run Factorial
+        // =========================================================
+        // RUN PROGRAMS
+        // =========================================================
+
+        function animateOutput(output) {
+            output.style.display = 'block';
+
+            if (window.gsap) {
+                gsap.fromTo(
+                    output,
+                    {
+                        opacity:0,
+                        y:10
+                    },
+                    {
+                        opacity:1,
+                        y:0,
+                        duration:.35,
+                        ease:"power2.out"
+                    }
+                );
+            }
+        }
+
         function runFactorial() {
             function factorial(n) {
                 if (n === 0 || n === 1) return 1;
                 return n * factorial(n - 1);
             }
+
             const n = 5;
             const result = factorial(n);
             const output = document.getElementById('factorial-output');
-            output.style.display = 'block';
+
             output.innerHTML = `▶ Output: Factorial of ${n} = ${result}`;
+            animateOutput(output);
         }
 
-        // Run Fibonacci
         function runFibonacci() {
             function fibonacci(n) {
                 if (n === 0) return 0;
                 if (n === 1) return 1;
                 return fibonacci(n - 1) + fibonacci(n - 2);
             }
+
             const n = 10;
-            let series = [];
+            const series = [];
+
             for (let i = 0; i < n; i++) {
                 series.push(fibonacci(i));
             }
+
             const output = document.getElementById('fibonacci-output');
-            output.style.display = 'block';
-            output.innerHTML = `▶ Output: Fibonacci Series (${n} terms): ${series.join(', ')}`;
+
+            output.innerHTML =
+                `▶ Output: Fibonacci Series (${n} terms): ${series.join(', ')}`;
+
+            animateOutput(output);
         }
 
-        // Run Binary Search (Restored Missing Content)
         function runBinarySearch() {
             function binarySearch(arr, left, right, target) {
                 if (left > right) return -1;
+
                 const mid = Math.floor((left + right) / 2);
+
                 if (arr[mid] === target) return mid;
-                if (arr[mid] > target) return binarySearch(arr, left, mid - 1, target);
+                if (arr[mid] > target) {
+                    return binarySearch(arr, left, mid - 1, target);
+                }
+
                 return binarySearch(arr, mid + 1, right, target);
             }
+
             const arr = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
             const target = 23;
             const result = binarySearch(arr, 0, arr.length - 1, target);
             const output = document.getElementById('binary-output');
-            output.style.display = 'block';
-            output.innerHTML = `▶ Output: Element ${target} found at index: ${result}`;
+
+            output.innerHTML =
+                `▶ Output: Element ${target} found at index: ${result}`;
+
+            animateOutput(output);
         }
 
-        // Toggle solution visibility
+        // =========================================================
+        // SOLUTION TOGGLE
+        // =========================================================
+
         function toggleSolution(btn) {
             const solution = btn.nextElementSibling;
-            if (solution.classList.contains('show')) {
-                solution.classList.remove('show');
-                btn.innerText = 'Show Solution';
-            } else {
-                solution.classList.add('show');
-                btn.innerText = 'Hide Solution';
+            const showing = solution.classList.toggle('show');
+
+            btn.textContent = showing
+                ? 'Hide Solution'
+                : 'Show Solution';
+
+            if (window.gsap) {
+                gsap.fromTo(
+                    solution,
+                    {
+                        opacity:0,
+                        y:-8
+                    },
+                    {
+                        opacity:1,
+                        y:0,
+                        duration:.3,
+                        ease:"power2.out"
+                    }
+                );
             }
         }
 
-        // Check MCQs
-        function checkMCQ(name, correctValue, explanation) {
-            const options = document.getElementsByName(name);
-            let selectedValue = null;
-            for (let option of options) {
-                if (option.checked) {
-                    selectedValue = option.value;
-                    break;
-                }
-            }
-            const resultDiv = document.getElementById(name + '-result');
-            
-            if (!selectedValue) {
+        // =========================================================
+        // MCQ CHECKING
+        // =========================================================
+
+        function checkMCQ(questionName, correctAnswer, explanation) {
+            const selectedOption =
+                document.querySelector(
+                    `input[name="${questionName}"]:checked`
+                );
+
+            const resultDiv =
+                document.getElementById(
+                    `${questionName}-result`
+                );
+
+            if (!selectedOption) {
                 resultDiv.className = 'mcq-result wrong';
-                resultDiv.innerHTML = '⚠️ Please select an answer first!';
-                return;
-            }
-            
-            if (selectedValue === correctValue) {
-                resultDiv.className = 'mcq-result correct';
-                resultDiv.innerHTML = `✅ Correct! <div class="explanation">${explanation}</div>`;
+                resultDiv.innerHTML =
+                    '⚠️ Please select an option first.';
             } else {
-                resultDiv.className = 'mcq-result wrong';
-                resultDiv.innerHTML = `❌ Incorrect. The correct answer is <strong>${correctValue}</strong>. <div class="explanation">${explanation}</div>`;
+                const userAnswer = selectedOption.value;
+                const isCorrect = userAnswer === correctAnswer;
+
+                resultDiv.className =
+                    `mcq-result ${isCorrect ? 'correct' : 'wrong'}`;
+
+                resultDiv.innerHTML =
+                    `${isCorrect ? '✅ Correct!' : '❌ Incorrect!'}<br>` +
+                    `<span class="explanation">${explanation}</span>`;
+            }
+
+            if (window.gsap) {
+                gsap.fromTo(
+                    resultDiv,
+                    {
+                        opacity:0,
+                        y:8,
+                        scale:.98
+                    },
+                    {
+                        opacity:1,
+                        y:0,
+                        scale:1,
+                        duration:.3,
+                        ease:"back.out(1.4)"
+                    }
+                );
             }
         }
+
+        // =========================================================
+        // DARK MODE
+        // =========================================================
+
+        const themeBtn =
+            document.getElementById('themeToggle');
+
+        const savedTheme =
+            localStorage.getItem('recursionTheme');
+
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+            themeBtn.textContent = '☀️';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const dark =
+                document.body.classList.toggle('dark');
+
+            themeBtn.textContent =
+                dark ? '☀️' : '🌙';
+
+            localStorage.setItem(
+                'recursionTheme',
+                dark ? 'dark' : 'light'
+            );
+
+            if (window.gsap) {
+                gsap.fromTo(
+                    themeBtn,
+                    {
+                        rotation: -20,
+                        scale:.9
+                    },
+                    {
+                        rotation:0,
+                        scale:1,
+                        duration:.35,
+                        ease:"back.out(2)"
+                    }
+                );
+            }
+        });
+
+        // =========================================================
+        // PAGE CONTENT ANIMATIONS
+        // =========================================================
+
+        window.addEventListener('DOMContentLoaded', () => {
+
+            if (!window.gsap) return;
+
+            const hubButton = document.querySelector('.tabs .tab');
+
+            if (hubButton) {
+                gsap.set(hubButton, { transformOrigin:'center' });
+
+                hubButton.addEventListener('mouseenter', () => {
+                    gsap.to(hubButton, {
+                        scale:1.035,
+                        duration:.22,
+                        ease:'power2.out'
+                    });
+                });
+
+                hubButton.addEventListener('mouseleave', () => {
+                    gsap.to(hubButton, {
+                        scale:1,
+                        duration:.22,
+                        ease:'power2.out'
+                    });
+                });
+            }
+
+            const animatedGroups = [
+                '.mindmap-node',
+                '.program-section',
+                '.pyq-card',
+                '.mcq-question'
+            ];
+
+            animatedGroups.forEach(selector => {
+                const items =
+                    document.querySelectorAll(selector);
+
+                gsap.set(items, {
+                    opacity:0,
+                    y:20
+                });
+
+                gsap.to(items, {
+                    opacity:1,
+                    y:0,
+                    duration:.55,
+                    stagger:.025,
+                    delay:2.05,
+                    ease:"power2.out"
+                });
+            });
+
+            gsap.fromTo(
+                '.tabs',
+                {
+                    y:-18,
+                    opacity:0
+                },
+                {
+                    y:0,
+                    opacity:1,
+                    duration:.5,
+                    delay:2.0,
+                    ease:"power2.out"
+                }
+            );
+
+            gsap.fromTo(
+                'h1',
+                {
+                    y:-16,
+                    opacity:0
+                },
+                {
+                    y:0,
+                    opacity:1,
+                    duration:.6,
+                    delay:2.0,
+                    ease:"power3.out"
+                }
+            );
+        });
     </script>
-</body>
-</html>
+
+
+    <!-- =========================================================
+         PAGE TRANSITION OVERLAY
+    ========================================================= -->
+
+    <div
+        id="pageTransition"
+        aria-hidden="true"
+    >
+
+    <div id="pageTransitionContent">
+
+        <span id="pageTransitionLabel">
+            OPENING
+        </span>
+
+        <div id="pageTransitionTitle">
+            Loading...
+        </div>
+
+        <div id="pageTransitionLine"></div>
+
+    </div>
+
+    </div>
+
+
+<script>
+/* =========================================================
+   PAGE TRANSITION ELEMENTS
+========================================================= */
+
+const pageTransition =
+    document.getElementById(
+        "pageTransition"
+    );
+
+const pageTransitionContent =
+    document.getElementById(
+        "pageTransitionContent"
+    );
+
+const pageTransitionTitle =
+    document.getElementById(
+        "pageTransitionTitle"
+    );
+
+const pageTransitionLine =
+    document.getElementById(
+        "pageTransitionLine"
+    );
+
+
+/* =========================================================
+   OPENING PAGE TRANSITION
+========================================================= */
+
+function playIncomingTransition(){
+
+    pageTransitionTitle.textContent =
+        "Recursion Basics";
+
+
+    /*
+     * The overlay starts covering the page.
+     */
+    gsap.set(
+        pageTransition,
+        {
+            visibility:"visible",
+            pointerEvents:"auto",
+            opacity:1
+        }
+    );
+
+
+    gsap.set(
+        pageTransitionContent,
+        {
+            opacity:1,
+            y:0
+        }
+    );
+
+
+    gsap.set(
+        pageTransitionLine,
+        {
+            width:0
+        }
+    );
+
+
+    /*
+     * Small progress line.
+     */
+    gsap.to(
+        pageTransitionLine,
+        {
+            width:120,
+
+            duration:.6,
+
+            ease:"power2.out"
+        }
+    );
+
+
+    /*
+     * Fade the title slightly upward.
+     */
+    gsap.to(
+        pageTransitionContent,
+        {
+            opacity:0,
+            y:-8,
+
+            duration:.7,
+
+            delay:.6,
+
+            ease:"power2.inOut"
+        }
+    );
+
+
+    /*
+     * Finally remove the overlay,
+     * revealing the page underneath.
+     */
+    gsap.to(
+        pageTransition,
+        {
+            opacity:0,
+
+            duration:1.2,
+
+            delay:1.0,
+
+            ease:"power2.inOut",
+
+            onComplete:() => {
+
+                gsap.set(
+                    pageTransition,
+                    {
+                        visibility:"hidden",
+                        pointerEvents:"none"
+                    }
+                );
+
+            }
+        }
+    );
+}
+
+
+/* =========================================================
+   START OPENING TRANSITION
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        playIncomingTransition();
+
+    }
+);
+
+</script>
+
+</body></html>

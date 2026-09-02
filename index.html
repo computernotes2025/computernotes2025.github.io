@@ -1,389 +1,1474 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computers ISC Class 12 2026 Nav Hub</title>
-    <style>
-        :root {
-            --bg-color: #0b0d13;
-            --card-bg: rgba(20, 24, 38, 0.65);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --accent-glow: #6366f1;
-            --accent-glow-2: #a855f7;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+```
+<title>Computers ISC Class 12 2026 — Nav Hub</title>
+
+<!-- GSAP -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+<style>
+    :root {
+        --bg: #070910;
+        --glass: rgba(16, 20, 35, 0.68);
+        --glass-hover: rgba(23, 28, 48, 0.82);
+
+        --border: rgba(255, 255, 255, 0.085);
+        --border-hover: rgba(129, 140, 248, 0.42);
+
+        --text: #f8fafc;
+        --muted: #94a3b8;
+
+        --accent: #6366f1;
+        --accent-2: #a855f7;
+
+        --shadow:
+            0 35px 90px rgba(0, 0, 0, 0.55),
+            inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+        font-family:
+            Inter,
+            "Segoe UI",
+            Roboto,
+            -apple-system,
+            BlinkMacSystemFont,
+            sans-serif;
+    }
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: var(--text);
+
+        background:
+            radial-gradient(
+                circle at 50% 0%,
+                rgba(99, 102, 241, 0.10),
+                transparent 35%
+            ),
+            var(--bg);
+
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+
+    .background {
+        position: fixed;
+        inset: 0;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        z-index: 0;
+    }
+
+    .grid {
+        position: absolute;
+        inset: 0;
+
+        background-image:
+            linear-gradient(
+                rgba(255,255,255,0.025) 1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255,255,255,0.025) 1px,
+                transparent 1px
+            );
+
+        background-size: 45px 45px;
+
+        mask-image:
+            linear-gradient(
+                to bottom,
+                black 0%,
+                transparent 85%
+            );
+    }
+
+    .glow {
+        position: absolute;
+
+        border-radius: 50%;
+
+        filter: blur(100px);
+    }
+
+    .glow-1 {
+        width: 500px;
+        height: 500px;
+
+        left: -140px;
+        top: -120px;
+
+        background: rgba(99, 102, 241, 0.18);
+    }
+
+    .glow-2 {
+        width: 480px;
+        height: 480px;
+
+        right: -150px;
+        bottom: -140px;
+
+        background: rgba(168, 85, 247, 0.15);
+    }
+
+    .glow-3 {
+        width: 350px;
+        height: 350px;
+
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        background: rgba(56, 189, 248, 0.06);
+    }
+
+    /* =========================================================
+       MAIN CARD
+    ========================================================= */
+
+    .menu-container {
+        position: relative;
+        z-index: 2;
+
+        width: min(92vw, 480px);
+        max-height: 92vh;
+
+        padding: 34px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,0.045),
+                rgba(255,255,255,0.012)
+            ),
+            var(--glass);
+
+        border: 1px solid var(--border);
+        border-radius: 28px;
+
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+
+        box-shadow: var(--shadow);
+
+        display: flex;
+        flex-direction: column;
+
+        overflow: hidden;
+    }
+
+    .menu-container::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        background:
+            linear-gradient(
+                120deg,
+                rgba(255,255,255,0.05),
+                transparent 30%
+            );
+
+        pointer-events: none;
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .header {
+        position: relative;
+        z-index: 1;
+
+        text-align: center;
+    }
+
+    .header-badge {
+        width: 48px;
+        height: 48px;
+
+        margin: 0 auto 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 15px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(99, 102, 241, 0.22),
+                rgba(168, 85, 247, 0.18)
+            );
+
+        border: 1px solid rgba(129, 140, 248, 0.25);
+
+        box-shadow:
+            0 0 35px rgba(99, 102, 241, 0.18),
+            inset 0 1px rgba(255,255,255,0.08);
+
+        color: #c7d2fe;
+
+        font-size: 20px;
+    }
+
+    .header h1 {
+        font-size: clamp(1.65rem, 5vw, 2.15rem);
+
+        font-weight: 750;
+
+        line-height: 1.12;
+
+        letter-spacing: -0.8px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #ffffff 15%,
+                #dbeafe 50%,
+                #a5b4fc 100%
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+        margin-top: 10px;
+        margin-bottom: 28px;
+
+        color: var(--muted);
+
+        font-size: 0.93rem;
+    }
+
+    /* =========================================================
+       MENU
+    ========================================================= */
+
+    .menu-list {
+        position: relative;
+        z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 12px;
+
+        max-height: 55vh;
+
+        overflow-y: auto;
+
+        padding: 3px 5px 6px 1px;
+
+        scrollbar-width: thin;
+
+        scrollbar-color:
+            rgba(255,255,255,0.14)
+            transparent;
+    }
+
+    .menu-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .menu-list::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.12);
+        border-radius: 99px;
+    }
+
+    /* =========================================================
+       MENU ITEM
+    ========================================================= */
+
+    .menu-item {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        min-height: 70px;
+
+        padding: 14px 16px;
+
+        text-decoration: none;
+        color: var(--text);
+
+        border-radius: 18px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,255,255,0.042),
+                rgba(255,255,255,0.016)
+            );
+
+        border: 1px solid var(--border);
+
+        overflow: hidden;
+
+        transform-origin: center;
+
+        transition:
+            background 0.25s ease,
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .menu-item:hover {
+        background: var(--glass-hover);
+
+        border-color: var(--border-hover);
+
+        box-shadow:
+            0 18px 45px rgba(0,0,0,0.25),
+            0 0 30px rgba(99,102,241,0.08);
+    }
+
+    /* Moving light */
+    .menu-item::before {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: -100%;
+
+        width: 70%;
+        height: 100%;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.07),
+                transparent
+            );
+
+        transform: skewX(-20deg);
+
+        transition: left 0.65s ease;
+
+        pointer-events: none;
+    }
+
+    .menu-item:hover::before {
+        left: 140%;
+    }
+
+    /* Cursor glow */
+    .menu-item::after {
+        content: "";
+
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        left: var(--mouse-x, 50%);
+        top: var(--mouse-y, 50%);
+
+        transform: translate(-50%, -50%);
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(99,102,241,0.12),
+                transparent 70%
+            );
+
+        opacity: 0;
+
+        transition: opacity 0.25s ease;
+
+        pointer-events: none;
+    }
+
+    .menu-item:hover::after {
+        opacity: 1;
+    }
+
+    .badge {
+        position: relative;
+        z-index: 1;
+
+        width: 42px;
+        height: 42px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-right: 15px;
+
+        border-radius: 12px;
+
+        color: #a5b4fc;
+
+        background:
+            rgba(99,102,241,0.11);
+
+        border: 1px solid rgba(99,102,241,0.2);
+
+        font-weight: 700;
+
+        box-shadow:
+            inset 0 1px rgba(255,255,255,0.04);
+
+        transition:
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .menu-item:hover .badge {
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent),
+                var(--accent-2)
+            );
+
+        border-color: transparent;
+
+        box-shadow:
+            0 0 25px rgba(99,102,241,0.38);
+    }
+
+    .menu-content {
+        position: relative;
+        z-index: 1;
+
+        min-width: 0;
+
+        flex: 1;
+    }
+
+    .title {
+        display: block;
+
+        font-size: 1rem;
+
+        font-weight: 650;
+
+        letter-spacing: 0.1px;
+
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+    }
+
+    .subtitle {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #64748b;
+
+        font-size: 0.76rem;
+    }
+
+    .arrow {
+        position: relative;
+        z-index: 1;
+
+        width: 21px;
+        height: 21px;
+
+        flex-shrink: 0;
+
+        margin-left: 12px;
+
+        fill: none;
+
+        stroke: #64748b;
+
+        stroke-width: 2;
+
+        stroke-linecap: round;
+        stroke-linejoin: round;
+
+        transition:
+            transform 0.3s ease,
+            stroke 0.3s ease;
+    }
+
+    .menu-item:hover .arrow {
+        transform: translateX(5px);
+
+        stroke: #fff;
+    }
+
+    /* =========================================================
+       PAGE TRANSITION
+    ========================================================= */
+
+    .page-transition {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 1000;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #05060b;
+
+        pointer-events: none;
+
+        visibility: hidden;
+
+        opacity: 0;
+    }
+
+    .transition-orb {
+        position: absolute;
+
+        width: 30px;
+        height: 30px;
+
+        border-radius: 50%;
+
+        background:
+            radial-gradient(
+                circle,
+                #c4b5fd 0%,
+                #818cf8 35%,
+                #4f46e5 65%,
+                transparent 72%
+            );
+
+        box-shadow:
+            0 0 60px #6366f1,
+            0 0 140px rgba(99,102,241,0.8);
+
+        transform: scale(0);
+    }
+
+    .transition-content {
+        position: relative;
+
+        z-index: 2;
+
+        text-align: center;
+
+        opacity: 0;
+    }
+
+    .transition-number {
+        display: block;
+
+        color: #818cf8;
+
+        font-size: 0.8rem;
+
+        font-weight: 700;
+
+        letter-spacing: 0.18em;
+
+        text-transform: uppercase;
+
+        margin-bottom: 12px;
+    }
+
+    .transition-title {
+        font-size: clamp(2rem, 7vw, 4rem);
+
+        font-weight: 800;
+
+        letter-spacing: -1.5px;
+
+        background:
+            linear-gradient(
+                135deg,
+                white,
+                #c7d2fe 55%,
+                #a78bfa
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+    }
+
+    .transition-line {
+        width: 0;
+
+        height: 2px;
+
+        margin: 20px auto 0;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                #818cf8,
+                transparent
+            );
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 560px) {
 
         body {
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-            color: var(--text-main);
+            align-items: flex-start;
+
+            padding-top: 4vh;
+            padding-bottom: 4vh;
         }
 
-        /* Ambient glowing background elements */
-        .bg-glow-1 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-            top: 20%;
-            left: 30%;
-            filter: blur(90px);
-            animation: float 10s infinite alternate ease-in-out;
-            z-index: 0;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
-            bottom: 20%;
-            right: 30%;
-            filter: blur(90px);
-            animation: float 12s infinite alternate-reverse ease-in-out;
-            z-index: 0;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(0.9); }
-            100% { transform: translate(30px, -40px) scale(1.15); }
-        }
-
-        /* Central Glass Card */
         .menu-container {
-            position: relative;
-            z-index: 1;
-            width: 90%;
-            max-width: 440px;
-            padding: 42px 32px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
+            width: 94vw;
+
+            padding: 27px 20px;
+
+            border-radius: 23px;
         }
 
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            color: var(--text-sub);
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-        }
-
-        /* Menu Navigation */
         .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-height: 280px;
-            overflow-y: auto;
-            padding-right: 4px;
-            margin-bottom: 10px;
-        }
-
-        /* Custom Scrollbar for menu list */
-        .menu-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .menu-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            max-height: 70vh;
         }
 
         .menu-item {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 18px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--text-main);
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+            min-height: 64px;
 
-        /* Shimmer effect on hover */
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .menu-item:hover::before {
-            left: 100%;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-3px) scale(1.01);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 12px 30px -8px rgba(99, 102, 241, 0.35);
+            padding: 12px 13px;
         }
 
         .badge {
             width: 38px;
             height: 38px;
-            border-radius: 10px;
-            background: rgba(99, 102, 241, 0.12);
-            color: #818cf8;
-            font-weight: 700;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            flex-shrink: 0;
-        }
 
-        .menu-item:hover .badge {
-            background: linear-gradient(135deg, var(--accent-glow), var(--accent-glow-2));
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 0 15px var(--accent-glow);
+            margin-right: 12px;
         }
+    }
 
-        .title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            flex-grow: 1;
-            text-align: left;
-            letter-spacing: 0.2px;
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
         }
+    }
+</style>
+```
 
-        .arrow {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-sub);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.3s ease, stroke 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .menu-item:hover .arrow {
-            transform: translateX(4px);
-            stroke: #ffffff;
-        }
-
-        /* --- New Form Styles --- */
-        .add-form-container {
-            margin-top: 16px;
-            padding-top: 24px;
-            border-top: 1px solid var(--card-border);
-        }
-
-        .add-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .add-form input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 14px;
-            border-radius: 12px;
-            color: var(--text-main);
-            outline: none;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .add-form input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .add-form input:focus {
-            border-color: var(--accent-glow);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, var(--accent-glow), var(--accent-glow-2));
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px -6px var(--accent-glow);
-        }
-
-        .reset-btn {
-            background: none;
-            border: none;
-            color: var(--text-sub);
-            font-size: 0.8rem;
-            margin-top: 12px;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: color 0.2s ease;
-        }
-
-        .reset-btn:hover {
-            color: #ef4444;
-        }
-    </style>
 </head>
+
 <body>
 
-    <div class="bg-glow-1"></div>
-    <div class="bg-glow-2"></div>
+```
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
 
-    <div class="menu-container">
-        <div class="header">
-            <h1>Nav Hub For All Things Computers</h1>
-            <p>Select an option to proceed</p>
+<div class="background">
+    <div class="grid"></div>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+</div>
+
+
+<!-- =========================================================
+     MAIN CARD
+========================================================= -->
+
+<main class="menu-container">
+
+    <header class="header">
+
+        <div class="header-badge">
+            ✦
         </div>
 
-        <!-- The menu items are injected dynamically from JavaScript -->
-        <nav class="menu-list" id="menuList">
-        </nav>
+        <h1>
+            Nav Hub For All Things Computers
+        </h1>
 
-        <!-- Form to add new menus from the browser UI -->
-        <div class="add-form-container">
-            <form class="add-form" id="addForm">
-                <div class="input-row">
-                    <input type="text" id="menuTitle" placeholder="Menu Title (e.g. Loops)" required autocomplete="off">
-                </div>
-                <div class="input-row">
-                    <input type="text" id="menuUrl" placeholder="URL (e.g. loops.html or just the name 'loops')" required autocomplete="off">
-                </div>
-                <button type="submit" class="add-btn">+ Add Option</button>
-            </form>
-            <button class="reset-btn" id="resetBtn" title="Clears your saved menus and restores defaults">Reset to Defaults</button>
+        <p>
+            ISC Class 12 • 2026
+        </p>
+
+    </header>
+
+
+    <nav
+        class="menu-list"
+        id="menuList"
+        aria-label="Computer resources"
+    ></nav>
+
+</main>
+
+
+<!-- =========================================================
+     PAGE TRANSITION
+========================================================= -->
+
+<div
+    class="page-transition"
+    id="pageTransition"
+>
+
+    <div
+        class="transition-orb"
+        id="transitionOrb"
+    ></div>
+
+    <div
+        class="transition-content"
+        id="transitionContent"
+    >
+
+        <span
+            class="transition-number"
+            id="transitionNumber"
+        >
+            OPENING
+        </span>
+
+        <div
+            class="transition-title"
+            id="transitionTitle"
+        >
+            Loading...
         </div>
+
+        <div
+            class="transition-line"
+            id="transitionLine"
+        ></div>
+
     </div>
 
-    <script>
-        // Default items (Recursion Basics removed as requested)
-        const defaultItems = [
-            { title: "Recursion Programs", url: "recursionprogs" },
-            { title: "Memory Address", url: "memaddress" },
-            { title: "Recursion Basics", url: "recursion" },
-            { title: "2D Array Operations Questions", url: "2darrayop" }
-        ];
+</div>
 
-        // Retrieve saved items from localStorage, or use defaults if none exist
-        let menuItems = JSON.parse(localStorage.getItem('portalMenus')) || defaultItems;
 
-        const container = document.getElementById("menuList");
-        const addForm = document.getElementById("addForm");
-        const resetBtn = document.getElementById("resetBtn");
+<script>
 
-        // Function to render the menu to the DOM
-        function renderMenu() {
-            container.innerHTML = ""; // Clear current list
-            
-            menuItems.forEach((item, index) => {
-                const menuItem = document.createElement("a");
-                menuItem.href = item.url;
-                menuItem.className = "menu-item";
-                
-                menuItem.innerHTML = `
-                    <div class="badge">${index + 1}</div>
-                    <span class="title">${item.title}</span>
-                    <svg class="arrow" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                `;
-                
-                container.appendChild(menuItem);
-            });
+    /* =========================================================
+       MENU ENTRIES
+       
+       THIS IS THE ONLY PLACE YOU NEED TO EDIT
+       TO ADD MORE PAGES.
+    ========================================================= */
 
-            // Scroll to bottom if list gets too long
-            container.scrollTop = container.scrollHeight;
+    const defaultItems = [
+
+        {
+            title: "Recursion Programs",
+            url: "recursionprogs"
+        },
+
+        {
+            title: "Memory Address",
+            url: "memaddress"
+        },
+
+        {
+            title: "Recursion Basics",
+            url: "recursion"
+        },
+
+        {
+            title: "2D Array Operations Questions",
+            url: "2darrayop"
         }
 
-        // Initialize the app
-        document.addEventListener("DOMContentLoaded", renderMenu);
+        /*
+         * Example:
+         *
+         * {
+         *     title: "Loops",
+         *     url: "loops"
+         * },
+         *
+         * {
+         *     title: "Arrays",
+         *     url: "arrays"
+         * }
+         */
+    ];
 
-        // Handle adding new menus via the form
-        addForm.addEventListener("submit", (e) => {
-            e.preventDefault(); // Prevent page reload
-            
-            const titleInput = document.getElementById("menuTitle");
-            const urlInput = document.getElementById("menuUrl");
 
-            const newTitle = titleInput.value.trim();
-            const newUrl = urlInput.value.trim();
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
 
-            if (newTitle && newUrl) {
-                // Add to array
-                menuItems.push({ title: newTitle, url: newUrl });
-                
-                // Save to localStorage so it survives page reloads
-                localStorage.setItem('portalMenus', JSON.stringify(menuItems));
-                
-                // Update UI
-                renderMenu();
-                
-                // Clear inputs
-                titleInput.value = "";
-                urlInput.value = "";
-                titleInput.focus();
+    const container =
+        document.getElementById("menuList");
+
+    const pageTransition =
+        document.getElementById("pageTransition");
+
+    const transitionOrb =
+        document.getElementById("transitionOrb");
+
+    const transitionContent =
+        document.getElementById("transitionContent");
+
+    const transitionTitle =
+        document.getElementById("transitionTitle");
+
+    const transitionNumber =
+        document.getElementById("transitionNumber");
+
+    const transitionLine =
+        document.getElementById("transitionLine");
+
+
+    /* =========================================================
+       INITIAL GSAP STATE
+    ========================================================= */
+
+    gsap.set(
+        ".menu-container",
+        {
+            opacity: 0,
+            y: 35,
+            scale: 0.97
+        }
+    );
+
+    gsap.set(
+        ".header > *",
+        {
+            opacity: 0,
+            y: 18
+        }
+    );
+
+
+    /* =========================================================
+       RENDER MENU
+    ========================================================= */
+
+    function renderMenu() {
+
+        container.innerHTML = "";
+
+
+        defaultItems.forEach(
+            (item, index) => {
+
+                const menuItem =
+                    document.createElement("a");
+
+
+                /*
+                 * Relative URLs are exactly what we want
+                 * for username.github.io.
+                 */
+                menuItem.href =
+                    item.url;
+
+
+                menuItem.className =
+                    "menu-item";
+
+
+                menuItem.dataset.index =
+                    index;
+
+
+                menuItem.innerHTML = `
+
+                    <div class="badge">
+                        ${String(index + 1).padStart(2, "0")}
+                    </div>
+
+                    <div class="menu-content">
+
+                        <span class="title">
+                            ${escapeHTML(item.title)}
+                        </span>
+
+                        <span class="subtitle">
+                            Open resource
+                        </span>
+
+                    </div>
+
+                    <svg
+                        class="arrow"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M5 12h14M12 5l7 7-7 7"
+                        ></path>
+                    </svg>
+
+                `;
+
+
+                container.appendChild(
+                    menuItem
+                );
             }
-        });
+        );
 
-        // Handle resetting to defaults
-        resetBtn.addEventListener("click", () => {
-            if(confirm("Are you sure you want to clear your custom menus and restore the defaults?")) {
-                localStorage.removeItem('portalMenus');
-                menuItems = [...defaultItems]; // Reset array
-                renderMenu();
+
+        /*
+         * Animate buttons.
+         */
+        gsap.fromTo(
+            ".menu-item",
+            {
+                opacity: 0,
+                y: 18,
+                scale: 0.98
+            },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+
+                duration: 0.55,
+
+                stagger: 0.08,
+
+                ease: "power3.out"
             }
-        });
-    </script>
+        );
+
+
+        setupMenuInteractions();
+    }
+
+
+    /* =========================================================
+       MENU INTERACTIONS
+    ========================================================= */
+
+    function setupMenuInteractions() {
+
+        const items =
+            document.querySelectorAll(
+                ".menu-item"
+            );
+
+
+        items.forEach(
+            (item) => {
+
+                item.addEventListener(
+                    "mousemove",
+                    (event) => {
+
+                        const rect =
+                            item.getBoundingClientRect();
+
+
+                        const x =
+                            event.clientX -
+                            rect.left;
+
+
+                        const y =
+                            event.clientY -
+                            rect.top;
+
+
+                        item.style.setProperty(
+                            "--mouse-x",
+                            `${x}px`
+                        );
+
+
+                        item.style.setProperty(
+                            "--mouse-y",
+                            `${y}px`
+                        );
+
+
+                        const rotateX =
+                            ((y / rect.height) - 0.5)
+                            * -3;
+
+
+                        const rotateY =
+                            ((x / rect.width) - 0.5)
+                            * 3;
+
+
+                        gsap.to(
+                            item,
+                            {
+                                rotateX,
+                                rotateY,
+
+                                duration: 0.25,
+
+                                ease: "power2.out",
+
+                                overwrite: true,
+
+                                transformPerspective: 800
+                            }
+                        );
+                    }
+                );
+
+
+                item.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        gsap.to(
+                            item,
+                            {
+                                rotateX: 0,
+                                rotateY: 0,
+
+                                duration: 0.35,
+
+                                ease: "power3.out"
+                            }
+                        );
+                    }
+                );
+
+
+                /*
+                 * Navigation transition.
+                 */
+                item.addEventListener(
+                    "click",
+                    (event) => {
+
+                        /*
+                         * Preserve normal browser
+                         * behavior for modifier clicks.
+                         */
+                        if (
+                            event.ctrlKey ||
+                            event.metaKey ||
+                            event.shiftKey ||
+                            event.altKey
+                        ) {
+                            return;
+                        }
+
+
+                        event.preventDefault();
+
+
+                        const index =
+                            Number(
+                                item.dataset.index
+                            );
+
+
+                        startPageTransition(
+                            item,
+                            defaultItems[index]
+                        );
+                    }
+                );
+            }
+        );
+    }
+
+
+    /* =========================================================
+       PAGE TRANSITION
+    ========================================================= */
+
+    function startPageTransition(
+        clickedItem,
+        menuItem
+    ) {
+
+        if (!menuItem) {
+            return;
+        }
+
+
+        /*
+         * Disable interactions while transitioning.
+         */
+        document.body.style.pointerEvents =
+            "none";
+
+
+        transitionTitle.textContent =
+            menuItem.title;
+
+
+        transitionNumber.textContent =
+            `RESOURCE ${String(
+                defaultItems.indexOf(menuItem) + 1
+            ).padStart(2, "0")}`;
+
+
+        pageTransition.style.visibility =
+            "visible";
+
+
+        pageTransition.style.pointerEvents =
+            "auto";
+
+
+        const rect =
+            clickedItem.getBoundingClientRect();
+
+
+        const startX =
+            rect.left +
+            rect.width / 2;
+
+
+        const startY =
+            rect.top +
+            rect.height / 2;
+
+
+        /*
+         * Start glowing orb at the clicked button.
+         */
+        gsap.set(
+            transitionOrb,
+            {
+                x:
+                    startX -
+                    window.innerWidth / 2,
+
+                y:
+                    startY -
+                    window.innerHeight / 2,
+
+                scale: 0.3
+            }
+        );
+
+
+        gsap.set(
+            transitionContent,
+            {
+                opacity: 0,
+                y: 30,
+                scale: 0.96
+            }
+        );
+
+
+        gsap.set(
+            transitionLine,
+            {
+                width: 0
+            }
+        );
+
+
+        const tl =
+            gsap.timeline();
+
+
+        /*
+         * Button presses inward.
+         */
+        tl.to(
+            clickedItem,
+            {
+                scale: 0.96,
+
+                duration: 0.15,
+
+                ease: "power2.out"
+            }
+        );
+
+
+        /*
+         * Fade in the transition screen.
+         */
+        tl.to(
+            pageTransition,
+            {
+                opacity: 1,
+
+                duration: 0.25
+            }
+        );
+
+
+        /*
+         * Expand the glow from the button.
+         */
+        tl.to(
+            transitionOrb,
+            {
+                scale:
+                    Math.max(
+                        window.innerWidth,
+                        window.innerHeight
+                    ) / 28,
+
+                duration: 0.9,
+
+                ease: "expo.inOut"
+            },
+            "<"
+        );
+
+
+        /*
+         * Show the destination name.
+         */
+        tl.to(
+            transitionContent,
+            {
+                opacity: 1,
+
+                y: 0,
+
+                scale: 1,
+
+                duration: 0.65,
+
+                ease: "power3.out"
+            },
+            "-=0.45"
+        );
+
+
+        /*
+         * Loading line.
+         */
+        tl.to(
+            transitionLine,
+            {
+                width: 170,
+
+                duration: 0.5,
+
+                ease: "power2.out"
+            },
+            "-=0.35"
+        );
+
+
+        /*
+         * Tiny pause so the splash
+         * actually feels visible.
+         */
+        tl.to(
+            {},
+            {
+                duration: 0.42
+            }
+        );
+
+
+        /*
+         * Navigate.
+         *
+         * Because the URL is relative, this works
+         * naturally on username.github.io.
+         */
+        tl.call(
+            () => {
+
+                window.location.href =
+                    menuItem.url;
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       SAFE HTML
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.textContent =
+            value;
+
+
+        return div.innerHTML;
+    }
+
+
+    /* =========================================================
+       INTRO ANIMATION
+    ========================================================= */
+
+    function introAnimation() {
+
+        const tl =
+            gsap.timeline(
+                {
+                    defaults: {
+                        ease: "power3.out"
+                    }
+                }
+            );
+
+
+        /*
+         * Main card enters.
+         */
+        tl.to(
+            ".menu-container",
+            {
+                opacity: 1,
+
+                y: 0,
+
+                scale: 1,
+
+                duration: 0.85,
+
+                ease: "expo.out"
+            }
+        );
+
+
+        /*
+         * Header elements.
+         */
+        tl.to(
+            ".header > *",
+            {
+                opacity: 1,
+
+                y: 0,
+
+                duration: 0.55,
+
+                stagger: 0.09
+            },
+            "-=0.55"
+        );
+
+
+        /*
+         * Ambient background movement.
+         */
+        gsap.to(
+            ".glow-1",
+            {
+                x: 80,
+                y: 60,
+                scale: 1.15,
+
+                duration: 8,
+
+                repeat: -1,
+                yoyo: true,
+
+                ease: "sine.inOut"
+            }
+        );
+
+
+        gsap.to(
+            ".glow-2",
+            {
+                x: -70,
+                y: -50,
+                scale: 1.1,
+
+                duration: 10,
+
+                repeat: -1,
+                yoyo: true,
+
+                ease: "sine.inOut"
+            }
+        );
+
+
+        gsap.to(
+            ".glow-3",
+            {
+                scale: 1.25,
+
+                duration: 7,
+
+                repeat: -1,
+                yoyo: true,
+
+                ease: "sine.inOut"
+            }
+        );
+    }
+
+
+    /* =========================================================
+       START
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            renderMenu();
+
+            introAnimation();
+        }
+    );
+
+</script>
+```
+
 </body>
 </html>

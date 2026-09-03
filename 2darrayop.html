@@ -31,6 +31,7 @@
     --note-bg: #fef9c3;
     --note-text: #854d0e;
     --note-border: #eab308;
+    --io-bg: rgba(15, 23, 42, 0.04);
 }
 
 body.dark {
@@ -52,6 +53,7 @@ body.dark {
     --note-bg: #422006;
     --note-text: #fde047;
     --note-border: #ca8a04;
+    --io-bg: rgba(0, 0, 0, 0.2);
 }
 
 * { box-sizing: border-box; }
@@ -155,11 +157,7 @@ header p { margin: 0; font-size: 16px; opacity: 0.9; font-weight: 400; }
     border: 1px solid var(--card-border);
     margin-bottom: 20px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-.card:not(.hidden) { animation: fadeIn 0.4s ease-out forwards; }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    will-change: transform, opacity; /* Added for GSAP performance */
 }
 
 h2 { color: var(--heading-color); margin-top: 0; font-size: 24px; font-weight: 700; margin-bottom: 24px; }
@@ -173,11 +171,46 @@ h2 { color: var(--heading-color); margin-top: 0; font-size: 24px; font-weight: 7
     color: var(--question-text);
     line-height: 1.6;
 }
-pre { border-radius: 12px !important; margin: 0 !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+pre { border-radius: 12px !important; margin: 0 0 24px 0 !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
 code[class*="language-"], pre[class*="language-"] {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 14.5px !important;
     line-height: 1.6 !important;
+}
+
+/* Sample I/O Styling */
+.sample-io {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    border-top: 1px dashed var(--input-border);
+    padding-top: 24px;
+}
+.io-box {
+    flex: 1;
+    min-width: 250px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--input-border);
+}
+.io-box h4 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: #4f46e5;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+}
+.io-box pre {
+    background: var(--io-bg) !important;
+    color: var(--text-color) !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-shadow: none !important;
+    border: 1px solid var(--input-border);
+    font-size: 13.5px !important;
 }
 
 .note { 
@@ -192,6 +225,7 @@ code[class*="language-"], pre[class*="language-"] {
 
 .hidden { display: none !important; }
 .footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; font-weight: 500; }
+
 /* =========================================================
    PAGE TRANSITION
 ========================================================= */
@@ -199,58 +233,43 @@ code[class*="language-"], pre[class*="language-"] {
 #pageTransition{
     position:fixed;
     inset:0;
-
     z-index:99999;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     background:#080b12;
-
     opacity:1;
     visibility:visible;
-
     pointer-events:auto;
 }
 
 #pageTransitionContent{
     text-align:center;
-
     opacity:0;
     transform:translateY(14px);
 }
 
 #pageTransitionLabel{
     display:block;
-
     margin-bottom:10px;
-
     color:#818cf8;
-
     font-size:.75rem;
     font-weight:700;
-
     letter-spacing:.16em;
     text-transform:uppercase;
 }
 
 #pageTransitionTitle{
     color:#f8fafc;
-
     font-size:clamp(1.7rem,5vw,2.8rem);
-
     font-weight:700;
-
     letter-spacing:-.8px
 }
 
 #pageTransitionLine{
     width:0;
     height:1px;
-
     margin:15px auto 0;
-
     background:
         linear-gradient(
             90deg,
@@ -349,7 +368,26 @@ class RowColumnSum {
             System.out.println("Column " + (j+1) + " = " + s);
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Row 1 = 6
+Row 2 = 15
+Row 3 = 24
+Column 1 = 12
+Column 2 = 15
+Column 3 = 18</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q2" class="card hidden"><h2>Q2 — Largest and Smallest Element</h2><div class="question">Input a matrix and find the largest and smallest element along with their positions.</div><pre>import java.util.*;
 class MaxMin {
@@ -373,7 +411,21 @@ class MaxMin {
         System.out.println("Largest = "+max+" at "+(mr+1)+","+(mc+1));
         System.out.println("Smallest = "+min+" at "+(nr+1)+","+(nc+1));
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+10 20
+5 30</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Largest = 30 at 2,2
+Smallest = 5 at 2,1</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q3" class="card hidden"><h2>Q3 — Diagonal Operations</h2><div class="question">Input a square matrix. Find the sum of the principal diagonal, secondary diagonal and their difference.</div><pre>import java.util.*;
 class DiagonalSum {
@@ -394,7 +446,23 @@ class DiagonalSum {
         System.out.println("Secondary diagonal = "+s);
         System.out.println("Difference = "+Math.abs(p-s));
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Principal diagonal = 15
+Secondary diagonal = 15
+Difference = 0</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q4" class="card hidden"><h2>Q4 — Transpose</h2><div class="question">Input a matrix and display its transpose.</div><pre>import java.util.*;
 class Transpose {
@@ -412,7 +480,22 @@ class Transpose {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 3
+1 2 3
+4 5 6</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>1 4 
+2 5 
+3 6 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q5" class="card hidden"><h2>Q5 — Matrix Addition</h2><div class="question">Input two matrices of the same dimensions and display their sum.</div><pre>import java.util.*;
 class MatrixAddition {
@@ -433,7 +516,23 @@ class MatrixAddition {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+1 2
+3 4
+5 6
+7 8</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>6 8 
+10 12 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q6" class="card hidden"><h2>Q6 — Matrix Subtraction</h2><div class="question">Input two matrices of the same dimensions and display the result of subtracting the second matrix from the first.</div><pre>import java.util.*;
 class MatrixSubtraction {
@@ -454,7 +553,23 @@ class MatrixSubtraction {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+5 6
+7 8
+1 2
+3 4</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>4 4 
+4 4 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q7" class="card hidden"><h2>Q7 — Matrix Multiplication</h2><div class="question">Input two compatible matrices and display their product.</div><pre>import java.util.*;
 class MatrixMultiplication {
@@ -486,7 +601,24 @@ class MatrixMultiplication {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+2 2
+1 2
+3 4
+2 0
+1 2</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>4 4 
+10 8 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q8" class="card hidden"><h2>Q8 — Interchange Rows</h2><div class="question">Input a matrix and interchange the first row with the last row.</div><pre>import java.util.*;
 class InterchangeRows {
@@ -509,7 +641,23 @@ class InterchangeRows {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>7 8 9 
+4 5 6 
+1 2 3 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q9" class="card hidden"><h2>Q9 — Interchange Columns</h2><div class="question">Input a matrix and interchange the first column with the last column.</div><pre>import java.util.*;
 class InterchangeColumns {
@@ -532,7 +680,23 @@ class InterchangeColumns {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>3 2 1 
+6 5 4 
+9 8 7 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q10" class="card hidden"><h2>Q10 — Rotate Matrix 90° Clockwise</h2><div class="question">Input a square matrix and display the matrix after rotating it by 90° clockwise.</div><pre>import java.util.*;
 class Rotate90 {
@@ -549,7 +713,23 @@ class Rotate90 {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>7 4 1 
+8 5 2 
+9 6 3 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q11" class="card hidden"><h2>Q11 — Boundary Elements</h2><div class="question">Input a matrix and display only its boundary elements. Also find their sum.</div><pre>import java.util.*;
 class Boundary {
@@ -574,7 +754,24 @@ class Boundary {
         }
         System.out.println("Boundary sum = "+sum);
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>1 2 3 
+4   6 
+7 8 9 
+Boundary sum = 40</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q12" class="card hidden"><h2>Q12 — Upper Triangular Matrix</h2><div class="question">Input a square matrix and display only the elements above the main diagonal, replacing all other elements by 0.</div><pre>import java.util.*;
 class UpperTriangular {
@@ -593,7 +790,23 @@ class UpperTriangular {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>0 2 3 
+0 0 6 
+0 0 0 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q13" class="card hidden"><h2>Q13 — Lower Triangular Matrix</h2><div class="question">Input a square matrix and display only the elements below the main diagonal, replacing all other elements by 0.</div><pre>import java.util.*;
 class LowerTriangular {
@@ -612,7 +825,23 @@ class LowerTriangular {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>0 0 0 
+4 0 0 
+7 8 0 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q14" class="card hidden"><h2>Q14 — Symmetric Matrix</h2><div class="question">Input a square matrix and determine whether it is symmetric.</div><pre>import java.util.*;
 class Symmetric {
@@ -631,7 +860,21 @@ class Symmetric {
         if(flag) System.out.println("Symmetric Matrix");
         else System.out.println("Not a Symmetric Matrix");
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+2 4 5
+3 5 6</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Symmetric Matrix</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q15" class="card hidden"><h2>Q15 — Identity Matrix</h2><div class="question">Input a square matrix and check whether it is an identity matrix.</div><pre>import java.util.*;
 class Identity {
@@ -652,7 +895,21 @@ class Identity {
         if(flag) System.out.println("Identity Matrix");
         else System.out.println("Not an Identity Matrix");
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 0 0
+0 1 0
+0 0 1</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Identity Matrix</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q16" class="card hidden"><h2>Q16 — Sparse Matrix</h2><div class="question">Input a matrix and determine whether it is sparse. A matrix is sparse if the number of zeroes is greater than the number of non-zero elements.</div><pre>import java.util.*;
 class Sparse {
@@ -672,7 +929,20 @@ class Sparse {
         if(z&gt;nz) System.out.println("Sparse Matrix");
         else System.out.println("Not a Sparse Matrix");
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+0 0
+0 5</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Sparse Matrix</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q17" class="card hidden"><h2>Q17 — Row-wise Maximum</h2><div class="question">Input a matrix and display the largest element of every row along with the row number.</div><pre>import java.util.*;
 class RowMaximum {
@@ -692,7 +962,21 @@ class RowMaximum {
             System.out.println("Row "+(i+1)+" maximum = "+max);
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 3
+1 9 3
+8 2 4</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Row 1 maximum = 9
+Row 2 maximum = 8</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q18" class="card hidden"><h2>Q18 — Column-wise Minimum</h2><div class="question">Input a matrix and display the smallest element of every column along with the column number.</div><pre>import java.util.*;
 class ColumnMinimum {
@@ -712,7 +996,22 @@ class ColumnMinimum {
             System.out.println("Column "+(j+1)+" minimum = "+min);
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 3
+1 9 3
+8 2 4</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Column 1 minimum = 1
+Column 2 minimum = 2
+Column 3 minimum = 3</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q19" class="card hidden"><h2>Q19 — Interchange Diagonals</h2><div class="question">Input a square matrix and interchange its principal diagonal with its secondary diagonal.</div><pre>import java.util.*;
 class InterchangeDiagonals {
@@ -734,7 +1033,23 @@ class InterchangeDiagonals {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>3 2 1 
+4 5 6 
+9 8 7 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q20" class="card hidden"><h2>Q20 — Sort Each Row</h2><div class="question">Input a matrix and sort the elements of each row in ascending order.</div><pre>import java.util.*;
 class SortRows {
@@ -761,7 +1076,21 @@ class SortRows {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 3
+9 1 5
+4 8 2</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>1 5 9 
+2 4 8 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q21" class="card hidden"><h2>Q21 — Sort Each Column</h2><div class="question">Input a matrix and arrange the elements of each column in ascending order.</div><pre>import java.util.*;
 class SortColumns {
@@ -788,7 +1117,21 @@ class SortColumns {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 3
+9 1 5
+4 8 2</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>4 1 2 
+9 8 5 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q22" class="card hidden"><h2>Q22 — Sum of Even and Odd Elements</h2><div class="question">Input a matrix and separately calculate the sum of all even and odd elements.</div><pre>import java.util.*;
 class EvenOddSum {
@@ -808,7 +1151,21 @@ class EvenOddSum {
         System.out.println("Even sum = "+even);
         System.out.println("Odd sum = "+odd);
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+1 2
+3 4</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Even sum = 6
+Odd sum = 4</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q23" class="card hidden"><h2>Q23 — Count Elements</h2><div class="question">Input a matrix and count positive elements, negative elements and zeroes.</div><pre>import java.util.*;
 class CountElements {
@@ -830,7 +1187,22 @@ class CountElements {
         System.out.println("Negative = "+n);
         System.out.println("Zeroes = "+z);
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2 2
+1 -5
+0 8</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Positive = 2
+Negative = 1
+Zeroes = 1</pre>
+        </div>
+    </div>
+</div>
 
 <div id="q24" class="card hidden"><h2>Q24 — Rotate Matrix 180°</h2><div class="question">Input a square matrix and display the matrix after rotating it by 180°.</div><pre>import java.util.*;
 class Rotate180 {
@@ -847,7 +1219,21 @@ class Rotate180 {
             System.out.println();
         }
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>2
+1 2
+3 4</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>4 3 
+2 1 </pre>
+        </div>
+    </div>
+</div>
 
 <div id="q25" class="card hidden"><h2>Q25 — Saddle Point</h2><div class="question">Input a matrix and find the saddle point, if present. A saddle point is an element that is the smallest in its row but largest in its column.</div><pre>import java.util.*;
 class SaddlePoint {
@@ -883,7 +1269,21 @@ class SaddlePoint {
 
         if(!found) System.out.println("No saddle point");
     }
-}</pre></div>
+}</pre>
+    <div class="sample-io">
+        <div class="io-box">
+            <h4>Sample Input</h4>
+            <pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre>
+        </div>
+        <div class="io-box">
+            <h4>Sample Output</h4>
+            <pre>Saddle point = 7</pre>
+        </div>
+    </div>
+</div>
 </div>
 
 <div class="footer">2D Array Operations • Java Practice • Questions + Solutions</div>
@@ -895,11 +1295,14 @@ class SaddlePoint {
 <script>
 // Format code blocks for Prism.js
 document.querySelectorAll('pre').forEach(pre => {
-    const code = document.createElement('code');
-    code.className = 'language-java';
-    code.innerHTML = pre.innerHTML;
-    pre.innerHTML = '';
-    pre.appendChild(code);
+    // Only format code blocks, not our newly added I/O blocks
+    if(!pre.closest('.io-box')) {
+        const code = document.createElement('code');
+        code.className = 'language-java';
+        code.innerHTML = pre.innerHTML;
+        pre.innerHTML = '';
+        pre.appendChild(code);
+    }
 });
 Prism.highlightAll();
 
@@ -910,7 +1313,7 @@ themeBtn.addEventListener('click', () => {
     themeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
 });
 
-// Search Logic
+// Search Logic & GSAP Animations
 const searchInput = document.getElementById('searchInput');
 const allCards = document.querySelectorAll('.card');
 
@@ -921,14 +1324,25 @@ searchInput.addEventListener('input', (e) => {
     if (query === '') {
         const activeTabBtn = document.querySelector('.tab.active');
         if (activeTabBtn) {
-            const activeId = activeTabBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
-            allCards.forEach(card => card.classList.add('hidden'));
-            document.getElementById(activeId).classList.remove('hidden');
+            // Find which tab is active based on its onclick handler
+            const match = activeTabBtn.getAttribute('onclick').match(/'([^']+)'/);
+            if (match) {
+                const activeId = match[1];
+                allCards.forEach(card => card.classList.add('hidden'));
+                const activeCard = document.getElementById(activeId);
+                activeCard.classList.remove('hidden');
+                
+                gsap.fromTo(activeCard, 
+                    { opacity: 0, y: 15 }, 
+                    { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+                );
+            }
         }
         return;
     }
 
     // Filter matching cards and display them simultaneously
+    let visibleCards = [];
     allCards.forEach(card => {
         if (card.id === 'home') {
             card.classList.add('hidden');
@@ -937,11 +1351,22 @@ searchInput.addEventListener('input', (e) => {
         
         const cardText = card.textContent.toLowerCase();
         if (cardText.includes(query)) {
-            card.classList.remove('hidden');
+            if(card.classList.contains('hidden')){
+                card.classList.remove('hidden');
+                visibleCards.push(card);
+            }
         } else {
             card.classList.add('hidden');
         }
     });
+
+    // GSAP Stagger animation for search results
+    if (visibleCards.length > 0) {
+        gsap.fromTo(visibleCards, 
+            { opacity: 0, y: 20 }, 
+            { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power2.out" }
+        );
+    }
 });
 
 // Tab switching logic
@@ -950,9 +1375,18 @@ function showTab(id, btn) {
     searchInput.value = '';
     
     allCards.forEach(x => x.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
+    
+    const targetCard = document.getElementById(id);
+    targetCard.classList.remove('hidden');
+    
     document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
     btn.classList.add('active');
+    
+    // GSAP Animation for tab content
+    gsap.fromTo(targetCard,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+    );
     
     // Slight delay to allow display change before scrolling
     setTimeout(() => window.scrollTo({top: 0, behavior: 'smooth'}), 10);
@@ -1068,7 +1502,12 @@ function playIncomingTransition(){
                         pointerEvents:"none"
                     }
                 );
-
+                
+                // Animate the home card immediately after transition
+                gsap.fromTo("#home",
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+                );
             }
         }
     );

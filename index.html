@@ -1,1469 +1,643 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
- 
-<title>Computers ISC Class 12 2026 — Nav Hub</title>
-
-<!-- GSAP -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-
-<style>
-    :root {
-        --bg: #070910;
-
-        --glass: rgba(16, 20, 35, 0.68);
-        --glass-hover: rgba(23, 28, 48, 0.82);
-
-        --border: rgba(255, 255, 255, 0.085);
-        --border-hover: rgba(129, 140, 248, 0.42);
-
-        --text: #f8fafc;
-        --muted: #94a3b8;
-
-        --accent: #6366f1;
-        --accent-2: #a855f7;
-
-        --shadow:
-            0 35px 90px rgba(0, 0, 0, 0.55),
-            inset 0 1px 0 rgba(255, 255, 255, 0.07);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-
-        font-family:
-            Inter,
-            "Segoe UI",
-            Roboto,
-            -apple-system,
-            BlinkMacSystemFont,
-            sans-serif;
-    }
-
-    html,
-    body {
-        width: 100%;
-        min-height: 100%;
-    }
-
-    body {
-        min-height: 100vh;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        color: var(--text);
-
-        background:
-            radial-gradient(
-                circle at 50% 0%,
-                rgba(99, 102, 241, 0.10),
-                transparent 35%
-            ),
-            var(--bg);
-
-        overflow-x: hidden;
-        position: relative;
-    }
-
-    /* =========================================================
-       BACKGROUND
-    ========================================================= */
-
-    .background {
-        position: fixed;
-        inset: 0;
-
-        overflow: hidden;
-        pointer-events: none;
-
-        z-index: 0;
-    }
-
-    .grid {
-        position: absolute;
-        inset: 0;
-
-        background-image:
-            linear-gradient(
-                rgba(255,255,255,0.025) 1px,
-                transparent 1px
-            ),
-            linear-gradient(
-                90deg,
-                rgba(255,255,255,0.025) 1px,
-                transparent 1px
-            );
-
-        background-size: 45px 45px;
-
-        mask-image:
-            linear-gradient(
-                to bottom,
-                black 0%,
-                transparent 85%
-            );
-    }
-
-    .glow {
-        position: absolute;
-
-        border-radius: 50%;
-
-        filter: blur(100px);
-    }
-
-    .glow-1 {
-        width: 500px;
-        height: 500px;
-
-        left: -140px;
-        top: -120px;
-
-        background: rgba(99, 102, 241, 0.18);
-    }
-
-    .glow-2 {
-        width: 480px;
-        height: 480px;
-
-        right: -150px;
-        bottom: -140px;
-
-        background: rgba(168, 85, 247, 0.15);
-    }
-
-    .glow-3 {
-        width: 350px;
-        height: 350px;
-
-        left: 50%;
-        top: 50%;
-
-        transform: translate(-50%, -50%);
-
-        background: rgba(56, 189, 248, 0.06);
-    }
-
-    /* =========================================================
-       MAIN CARD
-    ========================================================= */
-
-    .menu-container {
-        position: relative;
-        z-index: 2;
-
-        width: min(92vw, 480px);
-        max-height: 92vh;
-
-        padding: 34px;
-
-        background:
-            linear-gradient(
-                145deg,
-                rgba(255,255,255,0.045),
-                rgba(255,255,255,0.012)
-            ),
-            var(--glass);
-
-        border: 1px solid var(--border);
-        border-radius: 28px;
-
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-
-        box-shadow: var(--shadow);
-
-        display: flex;
-        flex-direction: column;
-
-        overflow: hidden;
-    }
-
-    .menu-container::before {
-        content: "";
-
-        position: absolute;
-        inset: 0;
-
-        background:
-            linear-gradient(
-                120deg,
-                rgba(255,255,255,0.05),
-                transparent 30%
-            );
-
-        pointer-events: none;
-    }
-
-    /* =========================================================
-       HEADER
-    ========================================================= */
-
-    .header {
-        position: relative;
-        z-index: 1;
-
-        text-align: center;
-    }
-
-    .header-badge {
-        width: 48px;
-        height: 48px;
-
-        margin: 0 auto 16px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 15px;
-
-        background:
-            linear-gradient(
-                135deg,
-                rgba(99, 102, 241, 0.22),
-                rgba(168, 85, 247, 0.18)
-            );
-
-        border: 1px solid rgba(129, 140, 248, 0.25);
-
-        box-shadow:
-            0 0 35px rgba(99, 102, 241, 0.18),
-            inset 0 1px rgba(255,255,255,0.08);
-
-        color: #c7d2fe;
-
-        font-size: 20px;
-    }
-
-    .header h1 {
-        font-size: clamp(1.65rem, 5vw, 2.15rem);
-
-        font-weight: 750;
-
-        line-height: 1.12;
-
-        letter-spacing: -0.8px;
-
-        background:
-            linear-gradient(
-                135deg,
-                #ffffff 15%,
-                #dbeafe 50%,
-                #a5b4fc 100%
-            );
-
-        -webkit-background-clip: text;
-        background-clip: text;
-
-        -webkit-text-fill-color: transparent;
-    }
-
-    .header p {
-        margin-top: 10px;
-        margin-bottom: 28px;
-
-        color: var(--muted);
-
-        font-size: 0.93rem;
-    }
-
-    /* =========================================================
-       MENU
-    ========================================================= */
-
-    .menu-list {
-        position: relative;
-        z-index: 1;
-
-        display: flex;
-        flex-direction: column;
-
-        gap: 12px;
-
-        max-height: 55vh;
-
-        overflow-y: auto;
-
-        padding: 3px 5px 6px 1px;
-
-        scrollbar-width: thin;
-
-        scrollbar-color:
-            rgba(255,255,255,0.14)
-            transparent;
-    }
-
-    .menu-list::-webkit-scrollbar {
-        width: 5px;
-    }
-
-    .menu-list::-webkit-scrollbar-thumb {
-        background: rgba(255,255,255,0.12);
-        border-radius: 99px;
-    }
-
-    /* =========================================================
-       MENU ITEM
-    ========================================================= */
-
-    .menu-item {
-        position: relative;
-
-        display: flex;
-        align-items: center;
-
-        min-height: 70px;
-
-        padding: 14px 16px;
-
-        text-decoration: none;
-        color: var(--text);
-
-        border-radius: 18px;
-
-        background:
-            linear-gradient(
-                135deg,
-                rgba(255,255,255,0.042),
-                rgba(255,255,255,0.016)
-            );
-
-        border: 1px solid var(--border);
-
-        overflow: hidden;
-
-        transform-origin: center;
-
-        transition:
-            background 0.25s ease,
-            border-color 0.25s ease,
-            box-shadow 0.25s ease;
-    }
-
-    .menu-item:hover {
-        background: var(--glass-hover);
-
-        border-color: var(--border-hover);
-
-        box-shadow:
-            0 18px 45px rgba(0,0,0,0.25),
-            0 0 30px rgba(99,102,241,0.08);
-    }
-
-    .menu-item::before {
-        content: "";
-
-        position: absolute;
-
-        top: 0;
-        left: -100%;
-
-        width: 70%;
-        height: 100%;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                rgba(255,255,255,0.07),
-                transparent
-            );
-
-        transform: skewX(-20deg);
-
-        transition: left 0.65s ease;
-
-        pointer-events: none;
-    }
-
-    .menu-item:hover::before {
-        left: 140%;
-    }
-
-    .menu-item::after {
-        content: "";
-
-        position: absolute;
-
-        width: 180px;
-        height: 180px;
-
-        left: var(--mouse-x, 50%);
-        top: var(--mouse-y, 50%);
-
-        transform: translate(-50%, -50%);
-
-        background:
-            radial-gradient(
-                circle,
-                rgba(99,102,241,0.12),
-                transparent 70%
-            );
-
-        opacity: 0;
-
-        transition: opacity 0.25s ease;
-
-        pointer-events: none;
-    }
-
-    .menu-item:hover::after {
-        opacity: 1;
-    }
-
-    .badge {
-        position: relative;
-        z-index: 1;
-
-        width: 42px;
-        height: 42px;
-
-        flex-shrink: 0;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        margin-right: 15px;
-
-        border-radius: 12px;
-
-        color: #a5b4fc;
-
-        background:
-            rgba(99,102,241,0.11);
-
-        border: 1px solid rgba(99,102,241,0.2);
-
-        font-weight: 700;
-
-        box-shadow:
-            inset 0 1px rgba(255,255,255,0.04);
-
-        transition:
-            background 0.3s ease,
-            color 0.3s ease,
-            box-shadow 0.3s ease;
-    }
-
-    .menu-item:hover .badge {
-        color: white;
-
-        background:
-            linear-gradient(
-                135deg,
-                var(--accent),
-                var(--accent-2)
-            );
-
-        border-color: transparent;
-
-        box-shadow:
-            0 0 25px rgba(99,102,241,0.38);
-    }
-
-    .menu-content {
-        position: relative;
-        z-index: 1;
-
-        min-width: 0;
-
-        flex: 1;
-    }
-
-    .title {
-        display: block;
-
-        font-size: 1rem;
-
-        font-weight: 650;
-
-        letter-spacing: 0.1px;
-
-        overflow: hidden;
-
-        white-space: nowrap;
-
-        text-overflow: ellipsis;
-    }
-
-    .subtitle {
-        display: block;
-
-        margin-top: 3px;
-
-        color: #64748b;
-
-        font-size: 0.76rem;
-    }
-
-    .arrow {
-        position: relative;
-        z-index: 1;
-
-        width: 21px;
-        height: 21px;
-
-        flex-shrink: 0;
-
-        margin-left: 12px;
-
-        fill: none;
-
-        stroke: #64748b;
-
-        stroke-width: 2;
-
-        stroke-linecap: round;
-        stroke-linejoin: round;
-
-        transition:
-            transform 0.3s ease,
-            stroke 0.3s ease;
-    }
-
-    .menu-item:hover .arrow {
-        transform: translateX(5px);
-
-        stroke: #fff;
-    }
-
-    /* =========================================================
-       PAGE TRANSITION
-    ========================================================= */
-
-    .page-transition {
-        position: fixed;
-
-        inset: 0;
-
-        z-index: 1000;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        background:
-            rgba(5, 6, 11, 0.97);
-
-        pointer-events: none;
-
-        visibility: hidden;
-
-        opacity: 0;
-    }
-
-    .transition-content {
-        position: relative;
-
-        z-index: 2;
-
-        text-align: center;
-
-        opacity: 0;
-    }
-
-    .transition-number {
-        display: block;
-
-        margin-bottom: 10px;
-
-        color: #818cf8;
-
-        font-size: 0.75rem;
-
-        font-weight: 700;
-
-        letter-spacing: 0.16em;
-
-        text-transform: uppercase;
-    }
-
-    .transition-title {
-        font-size:
-            clamp(1.8rem, 6vw, 3rem);
-
-        font-weight: 750;
-
-        letter-spacing: -1px;
-
-        color: #f8fafc;
-    }
-
-    .transition-line {
-        width: 0;
-
-        height: 1px;
-
-        margin: 16px auto 0;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                rgba(129,140,248,0.8),
-                transparent
-            );
-    }
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 560px) {
+    <title>Computers ISC Class 12 2026 — Nav Hub</title>
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        :root {
+            --bg: #070910;
+            --glass: rgba(16, 20, 35, 0.68);
+            --glass-hover: rgba(23, 28, 48, 0.82);
+            --border: rgba(255, 255, 255, 0.085);
+            --border-hover: rgba(129, 140, 248, 0.42);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #6366f1;
+            --accent-2: #a855f7;
+            --shadow: 0 35px 90px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+        }
 
         body {
-            align-items: flex-start;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.10), transparent 35%), var(--bg);
+            overflow-x: hidden;
+            position: relative;
+        }
 
-            padding-top: 4vh;
-            padding-bottom: 4vh;
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 45px 45px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+        }
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+        }
+
+        .glow-1 { width: 500px; height: 500px; left: -140px; top: -120px; background: rgba(99, 102, 241, 0.18); }
+        .glow-2 { width: 480px; height: 480px; right: -150px; bottom: -140px; background: rgba(168, 85, 247, 0.15); }
+        .glow-3 { width: 350px; height: 350px; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(56, 189, 248, 0.06); }
+
+        .cards-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 32px;
+            z-index: 2;
         }
 
         .menu-container {
-            width: 94vw;
+            width: min(92vw, 460px);
+            max-height: 90vh;
+            padding: 32px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)), var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #gmailCard {
+            position: absolute;
+            pointer-events: none;
+            width: min(94vw, 520px);
+            max-height: 94vh;
+            padding: 34px 32px;
+        }
 
-            padding: 27px 20px;
+        .header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
 
-            border-radius: 23px;
+        .header-badge {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(168, 85, 247, 0.18));
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.18), inset 0 1px rgba(255,255,255,0.08);
+            color: #c7d2fe;
+            font-size: 20px;
+        }
+
+        .header h1 {
+            font-size: clamp(1.55rem, 4.5vw, 2rem);
+            font-weight: 750;
+            line-height: 1.12;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #ffffff 15%, #dbeafe 50%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            margin-top: 8px;
+            margin-bottom: 20px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Gmail Category / Label Pills */
+        .gmail-tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            scrollbar-width: none;
+        }
+        .gmail-tabs::-webkit-scrollbar { display: none; }
+        
+        .pill {
+            padding: 5px 12px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .pill.active, .pill:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.4);
+            color: #c7d2fe;
         }
 
         .menu-list {
-            max-height: 70vh;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 56vh;
+            overflow-y: auto;
+            padding: 3px 5px 6px 1px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.14) transparent;
         }
 
         .menu-item {
-            min-height: 64px;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            min-height: 72px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--text);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.042), rgba(255,255,255,0.016));
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+        }
 
-            padding: 12px 13px;
+        .menu-item:hover {
+            background: var(--glass-hover);
+            border-color: var(--border-hover);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.25), 0 0 30px rgba(99,102,241,0.08);
         }
 
         .badge {
-            width: 38px;
-            height: 38px;
-
-            margin-right: 12px;
+            position: relative;
+            z-index: 1;
+            width: 42px; height: 42px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            border-radius: 12px;
+            color: #a5b4fc;
+            background: rgba(99,102,241,0.11);
+            border: 1px solid rgba(99,102,241,0.2);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 2px;
         }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-
-        *,
-        *::before,
-        *::after {
-            scroll-behavior: auto !important;
+        .menu-content {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+            flex: 1;
         }
-    }
-</style>
- 
 
+        .title {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 650;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .subtitle {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .arrow {
+            width: 20px; height: 20px;
+            flex-shrink: 0;
+            margin-left: 12px;
+            margin-top: 10px;
+            fill: none;
+            stroke: #64748b;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 6, 11, 0.97);
+            pointer-events: none;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .transition-content { position: relative; z-index: 2; text-align: center; opacity: 0; }
+        .transition-number { display: block; margin-bottom: 10px; color: #818cf8; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+        .transition-title { font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 750; color: #f8fafc; }
+        .transition-line { width: 0; height: 1px; margin: 16px auto 0; background: linear-gradient(90deg, transparent, rgba(129,140,248,0.8), transparent); }
+
+        @media (max-width: 768px) {
+            body { align-items: flex-start; padding: 3vh 0; }
+            .cards-wrapper { flex-direction: column; gap: 20px; }
+            .menu-container, #gmailCard { position: relative !important; width: 94vw !important; transform: none !important; }
+        }
+    </style>
 </head>
-
 <body>
 
- 
-<!-- =========================================================
-     BACKGROUND
-========================================================= -->
-
 <div class="background">
-
     <div class="grid"></div>
-
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
     <div class="glow glow-3"></div>
-
 </div>
 
+<div class="cards-wrapper">
+    <!-- MAIN NAV CARD -->
+    <main class="menu-container" id="navCard">
+        <header class="header">
+            <div class="header-badge">✦</div>
+            <h1>Nav Hub For All Essentials ISC Computer Science</h1>
+            <p>ISC Class 12 • 2026</p>
+        </header>
+        <nav class="menu-list" id="menuList" aria-label="Computer resources"></nav>
+    </main>
 
-<!-- =========================================================
-     MAIN CARD
-========================================================= -->
+    <!-- GMAIL CARD -->
+    <main class="menu-container" id="gmailCard">
+        <header class="header">
+            <div class="header-badge" style="background: linear-gradient(135deg, #ef4444 0%, #f97316 100%); color: white; border-color: #fca5a5;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <h1>Live Inbox</h1>
+            <p id="gmailStatusText" style="cursor: pointer;" onclick="triggerAuth()">Click here to log in & sync Gmail</p>
+        </header>
 
-<main class="menu-container">
-
-    <header class="header">
-
-        <div class="header-badge">
-            ✦
+        <div class="gmail-tabs" id="gmailTabs">
+            <span class="pill active" data-query="in:inbox -label:Algorithms -label:Assignments-12th -label:notes -label:Worksheets-12th">Primary</span>
+            <span class="pill" data-query="label:Assignments-12th">Assignments-12th</span>
+            <span class="pill" data-query="label:Algorithms">Algorithms</span>
+            <span class="pill" data-query="label:notes">Notes</span>
+            <span class="pill" data-query="label:Worksheets-12th">Worksheets-12th</span>
         </div>
+        
+        <nav class="menu-list" id="gmailList" aria-label="Recent Emails">
+            <a href="#" class="menu-item" onclick="triggerAuth(); return false;">
+                <div class="badge" style="background:rgba(239,68,68,0.2); color:#ef4444;">i</div>
+                <div class="menu-content">
+                    <span class="title">Authentication Required</span>
+                    <span class="subtitle">Click here to connect your Google account</span>
+                </div>
+            </a>
+        </nav>
+    </main>
+</div>
 
-        <h1>
-            Nav Hub For All Essentials ISC Computer Science
-        </h1>
-
-        <p>
-            ISC Class 12 • 2026
-        </p>
-
-    </header>
-
-
-    <nav
-        class="menu-list"
-        id="menuList"
-        aria-label="Computer resources"
-    ></nav>
-
-</main>
-
-
-<!-- =========================================================
-     PAGE TRANSITION
-========================================================= -->
-
-<div
-    class="page-transition"
-    id="pageTransition"
-    aria-hidden="true"
->
-
-    <div
-        class="transition-content"
-        id="transitionContent"
-    >
-
-        <span
-            class="transition-number"
-            id="transitionNumber"
-        >
-            OPENING
-        </span>
-
-        <div
-            class="transition-title"
-            id="transitionTitle"
-        >
-            Loading...
-        </div>
-
-        <div
-            class="transition-line"
-            id="transitionLine"
-        ></div>
-
+<div class="page-transition" id="pageTransition" aria-hidden="true">
+    <div class="transition-content" id="transitionContent">
+        <span class="transition-number" id="transitionNumber">OPENING</span>
+        <div class="transition-title" id="transitionTitle">Loading...</div>
+        <div class="transition-line" id="transitionLine"></div>
     </div>
-
 </div>
-
 
 <script>
-
-    /* =========================================================
-       MENU ENTRIES
-       
-       Add more pages here.
-    ========================================================= */
-
     const defaultItems = [
-
-        {
-            title: "Recursion Programs",
-            url: "recursionprogs"
-        },
-
-        {
-            title: "Row & Column Major Memory Address Calculations",
-            url: "memaddress"
-        },
-
-        {
-            title: "Recursion Basics",
-            url: "recursion"
-        },
-
-        {
-            title: "2D Array Operations Questions",
-            url: "2darrayop"
-        },
-        {
-            title: "Recursion Notebook(Summary And Example Codes)",
-            url: "recursionbook"
-        }
-        /*
-         * Example:
-         *
-         * {
-         *     title: "Loops",
-         *     url: "loops"
-         * }
-         */
+        { title: "Recursion Programs", url: "recursionprogs" },
+        { title: "Row & Column Major Memory Address Calculations", url: "memaddress" },
+        { title: "Recursion Basics", url: "recursion" },
+        { title: "2D Array Operations Questions", url: "2darrayop" },
+        { title: "Recursion Notebook(Summary And Example Codes)", url: "recursionbook" }
     ];
 
-
-    /* =========================================================
-       ELEMENTS
-    ========================================================= */
-
-    const container =
-        document.getElementById("menuList");
-
-    const pageTransition =
-        document.getElementById("pageTransition");
-
-    const transitionContent =
-        document.getElementById("transitionContent");
-
-    const transitionTitle =
-        document.getElementById("transitionTitle");
-
-    const transitionNumber =
-        document.getElementById("transitionNumber");
-
-    const transitionLine =
-        document.getElementById("transitionLine");
-
-
-    /* =========================================================
-       INITIAL GSAP STATE
-    ========================================================= */
-
-    gsap.set(
-        ".menu-container",
-        {
-            opacity: 0,
-            y: 30,
-            scale: 0.98
-        }
-    );
-
-    gsap.set(
-        ".header > *",
-        {
-            opacity: 0,
-            y: 16
-        }
-    );
-
-
-    /* =========================================================
-       RESET TRANSITION
-       
-       This is the important Back-button fix.
-    ========================================================= */
-
-    function resetPageTransition() {
-
-        gsap.killTweensOf(
-            [
-                pageTransition,
-                transitionContent,
-                transitionLine
-            ]
-        );
-
-        gsap.set(
-            pageTransition,
-            {
-                opacity: 0,
-                visibility: "hidden",
-                pointerEvents: "none"
-            }
-        );
-
-        gsap.set(
-            transitionContent,
-            {
-                opacity: 0,
-                y: 20,
-                scale: 0.98
-            }
-        );
-
-        gsap.set(
-            transitionLine,
-            {
-                width: 0
-            }
-        );
-
-        /*
-         * Re-enable the page.
-         */
-        document.body.style.pointerEvents =
-            "";
-
-        document.body.style.overflow =
-            "";
-    }
-
-
-    /*
-     * pageshow fires when:
-     *
-     * - the page loads normally
-     * - the browser restores it from bfcache
-     * - the user presses Back
-     * - the user presses Forward
-     *
-     * This prevents the transition overlay from
-     * remaining stuck after Back.
-     */
-    window.addEventListener(
-        "pageshow",
-        () => {
-
-            resetPageTransition();
-        }
-    );
-
-
-    /* =========================================================
-       RENDER MENU
-    ========================================================= */
-
-    function renderMenu() {
-
-        container.innerHTML = "";
-
-
-        defaultItems.forEach(
-            (item, index) => {
-
-                const menuItem =
-                    document.createElement("a");
-
-
-                menuItem.href =
-                    item.url;
-
-
-                menuItem.className =
-                    "menu-item";
-
-
-                menuItem.dataset.index =
-                    index;
-
-
-                menuItem.innerHTML = `
-
-                    <div class="badge">
-                        ${String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <div class="menu-content">
-
-                        <span class="title">
-                            ${escapeHTML(item.title)}
-                        </span>
-
-                        <span class="subtitle">
-                            Open resource
-                        </span>
-
-                    </div>
-
-                    <svg
-                        class="arrow"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            d="M5 12h14M12 5l7 7-7 7"
-                        ></path>
-
-                    </svg>
-
-                `;
-
-
-                container.appendChild(
-                    menuItem
-                );
-            }
-        );
-
-
-        /*
-         * Animate menu entries.
-         */
-        gsap.fromTo(
-            ".menu-item",
-            {
-                opacity: 0,
-                y: 16,
-                scale: 0.985
-            },
-            {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-
-                duration: 0.5,
-
-                stagger: 0.07,
-
-                ease: "power3.out"
-            }
-        );
-
-
-        setupMenuInteractions();
-    }
-
-
-    /* =========================================================
-       MENU INTERACTIONS
-    ========================================================= */
-
-    function setupMenuInteractions() {
-
-        const items =
-            document.querySelectorAll(
-                ".menu-item"
-            );
-
-
-        items.forEach(
-            (item) => {
-
-                item.addEventListener(
-                    "mousemove",
-                    (event) => {
-
-                        const rect =
-                            item.getBoundingClientRect();
-
-
-                        const x =
-                            event.clientX -
-                            rect.left;
-
-
-                        const y =
-                            event.clientY -
-                            rect.top;
-
-
-                        item.style.setProperty(
-                            "--mouse-x",
-                            `${x}px`
-                        );
-
-
-                        item.style.setProperty(
-                            "--mouse-y",
-                            `${y}px`
-                        );
-
-
-                        /*
-                         * Very subtle 3D movement.
-                         */
-                        const rotateX =
-                            ((y / rect.height) - 0.5)
-                            * -2.5;
-
-
-                        const rotateY =
-                            ((x / rect.width) - 0.5)
-                            * 2.5;
-
-
-                        gsap.to(
-                            item,
-                            {
-                                rotateX,
-                                rotateY,
-
-                                duration: 0.25,
-
-                                ease: "power2.out",
-
-                                overwrite: true,
-
-                                transformPerspective: 800
-                            }
-                        );
-                    }
-                );
-
-
-                item.addEventListener(
-                    "mouseleave",
-                    () => {
-
-                        gsap.to(
-                            item,
-                            {
-                                rotateX: 0,
-                                rotateY: 0,
-
-                                duration: 0.3,
-
-                                ease: "power3.out"
-                            }
-                        );
-                    }
-                );
-
-
-                /*
-                 * Click → transition → page.
-                 */
-                item.addEventListener(
-                    "click",
-                    (event) => {
-
-                        /*
-                         * Keep Ctrl/Cmd/Shift/Alt clicks
-                         * behaving like normal links.
-                         */
-                        if (
-                            event.ctrlKey ||
-                            event.metaKey ||
-                            event.shiftKey ||
-                            event.altKey
-                        ) {
-                            return;
-                        }
-
-
-                        event.preventDefault();
-
-
-                        const index =
-                            Number(
-                                item.dataset.index
-                            );
-
-
-                        startPageTransition(
-                            item,
-                            defaultItems[index]
-                        );
-                    }
-                );
-            }
-        );
-    }
-
-
-    /* =========================================================
-       SUBTLE PAGE TRANSITION
-    ========================================================= */
-
-    function startPageTransition(
-        clickedItem,
-        menuItem
-    ) {
-
-        if (!menuItem) {
+    let tokenClient;
+    let accessToken = localStorage.getItem('gmail_access_token');
+    let currentQuery = 'in:inbox -label:Algorithms -label:Assignments-12th -label:notes -label:Worksheets-12th';
+
+    function initGoogleAuth() {
+        if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
+            setTimeout(initGoogleAuth, 150);
             return;
         }
 
-
-        /*
-         * Disable interaction during transition.
-         */
-        document.body.style.pointerEvents =
-            "none";
-
-
-        document.body.style.overflow =
-            "hidden";
-
-
-        transitionTitle.textContent =
-            menuItem.title;
-
-
-        transitionNumber.textContent =
-            `RESOURCE ${String(
-                defaultItems.indexOf(menuItem) + 1
-            ).padStart(2, "0")}`;
-
-
-        pageTransition.style.visibility =
-            "visible";
-
-
-        pageTransition.style.pointerEvents =
-            "auto";
-
-
-        /*
-         * Reset transition elements before playing.
-         */
-        gsap.set(
-            pageTransition,
-            {
-                opacity: 0
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: '1018282561560-15nchhofjcd7q4lg1ep1s60gj6q2uhs6.apps.googleusercontent.com',
+            scope: 'https://www.googleapis.com/auth/gmail.readonly',
+            callback: (response) => {
+                if (response.error) {
+                    console.error("Auth Error:", response);
+                    document.getElementById('gmailStatusText').textContent = "Auth Error: Check Console";
+                    return;
+                }
+                accessToken = response.access_token;
+                localStorage.setItem('gmail_access_token', accessToken);
+                fetchUserEmails(accessToken, currentQuery);
             }
-        );
+        });
 
-
-        gsap.set(
-            transitionContent,
-            {
-                opacity: 0,
-                y: 18,
-                scale: 0.985
-            }
-        );
-
-
-        gsap.set(
-            transitionLine,
-            {
-                width: 0
-            }
-        );
-
-
-        const tl =
-            gsap.timeline();
-
-
-        /*
-         * Subtle press on selected item.
-         */
-        tl.to(
-            clickedItem,
-            {
-                scale: 0.975,
-
-                duration: 0.12,
-
-                ease: "power2.out"
-            }
-        );
-
-
-        /*
-         * Simple dark fade.
-         */
-        tl.to(
-            pageTransition,
-            {
-                opacity: 1,
-
-                duration: 0.28,
-
-                ease: "power2.inOut"
-            }
-        );
-
-
-        /*
-         * Title appears.
-         */
-        tl.to(
-            transitionContent,
-            {
-                opacity: 1,
-
-                y: 0,
-
-                scale: 1,
-
-                duration: 0.4,
-
-                ease: "power3.out"
-            },
-            "-=0.08"
-        );
-
-
-        /*
-         * Small loading line.
-         */
-        tl.to(
-            transitionLine,
-            {
-                width: 130,
-
-                duration: 0.3,
-
-                ease: "power2.out"
-            },
-            "-=0.18"
-        );
-
-
-        /*
-         * Brief pause.
-         */
-        tl.to(
-            {},
-            {
-                duration: 0.22
-            }
-        );
-
-
-        /*
-         * Navigate.
-         *
-         * Relative URLs work directly on:
-         *
-         * https://username.github.io/
-         */
-        tl.call(
-            () => {
-
-                window.location.href =
-                    menuItem.url;
-
-            }
-        );
+        if (accessToken) {
+            fetchUserEmails(accessToken, currentQuery);
+        }
     }
 
+    function triggerAuth() {
+        if (!tokenClient) {
+            alert("Google login client is still initializing. Please wait a second and try again.");
+            return;
+        }
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+    }
 
-    /* =========================================================
-       SAFE HTML
-    ========================================================= */
+    async function fetchUserEmails(token, query = '') {
+        try {
+            document.getElementById('gmailStatusText').textContent = "Syncing live inbox...";
+            let url = 'https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=15';
+            if (query) {
+                url += `&q=${encodeURIComponent(query)}`;
+            }
 
-    function escapeHTML(value) {
+            const listRes = await fetch(url, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            if (!listRes.ok) {
+                const errData = await listRes.json();
+                throw new Error(errData.error?.message || 'Failed to fetch messages');
+            }
+            
+            const data = await listRes.json();
+            const emailListContainer = document.getElementById('gmailList');
+            emailListContainer.innerHTML = ''; 
 
-        const div =
-            document.createElement(
-                "div"
+            if (!data.messages || data.messages.length === 0) {
+                document.getElementById('gmailStatusText').textContent = "No messages found for this filter";
+                emailListContainer.innerHTML = `
+                    <div class="menu-item" style="cursor: default;">
+                        <div class="badge" style="background:rgba(99,102,241,0.2); color:#818cf8;">∅</div>
+                        <div class="menu-content">
+                            <span class="title">No Emails Found</span>
+                            <span class="subtitle">Try selecting a different label tab above.</span>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('gmailStatusText').textContent = "Inbox synced successfully";
+
+            // Deduplicate message IDs to prevent double entries from overlapping filters
+            const uniqueMessages = Array.from(
+                new Map(data.messages.map(msg => [msg.id, msg])).values()
             );
 
+            for (const msg of uniqueMessages) {
+                const detailRes = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=metadata&metadataHeaders=Subject&metadataHeaders=From`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const detail = await detailRes.json();
+                const headers = detail.payload.headers;
+                
+                const subjectHeader = headers.find(h => h.name === 'Subject');
+                const fromHeader = headers.find(h => h.name === 'From');
+                
+                const subject = subjectHeader ? subjectHeader.value : 'No Subject';
+                const sender = fromHeader ? fromHeader.value.split('<')[0].trim() : 'Unknown';
+                const snippet = detail.snippet || 'Click to view full message in Gmail...';
+                const badgeChar = sender.charAt(0).toUpperCase();
 
-        div.textContent =
-            value;
+                const emailItem = document.createElement('a');
+                emailItem.href = `https://mail.google.com/mail/u/0/#inbox/${msg.id}`;
+                emailItem.target = "_blank";
+                emailItem.rel = "noopener noreferrer";
+                emailItem.className = "menu-item";
+                
+                // Set initial hidden state for individual animation
+                emailItem.style.opacity = '0';
+                emailItem.style.transform = 'translateY(16px) scale(0.985)';
 
+                emailItem.innerHTML = `
+                    <div class="badge">${badgeChar}</div>
+                    <div class="menu-content">
+                        <span class="title">${escapeHTML(sender)}</span>
+                        <span class="subtitle"><strong>${escapeHTML(subject)}</strong> — ${escapeHTML(snippet)}</span>
+                    </div>
+                    <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                `;
+                emailListContainer.appendChild(emailItem);
 
+                // Animate each email card in individually right as it renders
+                gsap.to(emailItem, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.4,
+                    ease: "power3.out"
+                });
+            }
+
+        } catch (err) {
+            console.error("Error loading emails:", err);
+            document.getElementById('gmailStatusText').textContent = "Session expired. Click to re-login.";
+            localStorage.removeItem('gmail_access_token');
+            accessToken = null;
+        }
+    }
+
+    const container = document.getElementById("menuList");
+    const pageTransition = document.getElementById("pageTransition");
+    const transitionContent = document.getElementById("transitionContent");
+    const transitionTitle = document.getElementById("transitionTitle");
+    const transitionNumber = document.getElementById("transitionNumber");
+    const transitionLine = document.getElementById("transitionLine");
+
+    gsap.set("#navCard", { opacity: 0, y: 30, scale: 0.98 });
+    gsap.set("#navCard .header > *", { opacity: 0, y: 16 });
+    gsap.set("#gmailCard", { opacity: 0, scale: 0.95 });
+
+    function resetPageTransition() {
+        gsap.killTweensOf([pageTransition, transitionContent, transitionLine]);
+        gsap.set(pageTransition, { opacity: 0, visibility: "hidden", pointerEvents: "none" });
+        gsap.set(transitionContent, { opacity: 0, y: 20, scale: 0.98 });
+        gsap.set(transitionLine, { width: 0 });
+        document.body.style.pointerEvents = "";
+        document.body.style.overflow = "";
+    }
+
+    window.addEventListener("pageshow", () => { resetPageTransition(); });
+
+    function renderMenu() {
+        container.innerHTML = "";
+        defaultItems.forEach((item, index) => {
+            const menuItem = document.createElement("a");
+            menuItem.href = item.url;
+            menuItem.className = "menu-item";
+            menuItem.dataset.index = index;
+            menuItem.innerHTML = `
+                <div class="badge">${String(index + 1).padStart(2, "0")}</div>
+                <div class="menu-content">
+                    <span class="title">${escapeHTML(item.title)}</span>
+                    <span class="subtitle">Open resource</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            `;
+            container.appendChild(menuItem);
+        });
+        setupMenuInteractions();
+    }
+
+    function setupMenuInteractions() {
+        const items = document.querySelectorAll("#navCard .menu-item");
+        items.forEach((item) => {
+            item.addEventListener("click", (event) => {
+                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+                event.preventDefault();
+                const index = Number(item.dataset.index);
+                startPageTransition(item, defaultItems[index]);
+            });
+        });
+    }
+
+    function startPageTransition(clickedItem, menuItem) {
+        if (!menuItem) return;
+        document.body.style.pointerEvents = "none";
+        document.body.style.overflow = "hidden";
+        
+        transitionTitle.textContent = menuItem.title;
+        transitionNumber.textContent = `RESOURCE ${String(defaultItems.indexOf(menuItem) + 1).padStart(2, "0")}`;
+        pageTransition.style.visibility = "visible";
+        pageTransition.style.pointerEvents = "auto";
+        
+        gsap.set(pageTransition, { opacity: 0 });
+        gsap.set(transitionContent, { opacity: 0, y: 18, scale: 0.985 });
+        gsap.set(transitionLine, { width: 0 });
+
+        const tl = gsap.timeline();
+        tl.to(clickedItem, { scale: 0.975, duration: 0.12, ease: "power2.out" });
+        tl.to(pageTransition, { opacity: 1, duration: 0.28, ease: "power2.inOut" });
+        tl.to(transitionContent, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, "-=0.08");
+        tl.to(transitionLine, { width: 130, duration: 0.3, ease: "power2.out" }, "-=0.18");
+        tl.to({}, { duration: 0.22 });
+        tl.call(() => { window.location.href = menuItem.url; });
+    }
+
+    function escapeHTML(value) {
+        const div = document.createElement("div");
+        div.textContent = value;
         return div.innerHTML;
     }
 
-
-    /* =========================================================
-       INTRO ANIMATION
-    ========================================================= */
-
     function introAnimation() {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-        const tl =
-            gsap.timeline(
-                {
-                    defaults: {
-                        ease: "power3.out"
-                    }
-                }
-            );
-
-
-        /*
-         * Card.
-         */
-        tl.to(
-            ".menu-container",
-            {
-                opacity: 1,
-
-                y: 0,
-
-                scale: 1,
-
-                duration: 0.7,
-
-                ease: "expo.out"
-            }
+        tl.to("#navCard", { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "expo.out" });
+        tl.to("#navCard .header > *", { opacity: 1, y: 0, duration: 0.45, stagger: 0.08 }, "-=0.4");
+        
+        gsap.fromTo("#navCard .menu-item", 
+            { opacity: 0, y: 16, scale: 0.985 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.07, ease: "power3.out" },
+            "-=0.2"
         );
 
+        const splitTl = gsap.timeline({ delay: 1.4, defaults: { ease: "power3.inOut", duration: 1.1 } });
+        const isMobile = window.innerWidth <= 768;
+        
+        if (!isMobile) {
+            const navWidth = document.getElementById('navCard').offsetWidth;
+            const gap = 32;
+            const shiftX = (navWidth + gap) / 2;
 
-        /*
-         * Header.
-         */
-        tl.to(
-            ".header > *",
-            {
-                opacity: 1,
-
-                y: 0,
-
-                duration: 0.45,
-
-                stagger: 0.08
-            },
-            "-=0.4"
+            splitTl.to("#navCard", { x: -shiftX });
+            splitTl.to("#gmailCard", { x: shiftX, opacity: 1, scale: 1, pointerEvents: "auto" }, "<");
+        } else {
+            splitTl.to("#gmailCard", { opacity: 1, scale: 1, pointerEvents: "auto" }, "<");
+        }
+        
+        splitTl.fromTo("#gmailCard .header > *, #gmailCard .gmail-tabs, #gmailCard .menu-item",
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: "power2.out" },
+            "-=0.6"
         );
 
-
-        /*
-         * Gentle ambient background.
-         */
-        gsap.to(
-            ".glow-1",
-            {
-                x: 60,
-                y: 45,
-                scale: 1.08,
-
-                duration: 9,
-
-                repeat: -1,
-                yoyo: true,
-
-                ease: "sine.inOut"
-            }
-        );
-
-
-        gsap.to(
-            ".glow-2",
-            {
-                x: -55,
-                y: -40,
-                scale: 1.06,
-
-                duration: 11,
-
-                repeat: -1,
-                yoyo: true,
-
-                ease: "sine.inOut"
-            }
-        );
-
-
-        gsap.to(
-            ".glow-3",
-            {
-                scale: 1.12,
-
-                duration: 8,
-
-                repeat: -1,
-                yoyo: true,
-
-                ease: "sine.inOut"
-            }
-        );
+        gsap.to(".glow-1", { x: 60, y: 45, scale: 1.08, duration: 9, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".glow-2", { x: -55, y: -40, scale: 1.06, duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".glow-3", { scale: 1.12, duration: 8, repeat: -1, yoyo: true, ease: "sine.inOut" });
     }
 
+    document.addEventListener("DOMContentLoaded", () => {
+        renderMenu();
+        introAnimation();
+        initGoogleAuth();
 
-    /* =========================================================
-       START
-    ========================================================= */
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        () => {
-
-            renderMenu();
-
-            introAnimation();
-        }
-    );
-
+        // Wire up filter pills
+        const pills = document.querySelectorAll('.gmail-tabs .pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                currentQuery = pill.getAttribute('data-query') || '';
+                if (accessToken) {
+                    fetchUserEmails(accessToken, currentQuery);
+                } else {
+                    triggerAuth();
+                }
+            });
+        });
+    });
 </script>
- 
-
 </body>
 </html>

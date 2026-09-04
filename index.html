@@ -7,9 +7,6 @@
 
     <!-- GSAP -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    
-    <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         :root {
@@ -82,12 +79,11 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            gap: 32px;
             z-index: 2;
         }
 
         .menu-container {
-            width: min(92vw, 460px);
+            width: min(92vw, 480px);
             max-height: 90vh;
             padding: 32px;
             background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)), var(--glass);
@@ -99,14 +95,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-        }
-        
-        #gmailCard {
-            position: absolute;
-            pointer-events: none;
-            width: min(94vw, 520px);
-            max-height: 94vh;
-            padding: 34px 32px;
         }
 
         .header {
@@ -143,38 +131,9 @@
 
         .header p {
             margin-top: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--muted);
             font-size: 0.9rem;
-        }
-
-        /* Gmail Category / Label Pills */
-        .gmail-tabs {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-            scrollbar-width: none;
-        }
-        .gmail-tabs::-webkit-scrollbar { display: none; }
-        
-        .pill {
-            padding: 5px 12px;
-            font-size: 0.73rem;
-            font-weight: 600;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .pill.active, .pill:hover {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.4);
-            color: #c7d2fe;
         }
 
         .menu-list {
@@ -252,10 +211,6 @@
             color: var(--muted);
             font-size: 0.78rem;
             line-height: 1.35;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         .arrow {
@@ -289,8 +244,7 @@
 
         @media (max-width: 768px) {
             body { align-items: flex-start; padding: 3vh 0; }
-            .cards-wrapper { flex-direction: column; gap: 20px; }
-            .menu-container, #gmailCard { position: relative !important; width: 94vw !important; transform: none !important; }
+            .menu-container { width: 94vw !important; }
         }
     </style>
 </head>
@@ -313,35 +267,6 @@
         </header>
         <nav class="menu-list" id="menuList" aria-label="Computer resources"></nav>
     </main>
-
-    <!-- GMAIL CARD -->
-    <main class="menu-container" id="gmailCard">
-        <header class="header">
-            <div class="header-badge" style="background: linear-gradient(135deg, #ef4444 0%, #f97316 100%); color: white; border-color: #fca5a5;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            </div>
-            <h1>Live Inbox</h1>
-            <p id="gmailStatusText" style="cursor: pointer;" onclick="triggerAuth()">Click here to log in & sync Gmail</p>
-        </header>
-
-        <div class="gmail-tabs" id="gmailTabs">
-            <span class="pill active" data-query="in:inbox -label:Algorithms -label:Assignments-12th -label:notes -label:Worksheets-12th">Primary</span>
-            <span class="pill" data-query="label:Assignments-12th">Assignments-12th</span>
-            <span class="pill" data-query="label:Algorithms">Algorithms</span>
-            <span class="pill" data-query="label:notes">Notes</span>
-            <span class="pill" data-query="label:Worksheets-12th">Worksheets-12th</span>
-        </div>
-        
-        <nav class="menu-list" id="gmailList" aria-label="Recent Emails">
-            <a href="#" class="menu-item" onclick="triggerAuth(); return false;">
-                <div class="badge" style="background:rgba(239,68,68,0.2); color:#ef4444;">i</div>
-                <div class="menu-content">
-                    <span class="title">Authentication Required</span>
-                    <span class="subtitle">Click here to connect your Google account</span>
-                </div>
-            </a>
-        </nav>
-    </main>
 </div>
 
 <div class="page-transition" id="pageTransition" aria-hidden="true">
@@ -361,141 +286,6 @@
         { title: "Recursion Notebook(Summary And Example Codes)", url: "recursionbook" }
     ];
 
-    let tokenClient;
-    let accessToken = localStorage.getItem('gmail_access_token');
-    let currentQuery = 'in:inbox -label:Algorithms -label:Assignments-12th -label:notes -label:Worksheets-12th';
-
-    function initGoogleAuth() {
-        if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
-            setTimeout(initGoogleAuth, 150);
-            return;
-        }
-
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: '1018282561560-15nchhofjcd7q4lg1ep1s60gj6q2uhs6.apps.googleusercontent.com',
-            scope: 'https://www.googleapis.com/auth/gmail.readonly',
-            callback: (response) => {
-                if (response.error) {
-                    console.error("Auth Error:", response);
-                    document.getElementById('gmailStatusText').textContent = "Auth Error: Check Console";
-                    return;
-                }
-                accessToken = response.access_token;
-                localStorage.setItem('gmail_access_token', accessToken);
-                fetchUserEmails(accessToken, currentQuery);
-            }
-        });
-
-        if (accessToken) {
-            fetchUserEmails(accessToken, currentQuery);
-        }
-    }
-
-    function triggerAuth() {
-        if (!tokenClient) {
-            alert("Google login client is still initializing. Please wait a second and try again.");
-            return;
-        }
-        tokenClient.requestAccessToken({ prompt: 'consent' });
-    }
-
-    async function fetchUserEmails(token, query = '') {
-        try {
-            document.getElementById('gmailStatusText').textContent = "Syncing live inbox...";
-            let url = 'https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=15';
-            if (query) {
-                url += `&q=${encodeURIComponent(query)}`;
-            }
-
-            const listRes = await fetch(url, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            
-            if (!listRes.ok) {
-                const errData = await listRes.json();
-                throw new Error(errData.error?.message || 'Failed to fetch messages');
-            }
-            
-            const data = await listRes.json();
-            const emailListContainer = document.getElementById('gmailList');
-            emailListContainer.innerHTML = ''; 
-
-            if (!data.messages || data.messages.length === 0) {
-                document.getElementById('gmailStatusText').textContent = "No messages found for this filter";
-                emailListContainer.innerHTML = `
-                    <div class="menu-item" style="cursor: default;">
-                        <div class="badge" style="background:rgba(99,102,241,0.2); color:#818cf8;">∅</div>
-                        <div class="menu-content">
-                            <span class="title">No Emails Found</span>
-                            <span class="subtitle">Try selecting a different label tab above.</span>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            document.getElementById('gmailStatusText').textContent = "Inbox synced successfully";
-
-            // Deduplicate message IDs to prevent double entries from overlapping filters
-            const uniqueMessages = Array.from(
-                new Map(data.messages.map(msg => [msg.id, msg])).values()
-            );
-
-            for (const msg of uniqueMessages) {
-                const detailRes = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=metadata&metadataHeaders=Subject&metadataHeaders=From`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const detail = await detailRes.json();
-                const headers = detail.payload.headers;
-                
-                const subjectHeader = headers.find(h => h.name === 'Subject');
-                const fromHeader = headers.find(h => h.name === 'From');
-                
-                const subject = subjectHeader ? subjectHeader.value : 'No Subject';
-                const sender = fromHeader ? fromHeader.value.split('<')[0].trim() : 'Unknown';
-                const snippet = detail.snippet || 'Click to view full message in Gmail...';
-                const badgeChar = sender.charAt(0).toUpperCase();
-
-                const emailItem = document.createElement('a');
-                emailItem.href = `https://mail.google.com/mail/u/0/#inbox/${msg.id}`;
-                emailItem.target = "_blank";
-                emailItem.rel = "noopener noreferrer";
-                emailItem.className = "menu-item";
-                
-                // Set initial hidden state for individual animation
-                emailItem.style.opacity = '0';
-                emailItem.style.transform = 'translateY(16px) scale(0.985)';
-
-                emailItem.innerHTML = `
-                    <div class="badge">${badgeChar}</div>
-                    <div class="menu-content">
-                        <span class="title">${escapeHTML(sender)}</span>
-                        <span class="subtitle"><strong>${escapeHTML(subject)}</strong> — ${escapeHTML(snippet)}</span>
-                    </div>
-                    <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                `;
-                emailListContainer.appendChild(emailItem);
-
-                // Animate each email card in individually right as it renders
-                gsap.to(emailItem, {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.4,
-                    ease: "power3.out"
-                });
-            }
-
-        } catch (err) {
-            console.error("Error loading emails:", err);
-            document.getElementById('gmailStatusText').textContent = "Session expired. Click to re-login.";
-            localStorage.removeItem('gmail_access_token');
-            accessToken = null;
-        }
-    }
-
     const container = document.getElementById("menuList");
     const pageTransition = document.getElementById("pageTransition");
     const transitionContent = document.getElementById("transitionContent");
@@ -505,7 +295,6 @@
 
     gsap.set("#navCard", { opacity: 0, y: 30, scale: 0.98 });
     gsap.set("#navCard .header > *", { opacity: 0, y: 16 });
-    gsap.set("#gmailCard", { opacity: 0, scale: 0.95 });
 
     function resetPageTransition() {
         gsap.killTweensOf([pageTransition, transitionContent, transitionLine]);
@@ -593,26 +382,6 @@
             "-=0.2"
         );
 
-        const splitTl = gsap.timeline({ delay: 1.4, defaults: { ease: "power3.inOut", duration: 1.1 } });
-        const isMobile = window.innerWidth <= 768;
-        
-        if (!isMobile) {
-            const navWidth = document.getElementById('navCard').offsetWidth;
-            const gap = 32;
-            const shiftX = (navWidth + gap) / 2;
-
-            splitTl.to("#navCard", { x: -shiftX });
-            splitTl.to("#gmailCard", { x: shiftX, opacity: 1, scale: 1, pointerEvents: "auto" }, "<");
-        } else {
-            splitTl.to("#gmailCard", { opacity: 1, scale: 1, pointerEvents: "auto" }, "<");
-        }
-        
-        splitTl.fromTo("#gmailCard .header > *, #gmailCard .gmail-tabs, #gmailCard .menu-item",
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: "power2.out" },
-            "-=0.6"
-        );
-
         gsap.to(".glow-1", { x: 60, y: 45, scale: 1.08, duration: 9, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".glow-2", { x: -55, y: -40, scale: 1.06, duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".glow-3", { scale: 1.12, duration: 8, repeat: -1, yoyo: true, ease: "sine.inOut" });
@@ -621,22 +390,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         renderMenu();
         introAnimation();
-        initGoogleAuth();
-
-        // Wire up filter pills
-        const pills = document.querySelectorAll('.gmail-tabs .pill');
-        pills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                pills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                currentQuery = pill.getAttribute('data-query') || '';
-                if (accessToken) {
-                    fetchUserEmails(accessToken, currentQuery);
-                } else {
-                    triggerAuth();
-                }
-            });
-        });
     });
 </script>
 </body>

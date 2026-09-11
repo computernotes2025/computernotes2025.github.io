@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISC Computer Science Complete Dry Run Bank (2003–2026)</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --code-bg: #090d16;
+            --border: #334155;
+            --btn-bg: #1e293b;
+            --table-header-bg: #0b1329;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+        }
+
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 6px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.83rem;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            border-color: var(--accent);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .code-box {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .solution-card {
+            background: #141e33;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 6px 6px 0;
+            padding: 1rem;
+        }
+
+        .solution-card h3 {
+            color: var(--accent);
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .toggle-btn {
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--accent-hover);
+            color: #fff;
+        }
+
+        .solution-body {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .dry-run-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.82rem;
+        }
+
+        .dry-run-table th, .dry-run-table td {
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .dry-run-table th {
+            background: var(--table-header-bg);
+            color: var(--accent);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ISC Computer Science Dry Run Bank</h1>
+            <p>Step-by-Step Recursion Tracing & Dry Runs (2003 – 2026)</p>
+        </header>
+
+        <nav class="tabs-nav" id="tabsNav"></nav>
+        <div id="tabsContainer"></div>
+    </div>
+
+    <script>
+        const questionsData = [
+            {
+                year: "2026",
+                code: `String workOut(int n) {\n    if (n == 0)\n        return "";\n    int rem = n % 16;\n    char cr = (rem < 10) ? (char)(rem + '0') \n                         : (char)(rem - 10 + 'A');\n    return workOut(n / 16) + cr;\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>workOut(220)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>rem (n%16)</th><th>cr (Char Conversion)</th><th>Recursive Return Statement</th></tr>
+                        <tr><td>1</td><td>220</td><td>12</td><td>(12-10+'A') = 'C'</td><td><code>workOut(13) + 'C'</code></td></tr>
+                        <tr><td>2</td><td>13</td><td>13</td><td>(13-10+'A') = 'D'</td><td><code>workOut(0) + 'D'</code></td></tr>
+                        <tr><td>3</td><td>0</td><td>-</td><td>-</td><td><code>""</code> (Base Case: n == 0)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong></p>
+                        <p>Call 3 returns <code>""</code></p>
+                        <p>Call 2 returns <code>"" + 'D' = "D"</code></p>
+                        <p>Call 1 returns <code>"D" + 'C' = "DC"</code></p>
+                        <p><strong>Final Output:</strong> <code>"DC"</code></p>
+                        <p><strong>Method Purpose:</strong> Recursively converts a decimal integer to Hexadecimal string.</p>
+                    </div>`
+            },
+            {
+                year: "2025",
+                code: `int solve(int m, int n) {\n    int k = 1;\n    if (m < 0)\n        return -k;\n    else if (m == 0)\n        return m;\n    else\n        return k + (solve(m - n, n + 2));\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>solve(16, 1)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call Step</th><th>m</th><th>n</th><th>Condition Check</th><th>Expression</th></tr>
+                        <tr><td>solve(16,1)</td><td>16</td><td>1</td><td>m > 0</td><td>1 + solve(16 - 1, 1 + 2) = 1 + solve(15, 3)</td></tr>
+                        <tr><td>solve(15,3)</td><td>15</td><td>3</td><td>m > 0</td><td>1 + solve(15 - 3, 3 + 2) = 1 + solve(12, 5)</td></tr>
+                        <tr><td>solve(12,5)</td><td>12</td><td>5</td><td>m > 0</td><td>1 + solve(12 - 5, 5 + 2) = 1 + solve(7, 7)</td></tr>
+                        <tr><td>solve(7,7)</td><td>7</td><td>7</td><td>m > 0</td><td>1 + solve(7 - 7, 7 + 2) = 1 + solve(0, 9)</td></tr>
+                        <tr><td>solve(0,9)</td><td>0</td><td>9</td><td>m == 0 (Base Case)</td><td>returns 0</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 1 + 1 + 1 + 1 + 0 = <strong>4</strong></p>
+                        <p><strong>Method Purpose:</strong> Counts how many consecutive odd numbers starting from n can be subtracted from m before reaching 0.</p>
+                    </div>`
+            },
+            {
+                year: "2024",
+                code: `int jolly(int[] x, int n, int m) {\n    if (n < 0)\n        return m;\n    else if (n < x.length)\n        m = (x[n] > m) ? x[n] : m;\n    return jolly(x, --n, m);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>jolly(x, 4, 0)</code> where <code>x = {6, 3, 4, 7, 1}</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Step</th><th>n</th><th>m (In)</th><th>x[n]</th><th>Condition (x[n] > m)</th><th>Updated m</th><th>Next Call (--n)</th></tr>
+                        <tr><td>1</td><td>4</td><td>0</td><td>x[4] = 1</td><td>1 > 0 (True)</td><td>1</td><td>jolly(x, 3, 1)</td></tr>
+                        <tr><td>2</td><td>3</td><td>1</td><td>x[3] = 7</td><td>7 > 1 (True)</td><td>7</td><td>jolly(x, 2, 7)</td></tr>
+                        <tr><td>3</td><td>2</td><td>7</td><td>x[2] = 4</td><td>4 > 7 (False)</td><td>7</td><td>jolly(x, 1, 7)</td></tr>
+                        <tr><td>4</td><td>1</td><td>7</td><td>x[1] = 3</td><td>3 > 7 (False)</td><td>7</td><td>jolly(x, 0, 7)</td></tr>
+                        <tr><td>5</td><td>0</td><td>7</td><td>x[0] = 6</td><td>6 > 7 (False)</td><td>7</td><td>jolly(x, -1, 7)</td></tr>
+                        <tr><td>6</td><td>-1</td><td>7</td><td>-</td><td>n < 0 (Base Case)</td><td>-</td><td>Returns m = 7</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Output:</strong> <code>7</code></p>
+                        <p><strong>Method Purpose:</strong> Recursively scans array x backwards from index n to find and return the maximum value.</p>
+                    </div>`
+            },
+            {
+                year: "2023",
+                code: `boolean num(int x) {\n    int a = 1;\n    for (int c = x; c > 0; c /= 10)\n        a *= 10;\n    return (x * x % a) == x;\n}`,
+                solution: `
+                    <p><strong>Target Input:</strong> <code>x = 25</code></p>
+                    <p><strong>Loop Execution Tracing:</strong></p>
+                    <table class="dry-run-table">
+                        <tr><th>Iteration</th><th>c Value</th><th>c > 0</th><th>a Calculation (a *= 10)</th><th>Next c (c /= 10)</th></tr>
+                        <tr><td>1</td><td>25</td><td>True</td><td>a = 1 * 10 = 10</td><td>2</td></tr>
+                        <tr><td>2</td><td>2</td><td>True</td><td>a = 10 * 10 = 100</td><td>0</td></tr>
+                        <tr><td>3</td><td>0</td><td>False</td><td>Loop Terminates</td><td>-</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Return Condition Evaluation:</strong></p>
+                        <p><code>(x * x % a) == x</code></p>
+                        <p><code>(25 * 25 % 100) == 25</code> $\rightarrow$ <code>(625 % 100) == 25</code> $\rightarrow$ <code>25 == 25</code> $\rightarrow$ <strong>true</strong></p>
+                        <p><strong>Method Purpose:</strong> Checks whether number x is an <strong>Automorphic Number</strong>.</p>
+                    </div>`
+            },
+            {
+                year: "2022",
+                code: `int gcd(int a, int b) {\n    if (b == 0)\n        return a;\n    return gcd(b, a % b);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>gcd(36, 24)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call Step</th><th>a</th><th>b</th><th>b == 0 Check</th><th>Next Recursive Call: gcd(b, a % b)</th></tr>
+                        <tr><td>1</td><td>36</td><td>24</td><td>False</td><td>gcd(24, 36 % 24) = gcd(24, 12)</td></tr>
+                        <tr><td>2</td><td>24</td><td>12</td><td>False</td><td>gcd(12, 24 % 12) = gcd(12, 0)</td></tr>
+                        <tr><td>3</td><td>12</td><td>0</td><td>True (Base Case)</td><td>Returns <code>a = 12</code></td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Output:</strong> <code>12</code></p>
+                        <p><strong>Method Purpose:</strong> Calculates the Greatest Common Divisor (GCD/HCF) using Euclidean algorithm.</p>
+                    </div>`
+            },
+            {
+                year: "2021",
+                code: `int binSearch(int[] a, int low, int high, int k) {\n    if (low > high)\n        return -1;\n    int mid = (low + high) / 2;\n    if (a[mid] == k)\n        return mid;\n    else if (a[mid] > k)\n        return binSearch(a, low, mid - 1, k);\n    else\n        return binSearch(a, mid + 1, high, k);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>binSearch(a, 0, 4, 46)</code> where <code>a = {12, 24, 35, 46, 57}</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>low</th><th>high</th><th>mid = (low+high)/2</th><th>a[mid]</th><th>Comparison with k=46</th><th>Action</th></tr>
+                        <tr><td>1</td><td>0</td><td>4</td><td>(0+4)/2 = 2</td><td>a[2] = 35</td><td>35 < 46</td><td>binSearch(a, 2+1, 4, 46) = binSearch(a, 3, 4, 46)</td></tr>
+                        <tr><td>2</td><td>3</td><td>4</td><td>(3+4)/2 = 3</td><td>a[3] = 46</td><td>46 == 46</td><td>Base Case Matched! Returns <code>mid = 3</code></td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Output Index:</strong> <code>3</code></p>
+                        <p><strong>Method Purpose:</strong> Recursively executes Binary Search on sorted array.</p>
+                    </div>`
+            },
+            {
+                year: "2020",
+                code: `int check(int n) {\n    if (n <= 1)\n        return 1;\n    if (n % 2 == 0)\n        return 1 + check(n / 2);\n    else\n        return 1 + check(n / 2 + 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>check(25)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Even/Odd</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>25</td><td>Odd</td><td>1 + check(25 / 2 + 1) = 1 + check(13)</td></tr>
+                        <tr><td>2</td><td>13</td><td>Odd</td><td>1 + check(13 / 2 + 1) = 1 + check(7)</td></tr>
+                        <tr><td>3</td><td>7</td><td>Odd</td><td>1 + check(7 / 2 + 1) = 1 + check(4)</td></tr>
+                        <tr><td>4</td><td>4</td><td>Even</td><td>1 + check(4 / 2) = 1 + check(2)</td></tr>
+                        <tr><td>5</td><td>2</td><td>Even</td><td>1 + check(2 / 2) = 1 + check(1)</td></tr>
+                        <tr><td>6</td><td>1</td><td>Base Case (n<=1)</td><td>Returns 1</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 1 + 1 + 1 + 1 + 1 + 1 = <strong>6</strong></p>
+                        <p><strong>Final Output for n = 25:</strong> <code>6</code></p>
+                    </div>`
+            },
+            {
+                year: "2019",
+                code: `int sumDigits(int n) {\n    if (n == 0)\n        return 0;\n    return (n % 10) + sumDigits(n / 10);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>sumDigits(4321)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>n % 10</th><th>n / 10</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>4321</td><td>1</td><td>432</td><td>1 + sumDigits(432)</td></tr>
+                        <tr><td>2</td><td>432</td><td>2</td><td>43</td><td>2 + sumDigits(43)</td></tr>
+                        <tr><td>3</td><td>43</td><td>3</td><td>4</td><td>3 + sumDigits(4)</td></tr>
+                        <tr><td>4</td><td>4</td><td>4</td><td>0</td><td>4 + sumDigits(0)</td></tr>
+                        <tr><td>5</td><td>0</td><td>-</td><td>-</td><td>Returns 0 (Base Case: n == 0)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 1 + 2 + 3 + 4 + 0 = <strong>10</strong></p>
+                        <p><strong>Method Purpose:</strong> Recursively calculates sum of all digits in number n.</p>
+                    </div>`
+            },
+            {
+                year: "2018",
+                code: `int mystery(int n) {\n    if (n <= 1)\n        return 1;\n    return n * mystery(n - 2);\n}`,
+                solution: `
+                    <p><strong>Target Call 1:</strong> <code>mystery(5)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>5</td><td>5 * mystery(3)</td></tr>
+                        <tr><td>2</td><td>3</td><td>3 * mystery(1)</td></tr>
+                        <tr><td>3</td><td>1</td><td>Returns 1 (Base Case)</td></tr>
+                    </table>
+                    <p><strong>Unwinding:</strong> 5 * 3 * 1 = <strong>15</strong></p>
+                    <br>
+                    <p><strong>Target Call 2:</strong> <code>mystery(6)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>6</td><td>6 * mystery(4)</td></tr>
+                        <tr><td>2</td><td>4</td><td>4 * mystery(2)</td></tr>
+                        <tr><td>3</td><td>2</td><td>2 * mystery(0)</td></tr>
+                        <tr><td>4</td><td>0</td><td>Returns 1 (Base Case: n <= 1)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding:</strong> 6 * 4 * 2 * 1 = <strong>48</strong></p>
+                        <p><strong>Method Purpose:</strong> Computes the double factorial (n!!) of integer n.</p>
+                    </div>`
+            },
+            {
+                year: "2017",
+                code: `int magicfun(int n) {\n    if (n == 0)\n        return 0;\n    else\n        return magicfun(n / 2) * 10 + (n % 2);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>magicfun(7)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>n / 2</th><th>n % 2</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>7</td><td>3</td><td>1</td><td>magicfun(3) * 10 + 1</td></tr>
+                        <tr><td>2</td><td>3</td><td>1</td><td>1</td><td>magicfun(1) * 10 + 1</td></tr>
+                        <tr><td>3</td><td>1</td><td>0</td><td>1</td><td>magicfun(0) * 10 + 1</td></tr>
+                        <tr><td>4</td><td>0</td><td>-</td><td>-</td><td>Returns 0 (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong></p>
+                        <p>Call 3 returns: 0 * 10 + 1 = 1</p>
+                        <p>Call 2 returns: 1 * 10 + 1 = 11</p>
+                        <p>Call 1 returns: 11 * 10 + 1 = 111</p>
+                        <p><strong>Final Output:</strong> <code>111</code></p>
+                        <p><strong>Method Purpose:</strong> Converts decimal number n to binary digits integer equivalent.</p>
+                    </div>`
+            },
+            {
+                year: "2016",
+                code: `int fact(int n) {\n    if (n == 0 || n == 1)\n        return 1;\n    return n * fact(n - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>fact(5)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Condition Check</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>5</td><td>False</td><td>5 * fact(4)</td></tr>
+                        <tr><td>2</td><td>4</td><td>False</td><td>4 * fact(3)</td></tr>
+                        <tr><td>3</td><td>3</td><td>False</td><td>3 * fact(2)</td></tr>
+                        <tr><td>4</td><td>2</td><td>False</td><td>2 * fact(1)</td></tr>
+                        <tr><td>5</td><td>1</td><td>True (n==1)</td><td>Returns 1</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 5 * 4 * 3 * 2 * 1 = <strong>120</strong></p>
+                        <p><strong>Method Purpose:</strong> Recursively calculates factorial of number n.</p>
+                    </div>`
+            },
+            {
+                year: "2015",
+                code: `int fun(int x, int y) {\n    if (y == 0)\n        return 0;\n    else\n        return x + fun(x, y - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>fun(4, 3)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>x</th><th>y</th><th>Condition (y == 0)</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>4</td><td>3</td><td>False</td><td>4 + fun(4, 2)</td></tr>
+                        <tr><td>2</td><td>4</td><td>2</td><td>False</td><td>4 + fun(4, 1)</td></tr>
+                        <tr><td>3</td><td>4</td><td>1</td><td>False</td><td>4 + fun(4, 0)</td></tr>
+                        <tr><td>4</td><td>4</td><td>0</td><td>True</td><td>Returns 0</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 4 + 4 + 4 + 0 = <strong>12</strong></p>
+                        <p><strong>Method Purpose:</strong> Performs multiplication of numbers x and y using recursive addition.</p>
+                    </div>`
+            },
+            {
+                year: "2014",
+                code: `int fibo(int n) {\n    if (n <= 1)\n        return n;\n    return fibo(n - 1) + fibo(n - 2);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>fibo(6)</code></p>
+                    <p><strong>Tree Decomposition:</strong></p>
+                    <table class="dry-run-table">
+                        <tr><th>Term</th><th>n Value</th><th>Calculation</th><th>Return Value</th></tr>
+                        <tr><td>fibo(0)</td><td>0</td><td>Base Case</td><td>0</td></tr>
+                        <tr><td>fibo(1)</td><td>1</td><td>Base Case</td><td>1</td></tr>
+                        <tr><td>fibo(2)</td><td>2</td><td>fibo(1) + fibo(0) = 1 + 0</td><td>1</td></tr>
+                        <tr><td>fibo(3)</td><td>3</td><td>fibo(2) + fibo(1) = 1 + 1</td><td>2</td></tr>
+                        <tr><td>fibo(4)</td><td>4</td><td>fibo(3) + fibo(2) = 2 + 1</td><td>3</td></tr>
+                        <tr><td>fibo(5)</td><td>5</td><td>fibo(4) + fibo(3) = 3 + 2</td><td>5</td></tr>
+                        <tr><td>fibo(6)</td><td>6</td><td>fibo(5) + fibo(4) = 5 + 3</td><td>8</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Output:</strong> <code>8</code></p>
+                        <p><strong>Method Purpose:</strong> Returns the n-th term of the Fibonacci sequence.</p>
+                    </div>`
+            },
+            {
+                year: "2013",
+                code: `int power(int base, int exp) {\n    if (exp == 0)\n        return 1;\n    return base * power(base, exp - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>power(2, 4)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>base</th><th>exp</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>2</td><td>4</td><td>2 * power(2, 3)</td></tr>
+                        <tr><td>2</td><td>2</td><td>3</td><td>2 * power(2, 2)</td></tr>
+                        <tr><td>3</td><td>2</td><td>2</td><td>2 * power(2, 1)</td></tr>
+                        <tr><td>4</td><td>2</td><td>1</td><td>2 * power(2, 0)</td></tr>
+                        <tr><td>5</td><td>2</td><td>0</td><td>Returns 1 (Base Case: exp == 0)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 2 * 2 * 2 * 2 * 1 = <strong>16</strong></p>
+                        <p><strong>Method Purpose:</strong> Computes base raised to exp power recursively.</p>
+                    </div>`
+            },
+            {
+                year: "2012",
+                code: `void rev(String str) {\n    if (str.length() <= 1)\n        System.out.print(str);\n    else {\n        System.out.print(str.charAt(str.length() - 1));\n        rev(str.substring(0, str.length() - 1));\n    }\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>rev("JAVA")</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call Step</th><th>str</th><th>str.length()</th><th>Printed Character</th><th>Next Recursive Call</th></tr>
+                        <tr><td>1</td><td>"JAVA"</td><td>4</td><td>'A' (at index 3)</td><td>rev("JAV")</td></tr>
+                        <tr><td>2</td><td>"JAV"</td><td>3</td><td>'V' (at index 2)</td><td>rev("JA")</td></tr>
+                        <tr><td>3</td><td>"JA"</td><td>2</td><td>'A' (at index 1)</td><td>rev("J")</td></tr>
+                        <tr><td>4</td><td>"J"</td><td>1</td><td>"J" (Base Case length<=1)</td><td>Terminates</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Sequential Screen Output:</strong> <code>AVAJ</code></p>
+                        <p><strong>Method Purpose:</strong> Reverses and prints a given string using recursion.</p>
+                    </div>`
+            },
+            {
+                year: "2011",
+                code: `int sumSeries(int n) {\n    if (n == 1)\n        return 1;\n    return n + sumSeries(n - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>sumSeries(5)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>5</td><td>5 + sumSeries(4)</td></tr>
+                        <tr><td>2</td><td>4</td><td>4 + sumSeries(3)</td></tr>
+                        <tr><td>3</td><td>3</td><td>3 + sumSeries(2)</td></tr>
+                        <tr><td>4</td><td>2</td><td>2 + sumSeries(1)</td></tr>
+                        <tr><td>5</td><td>1</td><td>Returns 1 (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 5 + 4 + 3 + 2 + 1 = <strong>15</strong></p>
+                        <p><strong>Method Purpose:</strong> Finds sum of first n natural numbers.</p>
+                    </div>`
+            },
+            {
+                year: "2010",
+                code: `void numbers(int n) {\n    if (n > 0) {\n        System.out.print(n + " ");\n        numbers(n - 2);\n        System.out.print(n + " ");\n    }\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>numbers(5)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call Level</th><th>n</th><th>1st Print (Pre-recursive)</th><th>Child Call</th><th>2nd Print (Post-recursive)</th></tr>
+                        <tr><td>1</td><td>5</td><td>Prints "5 "</td><td>numbers(3)</td><td>Prints "5 "</td></tr>
+                        <tr><td>2</td><td>3</td><td>Prints "3 "</td><td>numbers(1)</td><td>Prints "3 "</td></tr>
+                        <tr><td>3</td><td>1</td><td>Prints "1 "</td><td>numbers(-1)</td><td>Prints "1 "</td></tr>
+                        <tr><td>4</td><td>-1</td><td>-</td><td>Base Case (n<=0)</td><td>Returns immediately</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Complete Output Sequence:</strong> <code>5 3 1 1 3 5 </code></p>
+                        <p><strong>Method Purpose:</strong> Demonstrates pre-order and post-order recursive printing pattern.</p>
+                    </div>`
+            },
+            {
+                year: "2009",
+                code: `int trial(int n) {\n    if (n == 1)\n        return 2;\n    else if (n == 2)\n        return 3;\n    else\n        return trial(n - 2) + trial(n - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>trial(4)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>Calculation / Action</th><th>Result</th></tr>
+                        <tr><td>trial(1)</td><td>1</td><td>Base Case</td><td>2</td></tr>
+                        <tr><td>trial(2)</td><td>2</td><td>Base Case</td><td>3</td></tr>
+                        <tr><td>trial(3)</td><td>3</td><td>trial(1) + trial(2) = 2 + 3</td><td>5</td></tr>
+                        <tr><td>trial(4)</td><td>4</td><td>trial(2) + trial(3) = 3 + 5</td><td>8</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Return Output:</strong> <code>8</code></p>
+                        <p><strong>Method Purpose:</strong> Generates sequence elements where each term is the sum of previous two terms with starting terms 2 and 3.</p>
+                    </div>`
+            },
+            {
+                year: "2008",
+                code: `String show(int n) {\n    if (n == 0)\n        return "";\n    return show(n / 2) + (n % 2);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>show(11)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>n / 2</th><th>n % 2</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>11</td><td>5</td><td>1</td><td>show(5) + "1"</td></tr>
+                        <tr><td>2</td><td>5</td><td>2</td><td>1</td><td>show(2) + "1"</td></tr>
+                        <tr><td>3</td><td>2</td><td>1</td><td>0</td><td>show(1) + "0"</td></tr>
+                        <tr><td>4</td><td>1</td><td>0</td><td>1</td><td>show(0) + "1"</td></tr>
+                        <tr><td>5</td><td>0</td><td>-</td><td>-</td><td>Returns "" (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong></p>
+                        <p>Call 5 returns <code>""</code></p>
+                        <p>Call 4 returns <code>"" + "1" = "1"</code></p>
+                        <p>Call 3 returns <code>"1" + "0" = "10"</code></p>
+                        <p>Call 2 returns <code>"10" + "1" = "101"</code></p>
+                        <p>Call 1 returns <code>"101" + "1" = "1011"</code></p>
+                        <p><strong>Final Output String:</strong> <code>"1011"</code></p>
+                    </div>`
+            },
+            {
+                year: "2007",
+                code: `int strange(int x, int y) {\n    if (x >= y) {\n        return strange(x - y, y);\n    } else {\n        return x;\n    }\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>strange(20, 6)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>x</th><th>y</th><th>x >= y</th><th>Action / Return</th></tr>
+                        <tr><td>1</td><td>20</td><td>6</td><td>True</td><td>strange(20 - 6, 6) = strange(14, 6)</td></tr>
+                        <tr><td>2</td><td>14</td><td>6</td><td>True</td><td>strange(14 - 6, 6) = strange(8, 6)</td></tr>
+                        <tr><td>3</td><td>8</td><td>6</td><td>True</td><td>strange(8 - 6, 6) = strange(2, 6)</td></tr>
+                        <tr><td>4</td><td>2</td><td>6</td><td>False</td><td>Returns x = 2 (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Return Value:</strong> <code>2</code></p>
+                        <p><strong>Method Purpose:</strong> Computes the remainder of x divided by y (i.e. <code>x % y</code>) using repeated subtraction.</p>
+                    </div>`
+            },
+            {
+                year: "2006",
+                code: `int confusing(int a, int b) {\n    if (b == 0)\n        return a;\n    else\n        return confusing(b, a % b);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>confusing(24, 18)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>a</th><th>b</th><th>b == 0</th><th>Next Call: confusing(b, a % b)</th></tr>
+                        <tr><td>1</td><td>24</td><td>18</td><td>False</td><td>confusing(18, 24 % 18) = confusing(18, 6)</td></tr>
+                        <tr><td>2</td><td>18</td><td>6</td><td>False</td><td>confusing(6, 18 % 6) = confusing(6, 0)</td></tr>
+                        <tr><td>3</td><td>6</td><td>0</td><td>True</td><td>Base Case Matched! Returns <code>a = 6</code></td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Final Return Output:</strong> <code>6</code></p>
+                        <p><strong>Method Purpose:</strong> Finds HCF/GCD of two integers using Euclid's division algorithm.</p>
+                    </div>`
+            },
+            {
+                year: "2005",
+                code: `int Mystery(int num, int x, int y) {\n    if (num < 10)\n        return num;\n    else {\n        int z = num % 10;\n        if (z % 2 == 0)\n            return z * x + Mystery(num / 10, x, y);\n        else\n            return z * y + Mystery(num / 10, x, y);\n    }\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>Mystery(43629, 3, 4)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>num</th><th>z (num%10)</th><th>Even/Odd</th><th>Calculation Expression</th></tr>
+                        <tr><td>1</td><td>43629</td><td>9</td><td>Odd</td><td>9 * 4 + Mystery(4362, 3, 4) = 36 + Mystery(4362, 3, 4)</td></tr>
+                        <tr><td>2</td><td>4362</td><td>2</td><td>Even</td><td>2 * 3 + Mystery(436, 3, 4) = 6 + Mystery(436, 3, 4)</td></tr>
+                        <tr><td>3</td><td>436</td><td>6</td><td>Even</td><td>6 * 3 + Mystery(43, 3, 4) = 18 + Mystery(43, 3, 4)</td></tr>
+                        <tr><td>4</td><td>43</td><td>3</td><td>Odd</td><td>3 * 4 + Mystery(4, 3, 4) = 12 + Mystery(4, 3, 4)</td></tr>
+                        <tr><td>5</td><td>4</td><td>-</td><td>num < 10</td><td>Returns num = 4 (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 36 + 6 + 18 + 12 + 4 = <strong>76</strong></p>
+                    </div>`
+            },
+            {
+                year: "2004",
+                code: `int countDigits(int n) {\n    if (n == 0)\n        return 0;\n    return 1 + countDigits(n / 10);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>countDigits(9872)</code></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>n</th><th>n / 10</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>9872</td><td>987</td><td>1 + countDigits(987)</td></tr>
+                        <tr><td>2</td><td>987</td><td>98</td><td>1 + countDigits(98)</td></tr>
+                        <tr><td>3</td><td>98</td><td>9</td><td>1 + countDigits(9)</td></tr>
+                        <tr><td>4</td><td>9</td><td>0</td><td>1 + countDigits(0)</td></tr>
+                        <tr><td>5</td><td>0</td><td>-</td><td>Returns 0 (Base Case)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Phase:</strong> 1 + 1 + 1 + 1 + 0 = <strong>4</strong></p>
+                        <p><strong>Method Purpose:</strong> Recursively counts total number of digits in positive integer n.</p>
+                    </div>`
+            },
+            {
+                year: "2003",
+                code: `double calPower(double x, int n) {\n    if (n == 0)\n        return 1.0;\n    if (n < 0)\n        return 1.0 / calPower(x, -n);\n    return x * calPower(x, n - 1);\n}`,
+                solution: `
+                    <p><strong>Target Call:</strong> <code>calPower(2.0, -3)</code></p>
+                    <p><strong>Step 1: Evaluate Initial Branch (n < 0)</strong></p>
+                    <p>Calls <code>1.0 / calPower(2.0, 3)</code></p>
+                    <br>
+                    <p><strong>Step 2: Dry run for positive exponent calPower(2.0, 3):</strong></p>
+                    <table class="dry-run-table">
+                        <tr><th>Call</th><th>x</th><th>n</th><th>Expression</th></tr>
+                        <tr><td>1</td><td>2.0</td><td>3</td><td>2.0 * calPower(2.0, 2)</td></tr>
+                        <tr><td>2</td><td>2.0</td><td>2</td><td>2.0 * calPower(2.0, 1)</td></tr>
+                        <tr><td>3</td><td>2.0</td><td>1</td><td>2.0 * calPower(2.0, 0)</td></tr>
+                        <tr><td>4</td><td>2.0</td><td>0</td><td>Returns 1.0 (Base Case: n == 0)</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <p><strong>Unwinding Sub-call:</strong> 2.0 * 2.0 * 2.0 * 1.0 = <strong>8.0</strong></p>
+                        <p><strong>Final Return Value for calPower(2.0, -3):</strong> 1.0 / 8.0 = <strong>0.125</strong></p>
+                        <p><strong>Method Purpose:</strong> Calculates real power $x^n$ for both positive and negative integer exponents.</p>
+                    </div>`
+            }
+        ];
+
+        const tabsNav = document.getElementById("tabsNav");
+        const tabsContainer = document.getElementById("tabsContainer");
+
+        questionsData.forEach((q, idx) => {
+            const activeClass = idx === 0 ? "active" : "";
+            
+            // Tab Buttons
+            const btn = document.createElement("button");
+            btn.className = `tab-btn ${activeClass}`;
+            btn.textContent = q.year;
+            btn.onclick = (e) => switchTab(`tab-${q.year}`, e.target);
+            tabsNav.appendChild(btn);
+
+            // Tab Content
+            const content = document.createElement("div");
+            content.id = `tab-${q.year}`;
+            content.className = `tab-content ${activeClass}`;
+            content.innerHTML = `
+                <span class="badge">ISC ${q.year} Board Exam</span>
+                <div class="grid">
+                    <div>
+                        <div class="code-box">${escapeHtml(q.code)}</div>
+                    </div>
+                    <div>
+                        <div class="solution-card">
+                            <h3>Detailed Dry Run & Trace Table</h3>
+                            <button class="toggle-btn" onclick="toggleSolution(this)">Show Dry Run</button>
+                            <div class="solution-body">${q.solution}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            tabsContainer.appendChild(content);
+        });
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function toggleSolution(btn) {
+            const body = btn.nextElementSibling;
+            if (body.style.display === "block") {
+                body.style.display = "none";
+                btn.textContent = "Show Dry Run";
+            } else {
+                body.style.display = "block";
+                btn.textContent = "Hide Dry Run";
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>

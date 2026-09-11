@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propositional Logic &amp; Boolean Algebra</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,680&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EDEFEA;
+  --card:#FFFFFF;
+  --ink:#1C2321;
+  --ink-soft:#4A5049;
+  --line:#CBCFC5;
+  --brass:#A8792B;
+  --brass-soft:#F1E4C9;
+  --wine:#7A3B3F;
+  --wine-soft:#F3E1E0;
+  --sage:#4F6B5C;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{
+  font-family:'Fraunces',serif;
+  color:var(--ink);
+  margin:0 0 .4em 0;
+  font-weight:560;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:var(--sage);}
+
+/* ---------- layout shell ---------- */
+.shell{display:flex; min-height:100vh;}
+.rail{
+  width:250px; flex-shrink:0;
+  background:var(--ink);
+  color:#DADFD6;
+  padding:28px 0 28px 0;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.rail-brand{
+  padding:0 24px 22px 24px;
+  border-bottom:1px solid #333c37;
+  margin-bottom:10px;
+}
+.rail-brand .kicker{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.03em; color:#9aa79c;}
+.rail-brand h1{font-size:1.32rem; color:#F4F1E9; margin-top:6px; line-height:1.2;}
+.rail-brand .sub{font-size:13px; color:#9aa79c; margin-top:4px;}
+
+.tab-btn{
+  display:flex; align-items:baseline; gap:10px;
+  width:100%; text-align:left; background:none; border:none;
+  color:#c7cdc2; padding:13px 24px; cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif; font-size:14.5px;
+  border-left:3px solid transparent;
+}
+.tab-btn .num{font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7d8a7e;}
+.tab-btn:hover{background:#252c27; color:#F4F1E9;}
+.tab-btn.active{
+  background:#252c27; color:#F4F1E9; border-left:3px solid var(--brass);
+}
+.tab-btn.active .num{color:var(--brass);}
+
+.main{flex:1; min-width:0;}
+.topbar{
+  display:none;
+  background:var(--ink); color:#F4F1E9; padding:16px 18px;
+  position:sticky; top:0; z-index:5;
+}
+.topbar h1{color:#F4F1E9; font-size:1.15rem; margin:0;}
+.mobile-tabs{
+  display:none; overflow-x:auto; white-space:nowrap;
+  background:#252c27; padding:0 8px; position:sticky; top:56px; z-index:5;
+}
+.mobile-tabs button{
+  background:none; border:none; color:#c7cdc2; padding:12px 14px;
+  font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; cursor:pointer;
+  border-bottom:3px solid transparent;
+}
+.mobile-tabs button.active{color:#F4F1E9; border-bottom:3px solid var(--brass);}
+
+.panel{display:none; padding:44px 56px 80px 56px; max-width:920px;}
+.panel.active{display:block;}
+
+/* ---------- hero ---------- */
+.hero{padding:38px 56px 10px 56px; max-width:920px;}
+.hero .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--sage); margin-bottom:10px;}
+.hero h1{font-size:2.5rem; max-width:11ch;}
+.hero p.lede{max-width:56ch; color:var(--ink-soft); font-size:1.02rem;}
+
+.switch-demo{
+  margin-top:22px; display:flex; align-items:center; gap:26px;
+  background:var(--card); border:1px solid var(--line); border-radius:4px;
+  padding:18px 24px; max-width:520px;
+}
+.switch-demo .prop{text-align:center;}
+.switch-demo .prop .label{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink-soft);}
+.switch-btn{
+  margin-top:6px; width:64px; height:64px; border-radius:50%;
+  border:2px solid var(--ink); background:var(--wine-soft);
+  color:var(--wine); font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .15s ease, color .15s ease;
+}
+.switch-btn.is-true{background:var(--brass-soft); color:var(--brass); border-color:var(--brass);}
+.switch-demo .hint{font-size:12.5px; color:var(--ink-soft); max-width:16ch;}
+
+/* ---------- content blocks ---------- */
+.section-heading{
+  display:flex; align-items:baseline; gap:10px; margin:0 0 6px 0;
+}
+.section-heading .tag{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--brass); border:1px solid var(--brass); border-radius:20px; padding:2px 10px;}
+.lede-p{color:var(--ink-soft); max-width:62ch; margin-top:0;}
+
+.defbox{
+  background:var(--card); border:1px solid var(--line); border-left:4px solid var(--sage);
+  padding:16px 20px; margin:18px 0; border-radius:2px;
+}
+.defbox .k{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--sage); margin-bottom:4px;}
+.defbox p{margin:0;}
+
+.eg{
+  border-top:1px dashed var(--line); padding-top:10px; margin-top:14px; font-size:.96rem; color:var(--ink-soft);
+}
+.eg b{color:var(--ink); font-weight:600;}
+
+table{border-collapse:collapse; margin:14px 0; font-family:'IBM Plex Mono',monospace; font-size:14px;}
+th,td{border:1px solid var(--line); padding:6px 14px; text-align:center;}
+th{background:var(--ink); color:#F4F1E9; font-weight:500;}
+td.t1{color:var(--brass); font-weight:600;}
+td.t0{color:var(--wine); font-weight:600;}
+
+.card-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:20px 0;}
+.conn-card{background:var(--card); border:1px solid var(--line); padding:18px 20px; border-radius:3px;}
+.conn-card h3{font-size:1.05rem; margin-bottom:2px;}
+.conn-card .sym{font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:.85rem;}
+.conn-card .desc{font-size:.93rem; color:var(--ink-soft); margin:8px 0 10px 0;}
+
+.law-table{width:100%; font-family:'IBM Plex Sans',sans-serif; font-size:.94rem;}
+.law-table th{text-align:left; padding:8px 14px;}
+.law-table td{text-align:left; padding:8px 14px; font-family:'IBM Plex Mono',monospace; font-size:.9rem;}
+
+.pill-row{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0;}
+.pill{background:var(--card); border:1px solid var(--line); border-radius:6px; padding:14px 16px; flex:1; min-width:200px;}
+.pill .name{font-weight:600; margin-bottom:4px;}
+.pill .desc{font-size:.9rem; color:var(--ink-soft);}
+.pill.tautology{border-top:3px solid var(--brass);}
+.pill.contradiction{border-top:3px solid var(--wine);}
+.pill.contingency{border-top:3px solid var(--sage);}
+
+ul.tight{margin:8px 0; padding-left:20px; color:var(--ink-soft); font-size:.95rem;}
+ul.tight li{margin-bottom:4px;}
+
+.example{
+  background:var(--card); border:1px solid var(--line); border-radius:4px;
+  margin:22px 0; overflow:hidden;
+}
+.example .q{
+  background:var(--brass-soft); padding:14px 20px; font-weight:500; font-size:.98rem;
+  display:flex; gap:10px; align-items:baseline;
+}
+.example .q .qn{font-family:'IBM Plex Mono',monospace; color:var(--brass); font-weight:600;}
+.example .sol{padding:16px 20px;}
+.example .sol .lbl{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--sage); letter-spacing:.03em; margin-bottom:8px;}
+.example .sol p{margin:6px 0;}
+
+/* ---------- practice tab ---------- */
+.practice-toggle{display:flex; gap:10px; margin-bottom:26px;}
+.ptab{
+  border:1px solid var(--ink); background:var(--paper); color:var(--ink);
+  padding:9px 18px; border-radius:20px; font-family:'IBM Plex Sans',sans-serif;
+  font-size:13.5px; cursor:pointer;
+}
+.ptab.on{background:var(--ink); color:#F4F1E9;}
+.pgroup{display:none;}
+.pgroup.on{display:block;}
+
+.arq{background:var(--card); border:1px solid var(--line); border-radius:4px; padding:18px 20px; margin-bottom:16px;}
+.arq .num{font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:12px;}
+.arq .stmt{margin:6px 0; font-size:.96rem;}
+.arq .stmt b{font-family:'IBM Plex Mono',monospace; margin-right:6px;}
+.aropts{display:grid; gap:8px; margin-top:10px;}
+.aropt{
+  border:1px solid var(--line); border-radius:4px; padding:9px 12px; cursor:pointer;
+  font-size:.9rem; background:var(--paper);
+}
+.aropt:hover{border-color:var(--sage);}
+.aropt.correct{background:var(--brass-soft); border-color:var(--brass);}
+.aropt.wrong{background:var(--wine-soft); border-color:var(--wine);}
+.ar-explain{display:none; margin-top:10px; font-size:.88rem; color:var(--ink-soft); border-top:1px dashed var(--line); padding-top:10px;}
+
+.mcq{background:var(--card); border:1px solid var(--line); border-radius:4px; padding:16px 20px; margin-bottom:14px;}
+.mcq .num{font-family:'IBM Plex Mono',monospace; color:var(--sage); font-size:12px;}
+.mcq .stem{margin:6px 0 10px 0; font-size:.96rem; font-weight:500;}
+.mcq .opts{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+.mcq .opt{
+  border:1px solid var(--line); border-radius:4px; padding:8px 12px; cursor:pointer;
+  font-size:.88rem; background:var(--paper);
+}
+.mcq .opt:hover{border-color:var(--sage);}
+.mcq .opt.correct{background:var(--brass-soft); border-color:var(--brass); font-weight:600;}
+.mcq .opt.wrong{background:var(--wine-soft); border-color:var(--wine);}
+.mcq .explain{display:none; margin-top:10px; font-size:.85rem; color:var(--ink-soft); border-top:1px dashed var(--line); padding-top:8px;}
+
+.score-bar{
+  position:sticky; top:0; background:var(--ink); color:#F4F1E9; padding:10px 20px;
+  border-radius:6px; margin-bottom:18px; font-family:'IBM Plex Mono',monospace; font-size:13px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.score-bar button{background:var(--brass); border:none; color:var(--ink); padding:6px 14px; border-radius:14px; font-size:12px; cursor:pointer; font-family:'IBM Plex Sans',sans-serif;}
+
+/* ---------- previous year questions ---------- */
+.year-block{
+  background:var(--card); border:1px solid var(--line); border-radius:4px;
+  margin-bottom:14px; overflow:hidden;
+}
+.year-block summary{
+  list-style:none; cursor:pointer; padding:15px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--ink); color:#F4F1E9; font-family:'IBM Plex Mono',monospace; font-size:14px;
+}
+.year-block summary::-webkit-details-marker{display:none;}
+.year-block summary .count{color:#9aa79c; font-size:12px;}
+.year-block summary::after{content:'+'; font-size:18px; color:var(--brass);}
+.year-block[open] summary::after{content:'–';}
+.year-block .yq{padding:18px 20px; border-top:1px solid var(--line);}
+.yq .marks{
+  float:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--wine);
+  border:1px solid var(--wine); border-radius:10px; padding:1px 9px;
+}
+.yq .stem{font-size:.97rem; font-weight:500; margin:0 0 10px 0;}
+.yq .ans{background:var(--paper); border-left:3px solid var(--brass); padding:10px 16px; font-size:.92rem;}
+.yq .ans .lbl{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--sage); letter-spacing:.03em; margin-bottom:6px;}
+.yq + .yq{margin-top:16px; padding-top:16px; border-top:1px dashed var(--line);}
+.yq table{font-size:13px;}
+
+footer{padding:30px 56px 60px 56px; color:var(--ink-soft); font-size:12.5px; max-width:920px;}
+
+@media(max-width:880px){
+  .rail{display:none;}
+  .topbar{display:block;}
+  .mobile-tabs{display:block;}
+  .panel{padding:28px 20px 60px 20px;}
+  .hero{padding:24px 20px 6px 20px;}
+  .hero h1{font-size:1.9rem;}
+  .card-grid{grid-template-columns:1fr;}
+  .mcq .opts{grid-template-columns:1fr;}
+  footer{padding:24px 20px 40px 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><h1>Boolean Algebra</h1></div>
+<div class="mobile-tabs" id="mobileTabs"></div>
+
+<div class="shell">
+  <nav class="rail" id="rail">
+    <div class="rail-brand">
+      <div class="kicker">CLASS XII · COMPUTER SCIENCE</div>
+      <h1>Boolean Algebra</h1>
+      <div class="sub">Propositional logic, made legible</div>
+    </div>
+    <div id="railTabs"></div>
+  </nav>
+
+  <div class="main">
+
+    <div class="hero">
+      <div class="eyebrow">CHAPTER 1</div>
+      <h1>The logic of true and false</h1>
+      <p class="lede">Every proposition is either true or false — never both, never neither. Flip the switch below and watch its negation follow along.</p>
+      <div class="switch-demo">
+        <div class="prop">
+          <div class="label">P</div>
+          <button class="switch-btn" id="pBtn" onclick="toggleP()">1</button>
+        </div>
+        <div class="prop">
+          <div class="label">~P</div>
+          <button class="switch-btn" id="npBtn" disabled>0</button>
+        </div>
+        <div class="hint">Click P — negation always takes the opposite value.</div>
+      </div>
+    </div>
+
+    <!-- PANEL 1: FOUNDATIONS -->
+    <section class="panel" data-panel="1">
+      <div class="section-heading"><span class="tag">1.1 – 1.2</span></div>
+      <h2>Foundations</h2>
+      <p class="lede-p">Before we can reason with symbols, we need to agree on what counts as a statement worth reasoning about.</p>
+
+      <div class="defbox">
+        <div class="k">DEFINITION — PROPOSITION</div>
+        <p>A declarative statement that is either true or false, but never both and never anything else. Questions, commands and exclamations are not propositions — they carry no truth value.</p>
+      </div>
+      <div class="eg">
+        <b>Is a proposition:</b> "The month of January is very cold." · "Misha likes fruits."<br>
+        <b>Is not a proposition:</b> "Good afternoon!" · "What are you eating?"
+      </div>
+
+      <h3 style="margin-top:32px;">Simple vs. compound</h3>
+      <p class="lede-p">A <b>simple proposition</b> is one atomic statement. Join two or more of them with a connective — "and", "or", "if...then" — and you get a <b>compound proposition</b>.</p>
+      <div class="pill-row">
+        <div class="pill"><div class="name">Simple</div><div class="desc">"Planet Mars is named after the Roman god of war."</div></div>
+        <div class="pill"><div class="name">Compound</div><div class="desc">"Mercury is the smallest planet in the solar system <i>and</i> it has no moon."</div></div>
+      </div>
+
+      <h3 style="margin-top:28px;">Truth values &amp; truth tables</h3>
+      <p class="lede-p">The truth or falsity of a proposition is its <b>truth value</b> — written as T/F or 1/0. A <b>truth table</b> lists every possible combination of input values against the resulting output. With <span class="mono">n</span> variables, there are <span class="mono">2ⁿ</span> rows to fill.</p>
+      <table>
+        <tr><th>Variables</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+        <tr><td>Rows (2ⁿ)</td><td>2</td><td>4</td><td>8</td><td>16</td></tr>
+      </table>
+      <p class="lede-p" style="margin-top:6px;">Two routes lead to the same conclusion about a proposition: the <b>truth table method</b> (exhaustive, mechanical) and the <b>algebraic method</b> (rewriting using known laws).</p>
+    </section>
+
+    <!-- PANEL 2: CONNECTIVES -->
+    <section class="panel" data-panel="2">
+      <div class="section-heading"><span class="tag">1.3 – 1.6</span></div>
+      <h2>Connectives &amp; conditionals</h2>
+      <p class="lede-p">Five connectives do all the work of joining propositions into something more expressive.</p>
+
+      <div class="card-grid">
+        <div class="conn-card">
+          <h3>Negation <span class="sym">~ / ' / ¯</span></h3>
+          <div class="desc">Inverts a single statement — a unary connective. True becomes false and back again.</div>
+          <table><tr><th>a</th><th>~a</th></tr><tr><td>0</td><td class="t1">1</td></tr><tr><td>1</td><td class="t0">0</td></tr></table>
+        </div>
+        <div class="conn-card">
+          <h3>Conjunction <span class="sym">. / ∧</span></h3>
+          <div class="desc">"And" — true only when every joined proposition is true.</div>
+          <table><tr><th>a</th><th>b</th><th>a∧b</th></tr><tr><td>0</td><td>0</td><td class="t0">0</td></tr><tr><td>0</td><td>1</td><td class="t0">0</td></tr><tr><td>1</td><td>0</td><td class="t0">0</td></tr><tr><td>1</td><td>1</td><td class="t1">1</td></tr></table>
+        </div>
+        <div class="conn-card">
+          <h3>Disjunction <span class="sym">+ / ∨</span></h3>
+          <div class="desc">"Or" — false only when both joined propositions are false.</div>
+          <table><tr><th>a</th><th>b</th><th>a∨b</th></tr><tr><td>0</td><td>0</td><td class="t0">0</td></tr><tr><td>0</td><td>1</td><td class="t1">1</td></tr><tr><td>1</td><td>0</td><td class="t1">1</td></tr><tr><td>1</td><td>1</td><td class="t1">1</td></tr></table>
+        </div>
+        <div class="conn-card">
+          <h3>Implication <span class="sym">→</span></h3>
+          <div class="desc">"If...then" — false only when the antecedent is true and the consequent is false.</div>
+          <table><tr><th>a</th><th>b</th><th>a→b</th></tr><tr><td>0</td><td>0</td><td class="t1">1</td></tr><tr><td>0</td><td>1</td><td class="t1">1</td></tr><tr><td>1</td><td>0</td><td class="t0">0</td></tr><tr><td>1</td><td>1</td><td class="t1">1</td></tr></table>
+        </div>
+        <div class="conn-card">
+          <h3>Equivalence <span class="sym">↔</span></h3>
+          <div class="desc">"If and only if" — true exactly when both sides carry the same truth value.</div>
+          <table><tr><th>a</th><th>b</th><th>a↔b</th></tr><tr><td>0</td><td>0</td><td class="t1">1</td></tr><tr><td>0</td><td>1</td><td class="t0">0</td></tr><tr><td>1</td><td>0</td><td class="t0">0</td></tr><tr><td>1</td><td>1</td><td class="t1">1</td></tr></table>
+        </div>
+        <div class="conn-card">
+          <h3>Precedence order</h3>
+          <div class="desc">Highest to lowest, the way brackets outrank everything else:</div>
+          <ul class="tight"><li>1. Brackets</li><li>2. Negation</li><li>3. Conjunction</li><li>4. Disjunction</li><li>5. Implication</li><li>6. Biconditional</li></ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top:10px;">Converse, inverse, contrapositive</h3>
+      <p class="lede-p">For a conditional <span class="mono">a → b</span>, the antecedent is <span class="mono">a</span>, the consequent is <span class="mono">b</span>. Swap or negate them and you get three related conditionals:</p>
+      <table class="law-table">
+        <tr><th>Name</th><th>Form</th><th>Rule</th></tr>
+        <tr><td>Converse</td><td class="mono">b → a</td><td>Interchange antecedent and consequent</td></tr>
+        <tr><td>Inverse</td><td class="mono">a' → b'</td><td>Negate antecedent and consequent</td></tr>
+        <tr><td>Contrapositive</td><td class="mono">b' → a'</td><td>Converse of the inverse</td></tr>
+      </table>
+      <div class="eg">
+        <b>p</b> = "MADAM reads the same from both sides", <b>q</b> = "It is a palindrome" — <span class="mono">p → q</span><br>
+        Converse: <span class="mono">q → p</span> — "If it is a palindrome then MADAM reads the same from both sides."<br>
+        Inverse: <span class="mono">p' → q'</span> — "If MADAM does not read the same from both sides then it is not a palindrome."<br>
+        Contrapositive: <span class="mono">q' → p'</span> — "If it is not a palindrome then MADAM does not read the same from both sides."
+      </div>
+
+      <h3 style="margin-top:28px;">WFF, premise, syllogism</h3>
+      <div class="pill-row">
+        <div class="pill"><div class="name">Well-Formed Formula</div><div class="desc">A propositional form built by valid rules: every atomic formula is a WFF, and if A, B are WFFs, so are ~A, (A∧B), (A∨B), (A→B), (A↔B).</div></div>
+        <div class="pill"><div class="name">Premise</div><div class="desc">A conditional statement used to establish a conclusion.</div></div>
+        <div class="pill"><div class="name">Syllogism</div><div class="desc">The logical process of deriving a conclusion from given premises.</div></div>
+      </div>
+    </section>
+
+    <!-- PANEL 3: LAWS -->
+    <section class="panel" data-panel="3">
+      <div class="section-heading"><span class="tag">1.7 – 1.8</span></div>
+      <h2>Equivalence laws</h2>
+      <p class="lede-p">Two statements are logically equivalent when they share the same truth value across every combination of variables. Eleven laws cover almost everything you'll ever need to simplify with.</p>
+
+      <table class="law-table">
+        <tr><th>Law</th><th>Expression</th></tr>
+        <tr><td>Properties of 0</td><td>a∨0 = a &nbsp;·&nbsp; a∧0 = 0</td></tr>
+        <tr><td>Properties of 1</td><td>a∨1 = 1 &nbsp;·&nbsp; a∧1 = a</td></tr>
+        <tr><td>Involution</td><td>(a')' = a</td></tr>
+        <tr><td>Idempotent</td><td>a∨a = a &nbsp;·&nbsp; a∧a = a</td></tr>
+        <tr><td>Complementarity</td><td>a∨a' = 1 &nbsp;·&nbsp; a∧a' = 0</td></tr>
+        <tr><td>Commutative</td><td>a∨b = b∨a &nbsp;·&nbsp; a∧b = b∧a</td></tr>
+        <tr><td>Associative</td><td>(a∨b)∨c = a∨(b∨c) &nbsp;·&nbsp; (a∧b)∧c = a∧(b∧c)</td></tr>
+        <tr><td>Distributive</td><td>a∧(b∨c) = (a∧b)∨(a∧c) &nbsp;·&nbsp; a∨(b∧c) = (a∨b)∧(a∨c)</td></tr>
+        <tr><td>De Morgan's</td><td>(a∧b)' = a'∨b' &nbsp;·&nbsp; (a∨b)' = a'∧b'</td></tr>
+        <tr><td>Conditional elimination</td><td>a→b = a'∨b</td></tr>
+        <tr><td>Biconditional elimination</td><td>a↔b = (a→b)∧(b→a)</td></tr>
+      </table>
+
+      <h3 style="margin-top:30px;">Tautology, contradiction, contingency</h3>
+      <div class="pill-row">
+        <div class="pill tautology"><div class="name">Tautology</div><div class="desc">True for every combination of its variables — the final column is all 1s.</div></div>
+        <div class="pill contradiction"><div class="name">Contradiction</div><div class="desc">False for every combination — the final column is all 0s.</div></div>
+        <div class="pill contingency"><div class="name">Contingency</div><div class="desc">Neither — the final column mixes 0s and 1s.</div></div>
+      </div>
+      <ul class="tight" style="margin-top:16px;">
+        <li>Every tautology is <b>valid</b>, and every valid proposition is a tautology.</li>
+        <li>Every tautology is <b>satisfiable</b>, but not every satisfiable proposition is a tautology.</li>
+        <li>Every contingency is satisfiable, but not vice versa.</li>
+        <li>Every contradiction is <b>unsatisfiable</b>, and every unsatisfiable proposition is a contradiction.</li>
+      </ul>
+    </section>
+
+    <!-- PANEL 4: WORKED EXAMPLES -->
+    <section class="panel" data-panel="4">
+      <div class="section-heading"><span class="tag">SOLVED</span></div>
+      <h2>Worked examples</h2>
+      <p class="lede-p">The same handful of moves — build the table, compare the columns — solves almost every problem in this chapter.</p>
+
+      <div class="example">
+        <div class="q"><span class="qn">01</span> Prove that (P∧Q)∨(P∧~Q) = P.</div>
+        <div class="sol">
+          <table><tr><th>P</th><th>Q</th><th>~Q</th><th>P∧Q</th><th>P∧~Q</th><th>(P∧Q)∨(P∧~Q)</th></tr>
+          <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr></table>
+          <p>The columns for P and (P∧Q)∨(P∧~Q) match exactly — 0,0,1,1 both. Proved.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">02</span> Show that X ∨ ~(Y∧X) is a tautology.</div>
+        <div class="sol">
+          <table><tr><th>X</th><th>Y</th><th>Y∧X</th><th>~(Y∧X)</th><th>X∨~(Y∧X)</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr></table>
+          <p>Every entry in the final column is 1, so the expression is a tautology.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">03</span> With p: "Jitendra Kumar is a computer teacher", q: "Rahul is a student" — write in symbolic form: "Neither Jitendra Kumar is a computer teacher nor Rahul is a student."</div>
+        <div class="sol">
+          <p><b>~p . ~q</b> — negate both, then join with "and", since "neither...nor" rules out both possibilities at once.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">04</span> Write the converse, inverse and contrapositive of: "If it rains, then you will not play."</div>
+        <div class="sol">
+          <p><b>Converse</b> — If you will not play then it will rain.<br>
+          <b>Inverse</b> — If it doesn't rain then you will play.<br>
+          <b>Contrapositive</b> — If you will play then it will not rain.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">05</span> Show that [(p→q)∧(q→r)] → (p→r) is a tautology — the chain rule of syllogism.</div>
+        <div class="sol">
+          <table><tr><th>p</th><th>q</th><th>r</th><th>p→q</th><th>q→r</th><th>(p→q)∧(q→r)</th><th>p→r</th><th>result</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+          <p>The last column is all 1s, so <span class="mono">p→q</span> together with <span class="mono">q→r</span> always infers <span class="mono">p→r</span>.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">06</span> Verify (~P→Q)∧P = (P∧~Q)∨(P∧Q).</div>
+        <div class="sol">
+          <table><tr><th>P</th><th>Q</th><th>~P→Q</th><th>(~P→Q)∧P</th><th>P∧~Q</th><th>P∧Q</th><th>(P∧~Q)∨(P∧Q)</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></table>
+          <p>Both final columns read 0,0,1,1 — identical. The expression is verified.</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="q"><span class="qn">07</span> X = "you work hard" (1) or not (0); Y = "you succeed" (1) or not (0). Give the truth table and expression for "if and only if you work hard, you succeed."</div>
+        <div class="sol">
+          <table><tr><th>X</th><th>Y</th><th>X↔Y</th></tr>
+          <tr><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td></tr></table>
+          <p>Expression: <span class="mono">X↔Y = X'.Y' + X.Y</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 5: PRACTICE -->
+    <section class="panel" data-panel="5">
+      <div class="section-heading"><span class="tag">SELF-TEST</span></div>
+      <h2>Practice</h2>
+      <p class="lede-p">Twenty MCQs and five assertion–reason questions. Pick an option to see whether it holds up.</p>
+
+      <div class="practice-toggle">
+        <button class="ptab on" id="tabAR" onclick="showPractice('ar')">Assertion &amp; Reason</button>
+        <button class="ptab" id="tabMCQ" onclick="showPractice('mcq')">MCQs (20)</button>
+      </div>
+
+      <div class="pgroup on" id="groupAR">
+        <p class="lede-p" style="margin-top:0;">Each question gives an Assertion (A) and a Reason (R). Decide how they relate.</p>
+        <div id="arList"></div>
+      </div>
+
+      <div class="pgroup" id="groupMCQ">
+        <div class="score-bar">
+          <span>Score: <span id="scoreVal">0</span> / 20</span>
+          <button onclick="resetMCQ()">Reset</button>
+        </div>
+        <div id="mcqList"></div>
+      </div>
+    </section>
+
+    <!-- PANEL 6: PREVIOUS YEAR QUESTIONS -->
+    <section class="panel" data-panel="6">
+      <div class="section-heading"><span class="tag">BOARD PAPERS</span></div>
+      <h2>Previous year questions</h2>
+      <p class="lede-p">Every propositional-logic question pulled from the papers, worked out in full — grouped by year, most recent first.</p>
+      <div id="pyqList"></div>
+    </section>
+
+    <footer>Reference notes distilled from a Class XII Computer Science chapter on Boolean Algebra &amp; Propositional Logic — for revision, not a substitute for your textbook.</footer>
+  </div>
+</div>
+
+<script>
+const tabs = [
+  {id:1, num:'01', label:'Foundations'},
+  {id:2, num:'02', label:'Connectives'},
+  {id:3, num:'03', label:'Laws & Truth-Types'},
+  {id:4, num:'04', label:'Worked Examples'},
+  {id:5, num:'05', label:'Practice'},
+  {id:6, num:'06', label:'Previous Year Qs'}
+];
+const railTabs = document.getElementById('railTabs');
+const mobileTabs = document.getElementById('mobileTabs');
+tabs.forEach(t=>{
+  const b = document.createElement('button');
+  b.className = 'tab-btn'; b.dataset.id = t.id;
+  b.innerHTML = `<span class="num">${t.num}</span><span>${t.label}</span>`;
+  b.onclick = ()=>selectTab(t.id);
+  railTabs.appendChild(b);
+
+  const mb = document.createElement('button');
+  mb.dataset.id = t.id; mb.textContent = t.label;
+  mb.onclick = ()=>selectTab(t.id);
+  mobileTabs.appendChild(mb);
+});
+function selectTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.dataset.panel==id));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.id==id));
+  document.querySelectorAll('.mobile-tabs button').forEach(b=>b.classList.toggle('active', b.dataset.id==id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+selectTab(1);
+
+let pState = true;
+function toggleP(){
+  pState = !pState;
+  const pBtn = document.getElementById('pBtn');
+  const npBtn = document.getElementById('npBtn');
+  pBtn.textContent = pState ? '1' : '0';
+  npBtn.textContent = pState ? '0' : '1';
+  pBtn.classList.toggle('is-true', pState);
+  npBtn.classList.toggle('is-true', !pState);
+}
+
+function showPractice(which){
+  document.getElementById('tabAR').classList.toggle('on', which==='ar');
+  document.getElementById('tabMCQ').classList.toggle('on', which==='mcq');
+  document.getElementById('groupAR').classList.toggle('on', which==='ar');
+  document.getElementById('groupMCQ').classList.toggle('on', which==='mcq');
+}
+
+/* Assertion-Reason data */
+const arData = [
+  {a:"P ∨ ~P is a tautology.", r:"A tautology is true for all combinations of its variables.", ans:'a', exp:"Both hold — and R directly explains why A is true: P∨~P always outputs 1."},
+  {a:"The converse of \"If a then b\" is \"If ~a then ~b\".", r:"The converse of a conditional is obtained by interchanging its antecedent and consequent.", ans:'d', exp:"A is false — that description matches the inverse, not the converse (which is \"If b then a\"). R is a correct definition on its own."},
+  {a:"Disjunction is false only when both operands are false.", r:"Disjunction is represented by the symbol '∧'.", ans:'c', exp:"A is true. R is false — '∧' denotes conjunction; disjunction uses '∨' or '+'."},
+  {a:"A proposition with n variables has 2ⁿ rows in its truth table.", r:"Each variable can independently take one of two truth values.", ans:'a', exp:"Both true, and R is exactly why: n independent binary choices give 2ⁿ combinations."},
+  {a:"Every contradiction is unsatisfiable.", r:"A contradiction is false for every possible truth value of its variables, which is also the definition of unsatisfiable.", ans:'a', exp:"Both true — the two definitions describe the same all-false final column, so R correctly explains A."}
+];
+const arOptions = [
+  {id:'a', text:"Both A and R are true, and R is the correct explanation of A."},
+  {id:'b', text:"Both A and R are true, but R is not the correct explanation of A."},
+  {id:'c', text:"A is true, but R is false."},
+  {id:'d', text:"A is false, but R is true."}
+];
+const arList = document.getElementById('arList');
+arData.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'arq';
+  div.innerHTML = `<div class="num">Q${i+1}</div>
+    <div class="stmt"><b>Assertion (A):</b>${item.a}</div>
+    <div class="stmt"><b>Reason (R):</b>${item.r}</div>
+    <div class="aropts" id="ar-opts-${i}"></div>
+    <div class="ar-explain" id="ar-exp-${i}">${item.exp}</div>`;
+  arList.appendChild(div);
+  const optWrap = div.querySelector(`#ar-opts-${i}`);
+  arOptions.forEach(o=>{
+    const btn = document.createElement('div');
+    btn.className = 'aropt';
+    btn.textContent = `(${o.id}) ${o.text}`;
+    btn.onclick = ()=>{
+      const already = optWrap.dataset.answered;
+      if(already) return;
+      optWrap.dataset.answered = '1';
+      optWrap.querySelectorAll('.aropt').forEach(el=>{
+        if(el.textContent.startsWith(`(${item.ans})`)) el.classList.add('correct');
+      });
+      if(o.id !== item.ans) btn.classList.add('wrong');
+      div.querySelector(`#ar-exp-${i}`).style.display = 'block';
+    };
+    optWrap.appendChild(btn);
+  });
+});
+
+/* MCQ data */
+const mcqData = [
+  {q:"Which of the following is NOT a proposition?", opts:["The sky is blue","5 + 3 = 8","Please close the door","Water boils at 100°C at sea level"], ans:2, exp:"A command carries no truth value, so it cannot be a proposition."},
+  {q:"Which symbol is used for negation?", opts:["∧","∨","~","→"], ans:2, exp:"Negation is written as ~, an apostrophe, or a bar over the variable."},
+  {q:"A conjunction p∧q is true when:", opts:["both are false","both are true","exactly one is true","at least one is false"], ans:1, exp:"Conjunction demands every joined proposition be true."},
+  {q:"A disjunction p∨q is false only when:", opts:["p is true, q is false","p is false, q is true","both are true","both are false"], ans:3, exp:"Disjunction fails only when neither side is true."},
+  {q:"An implication p→q is false only when:", opts:["p false, q false","p true, q true","p true, q false","p false, q true"], ans:2, exp:"Implication breaks only when a true antecedent leads to a false consequent."},
+  {q:"A biconditional p↔q is true when:", opts:["p and q share the same truth value","p and q differ in truth value","p alone is true","q alone is true"], ans:0, exp:"'If and only if' holds exactly when both sides agree."},
+  {q:"The converse of a→b is:", opts:["a'→b'","b→a","b'→a'","a→b"], ans:1, exp:"Converse interchanges antecedent and consequent: b→a."},
+  {q:"The inverse of a→b is:", opts:["b→a","a'→b'","b'→a'","a↔b"], ans:1, exp:"Inverse negates both sides while keeping their order: a'→b'."},
+  {q:"The contrapositive of a→b is:", opts:["b→a","a'→b'","b'→a'","b'→b"], ans:2, exp:"Contrapositive negates both sides and swaps them: b'→a'."},
+  {q:"How many rows does a truth table for 3 variables have?", opts:["3","6","8","9"], ans:2, exp:"2³ = 8 possible combinations."},
+  {q:"Which law states (a')' = a?", opts:["Idempotent","Complementarity","Involution","Associative"], ans:2, exp:"Involution: negating a proposition twice returns the original."},
+  {q:"De Morgan's law states (a∧b)' equals:", opts:["a'∧b'","a'∨b'","a∨b","a∧b"], ans:1, exp:"Negating a conjunction flips both terms and swaps the connective to disjunction."},
+  {q:"A compound proposition true for every combination of its variables is a:", opts:["Contradiction","Contingency","Tautology","Premise"], ans:2, exp:"That's the definition of a tautology — an all-1s final column."},
+  {q:"A compound proposition false for every combination of its variables is a:", opts:["Tautology","Contradiction","Contingency","WFF"], ans:1, exp:"An all-0s final column defines a contradiction."},
+  {q:"A proposition that is sometimes true and sometimes false is called a:", opts:["Tautology","Contradiction","Contingency","Valid proposition"], ans:2, exp:"A mixed final column of 0s and 1s makes it a contingency."},
+  {q:"What is the correct precedence order, highest to lowest?", opts:["Negation, Brackets, Conjunction, Disjunction, Implication, Biconditional","Brackets, Negation, Conjunction, Disjunction, Implication, Biconditional","Brackets, Conjunction, Negation, Disjunction, Implication, Biconditional","Biconditional, Implication, Disjunction, Conjunction, Negation, Brackets"], ans:1, exp:"Brackets first, then Negation, Conjunction, Disjunction, Implication, and finally Biconditional."},
+  {q:"p→q is logically equivalent to:", opts:["p'∧q","p'∨q","p∨q'","p∧q'"], ans:1, exp:"Conditional elimination: a→b = a'∨b."},
+  {q:"A Well-Formed Formula (WFF) is:", opts:["Any random sequence of symbols","A propositional form built by defined formation rules","Only a single proposition variable","A truth table"], ans:1, exp:"A WFF follows the rules: every atomic formula is a WFF, and combining WFFs with connectives yields another WFF."},
+  {q:"The process of deriving a conclusion from given premises is called:", opts:["Syllogism","Equivalence","Contingency","Negation"], ans:0, exp:"That logical process of reaching a conclusion from premises is called syllogism."},
+  {q:"If p: \"You work hard\" and q: \"You will succeed\", then \"You work hard and you will succeed\" is written as:", opts:["p → q","p ∧ q","p ∨ q","p ↔ q"], ans:1, exp:"\"And\" joins the two propositions with conjunction."}
+];
+let score = 0;
+const mcqList = document.getElementById('mcqList');
+mcqData.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'mcq';
+  div.innerHTML = `<div class="num">Q${i+1}</div><div class="stem">${item.q}</div>
+    <div class="opts" id="mcq-opts-${i}"></div>
+    <div class="explain" id="mcq-exp-${i}">${item.exp}</div>`;
+  mcqList.appendChild(div);
+  const optWrap = div.querySelector(`#mcq-opts-${i}`);
+  item.opts.forEach((opt, oi)=>{
+    const b = document.createElement('div');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = ()=>{
+      if(optWrap.dataset.answered) return;
+      optWrap.dataset.answered = '1';
+      optWrap.children[item.ans].classList.add('correct');
+      if(oi !== item.ans){ b.classList.add('wrong'); } else { score++; document.getElementById('scoreVal').textContent = score; }
+      div.querySelector(`#mcq-exp-${i}`).style.display = 'block';
+    };
+    optWrap.appendChild(b);
+  });
+});
+function resetMCQ(){
+  score = 0;
+  document.getElementById('scoreVal').textContent = 0;
+  mcqList.innerHTML = '';
+  mcqData.forEach((item, i)=>{
+    const div = document.createElement('div');
+    div.className = 'mcq';
+    div.innerHTML = `<div class="num">Q${i+1}</div><div class="stem">${item.q}</div>
+      <div class="opts" id="mcq-opts-${i}"></div>
+      <div class="explain" id="mcq-exp-${i}">${item.exp}</div>`;
+    mcqList.appendChild(div);
+    const optWrap = div.querySelector(`#mcq-opts-${i}`);
+    item.opts.forEach((opt, oi)=>{
+      const b = document.createElement('div');
+      b.className = 'opt';
+      b.textContent = opt;
+      b.onclick = ()=>{
+        if(optWrap.dataset.answered) return;
+        optWrap.dataset.answered = '1';
+        optWrap.children[item.ans].classList.add('correct');
+        if(oi !== item.ans){ b.classList.add('wrong'); } else { score++; document.getElementById('scoreVal').textContent = score; }
+        div.querySelector(`#mcq-exp-${i}`).style.display = 'block';
+      };
+      optWrap.appendChild(b);
+    });
+  });
+}
+
+/* ---------- Previous Year Questions ---------- */
+const pyqData = [
+{year:'2026', items:[
+  {marks:'1', q:'P = "You practise regularly", Q = "You become skilled". S1 = P⇒Q, S2 = ~P∨Q.<br><b>Assertion (A):</b> S1 and S2 are logically equivalent.<br><b>Reason (R):</b> A conditional statement P⇒Q can be expressed as ~P∨Q.',
+   sol:'<b>(a) Both A and R are true, and R is the correct explanation of A.</b><br>Conditional elimination (a→b = a\'∨b) says exactly this — so R is precisely why S1 and S2 match.'},
+  {marks:'', q:'A = "You use ecofriendly methods", B = "Pollution is reduced", given A⇒B. Write its <b>contrapositive</b>.',
+   sol:'Contrapositive negates and swaps: <b>~B ⇒ ~A</b> — "If pollution is not reduced, then you do not use ecofriendly methods."'},
+  {marks:'3', q:'The Chain rule states [(a⇒b)·(b⇒c)] ⇒ (a⇒c). Prove this using Boolean laws.',
+   sol:`<div class="lbl" style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--sage);margin-bottom:6px;">ALGEBRAIC PROOF</div>
+   (a→b)∧(b→c) → (a→c)<br>
+   = [(a→b)∧(b→c)]\u2032 ∨ (a→c) &nbsp;<i>[Conditional elimination]</i><br>
+   = (a→b)\u2032 ∨ (b→c)\u2032 ∨ (a→c) &nbsp;<i>[De Morgan\u2019s law]</i><br>
+   = (a∧b\u2032) ∨ (b∧c\u2032) ∨ (a\u2032∨c) &nbsp;<i>[Conditional elimination + Involution on each term]</i><br>
+   = a\u2032 ∨ (a∧b\u2032) ∨ (b∧c\u2032) ∨ c<br>
+   = (a\u2032∨a)∧(a\u2032∨b\u2032) ∨ (b∧c\u2032) ∨ c &nbsp;<i>[Distributive law]</i><br>
+   = (a\u2032∨b\u2032) ∨ (b∧c\u2032) ∨ c &nbsp;<i>[Complementarity + Properties of 1]</i><br>
+   = a\u2032 ∨ b\u2032 ∨ [(b∨c)∧(c\u2032∨c)] &nbsp;<i>[Distributive law]</i><br>
+   = a\u2032 ∨ b\u2032 ∨ (b∨c) &nbsp;<i>[Complementarity + Properties of 1]</i><br>
+   = a\u2032 ∨ (b\u2032∨b) ∨ c = a\u2032 ∨ 1 ∨ c = <b>1</b> &nbsp;<i>[Complementarity + Properties of 1]</i><br>
+   The expression reduces to 1, so it is proved.`},
+  {marks:'2', q:'Draw a truth table to check if (A∧~B)⇒(~A∨B) is a Tautology, Contradiction or Contingency.',
+   sol:`<table><tr><th>A</th><th>B</th><th>~B</th><th>A∧~B</th><th>~A</th><th>~A∨B</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
+   The final column mixes 0s and 1s — it is a <b>Contingency</b>.`}
+]},
+{year:'2025', items:[
+  {marks:'1', q:'<b>Assertion (A):</b> ~(X∨Y) is logically equivalent to (~X∧~Y).<br><b>Reason (R):</b> The commutative property of logical operators states that the order of operands does not change the result of a binary operation.',
+   sol:'<b>(b) Both A and R are true, but R is not the correct explanation of A.</b><br>A is true — that\'s De Morgan\'s law, not commutativity. R states a genuine (but unrelated) fact, so it fails to explain why A holds.'},
+  {marks:'1', q:'P = "It is a holiday", Q = "It is a Sunday".<br><b>Assertion (A):</b> "If it is not a Sunday, then it is not a holiday." (Q\'⇒P\')<br><b>Reason (R):</b> Inverse is formed when antecedent and consequent are interchanged.',
+   sol:'<b>(c) Assertion is true and Reason is false.</b><br>The translation Q\'⇒P\' is correct, so A holds. But R misdescribes the rule — interchanging antecedent and consequent gives the <i>converse</i>, not the inverse (the inverse negates both without swapping them).'},
+  {marks:'', q:'By using a truth table, verify if (~X⇒Y)∧X = (X∧~Y)∨(X∧Y) is valid.',
+   sol:`<table><tr><th>X</th><th>Y</th><th>~X⇒Y</th><th>(~X⇒Y)∧X</th><th>X∧~Y</th><th>X∧Y</th><th>(X∧~Y)∨(X∧Y)</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></table>
+   Both final columns read 0,0,1,1 — identical, so the proposition is <b>valid</b>.`}
+]},
+{year:'2024', items:[
+  {marks:'1', q:'Idempotence law states that: (a) X+X=X &nbsp; (b) X+X\'=0 &nbsp; (c) X+X=1 &nbsp; (d) X+X\'=X',
+   sol:'<b>(a) X + X = X</b> — combining a proposition with itself changes nothing.'},
+  {marks:'1', q:'<b>Assertion (A):</b> For proposition ~A⇒B, its contrapositive is B⇒~A.<br><b>Reason (R):</b> Contrapositive is the converse of the inverse, for any proposition.',
+   sol:'<b>(d) Assertion is false but Reason is true.</b><br>For ~A⇒B (antecedent ~A, consequent B), the contrapositive negates and swaps both: <span class="mono">B\u2032→(~A)\u2032 = ~B⇒A</span> — not B⇒~A, so A is false. R is a correct general identity: inverse of a→b is a\u2032→b\u2032, and its converse (b\u2032→a\u2032) is exactly the contrapositive — so R is true.'},
+  {marks:'3', q:'Verify if ((A⇒B)∧(B⇒C))⇒(A⇒C) is a Tautology, Contradiction or Contingency.',
+   sol:`<table><tr><th>A</th><th>B</th><th>C</th><th>A⇒B</th><th>B⇒C</th><th>∧</th><th>A⇒C</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+   The final column is all 1s — a <b>Tautology</b> (this is the Chain Rule / Law of Syllogism).`}
+]},
+{year:'ISC 2025 Specimen', items:[
+  {marks:'1', q:'p = "I am a triangle", q = "I am a three-sided polygon". s1 = p→q, s2 = q→p.<br><b>Assertion (A):</b> s2 is the converse of s1.<br><b>Reason (R):</b> A three-sided polygon must be a triangle.',
+   sol:'<b>(b) Both A and R are true, but R is not the correct explanation of A.</b><br>s2 = q→p genuinely is s1\'s converse (swap antecedent/consequent) — a structural fact, true regardless of content. R happens to be geometrically true too, but it explains why s2 is a <i>true statement</i>, not why it qualifies as the <i>converse</i>.'},
+  {marks:'', q:'Verify using a truth table if (X∧Y)⇒Z = (Y⇒Z)∧(X⇒Y) is valid.',
+   sol:`<table><tr><th>X</th><th>Y</th><th>Z</th><th>X∧Y</th><th>LHS</th><th>Y⇒Z</th><th>X⇒Y</th><th>RHS</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+   LHS and RHS disagree (e.g. row X=0,Y=1,Z=0: LHS=1, RHS=0) — <b>not valid</b>.`}
+]},
+{year:'ISC 2023', items:[
+  {marks:'1', q:'If (~p⇒~q), its contrapositive will be: (a) p⇒q &nbsp; (b) q⇒p &nbsp; (c) ~q⇒p &nbsp; (d) ~p⇒q',
+   sol:'<b>(b) q ⇒ p.</b><br>For a→b with a=~p, b=~q, contrapositive is b\u2032→a\u2032 = (~q)\u2032→(~p)\u2032 = q⇒p.'}
+]},
+{year:'ISC 2022', items:[
+  {marks:'1+1', q:'State the law represented by P∨P=P, and prove it with a truth table.',
+   sol:`This is the <b>Idempotent law</b>.<table><tr><th>P</th><th>P∨P</th></tr><tr><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td></tr></table>The P∨P column matches P exactly — proved.`},
+  {marks:'1+1', q:'How does a tautology differ from a contradiction? Write the truth table for a 2-input conjunction.',
+   sol:`A tautology is true for every combination of its variables (final column all 1s); a contradiction is false for every combination (final column all 0s).
+   <table><tr><th>a</th><th>b</th><th>a∧b</th></tr><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></table>`},
+  {marks:'', q:'Using a truth table, state whether ~(A∧B)∨(~A⇒B) is a Tautology, Contradiction or Contingency.',
+   sol:`<table><tr><th>A</th><th>B</th><th>A∧B</th><th>~(A∧B)</th><th>~A</th><th>~A⇒B</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
+   All 1s — a <b>Tautology</b>.`}
+]},
+{year:'ISC 2021', items:[
+  {marks:'1', q:'If Q\'⇒P\', write its inverse and contrapositive.',
+   sol:'Treat a=Q\u2032, b=P\u2032.<br><b>Inverse</b> (a\u2032→b\u2032): Q ⇒ P<br><b>Contrapositive</b> (b\u2032→a\u2032): P ⇒ Q'},
+  {marks:'2', q:'Using a truth table, state whether ~(P⇒Q)⇔(~P∨Q) is a Tautology, Contradiction or Contingency.',
+   sol:`<table><tr><th>P</th><th>Q</th><th>P⇒Q</th><th>~(P⇒Q)</th><th>~P∨Q</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr></table>
+   Since P⇒Q always equals ~P∨Q, one side is always the exact negation of the other — all 0s, a <b>Contradiction</b>.`}
+]},
+{year:'2020', items:[
+  {marks:'1', q:'State whether F = (P⇒Q)∨(Q⇒~P) is a tautology, contradiction or a contingency.',
+   sol:`<table><tr><th>P</th><th>Q</th><th>P⇒Q</th><th>~P</th><th>Q⇒~P</th><th>F</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr></table>
+   All 1s — a <b>Tautology</b>.`}
+]},
+{year:'2019', items:[
+  {marks:'', q:'A = "It is cloudy", B = "It is raining". For A⇒B, write: (i) Contrapositive (ii) Converse.',
+   sol:'<b>Contrapositive</b> (~B⇒~A): "If it is not raining, then it is not cloudy."<br><b>Converse</b> (B⇒A): "If it is raining, then it is cloudy."'},
+  {marks:'', q:'Using a truth table, state whether ~(P⇒Q)⇔(~P∨Q) is a Tautology, Contradiction or Contingency.',
+   sol:'Same expression as the ISC 2021 question above — the two sides are always opposite, so it is a <b>Contradiction</b>.'}
+]},
+{year:'2018', items:[
+  {marks:'', q:'Using a truth table, state whether ~(A∧B)∨(~A⇒B) is a tautology, contingency or a contradiction.',
+   sol:'Identical expression to the ISC 2022 question above — the final column is all 1s, so it is a <b>Tautology</b>.'},
+  {marks:'', q:'Verify (A\'+B).(1+B\')=A\'+B, then verify (P∧Q)∨(P∧~Q)=P with a truth table.',
+   sol:`First part: 1+B\u2032 = 1 <i>(Properties of 1: a∨1=1)</i>, so (A\u2032+B)·1 = A\u2032+B <i>(Properties of 1: a∧1=a)</i>.<br><br>
+   Second part: <table><tr><th>P</th><th>Q</th><th>~Q</th><th>P∧Q</th><th>P∧~Q</th><th>(P∧Q)∨(P∧~Q)</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr></table>
+   The final column matches P exactly — <b>verified</b>.`}
+]},
+{year:'2017', items:[
+  {marks:'', q:'If (~P⇒Q), write its: (i) Inverse (ii) Converse.',
+   sol:'Treat a=~P, b=Q.<br><b>Inverse</b> (a\u2032→b\u2032): P ⇒ ~Q<br><b>Converse</b> (b→a): Q ⇒ ~P'}
+]},
+{year:'2016', items:[
+  {marks:'3', q:'State whether (X⇒Z)∨~[(X⇒Y)∧(Y⇒Z)] is a Tautology, Contradiction or a Contingency, with a truth table.',
+   sol:`<table><tr><th>X</th><th>Y</th><th>Z</th><th>X⇒Y</th><th>Y⇒Z</th><th>∧</th><th>~∧</th><th>X⇒Z</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></table>
+   All 1s — a <b>Tautology</b>.`}
+]},
+{year:'2015', items:[
+  {marks:'', q:'Verify P∨(~P∧Q) = P∨Q with a truth table.',
+   sol:`<table><tr><th>P</th><th>Q</th><th>~P</th><th>~P∧Q</th><th>P∨(~P∧Q)</th><th>P∨Q</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
+   Both final columns read 0,1,1,1 — <b>verified</b>.`}
+]},
+{year:'2014', items:[
+  {marks:'', q:'Write the truth table for a 2-input conjunction and disjunction in a proposition.',
+   sol:`<table><tr><th>a</th><th>b</th><th>a∧b</th></tr><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></table>
+   <table><tr><th>a</th><th>b</th><th>a∨b</th></tr><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></table>`}
+]},
+{year:'2013', items:[
+  {marks:'', q:'Using a truth table, verify if (a⇒b)∧(b⇒c) = (a⇒c) is valid.',
+   sol:`<table><tr><th>a</th><th>b</th><th>c</th><th>a⇒b</th><th>b⇒c</th><th>premises</th><th>a⇒c</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+   Wherever the premises column is 1, the conclusion a⇒c is 1 too — the argument is <b>valid</b> (Law of Syllogism).`}
+]},
+{year:'2012', items:[
+  {marks:'', q:'If (X⇒Y), write its: (i) Converse (ii) Contrapositive.',
+   sol:'<b>Converse</b> (Y→X): Y ⇒ X<br><b>Contrapositive</b> (~Y→~X): ~Y ⇒ ~X'}
+]},
+{year:'2011', items:[
+  {marks:'', q:'Using a truth table, verify whether (p⇒q) = (~q⇒~p) is true or false.',
+   sol:`<table><tr><th>p</th><th>q</th><th>p⇒q</th><th>~q</th><th>~p</th><th>~q⇒~p</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr></table>
+   Identical columns — <b>true</b> (this is the contrapositive/transportation law).`},
+  {marks:'', q:'Verify if (a⇒b)∧(a⇒c) = a⇒(b∧c) is valid.',
+   sol:`<table><tr><th>a</th><th>b</th><th>c</th><th>a⇒b</th><th>a⇒c</th><th>∧</th><th>b∧c</th><th>a⇒(b∧c)</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+   The two outer columns match exactly — <b>valid</b>.`}
+]},
+{year:'2010', items:[
+  {marks:'', q:'Verify P.(~P+Q\') = (P⇒Q)\' using a truth table.',
+   sol:`<table><tr><th>P</th><th>Q</th><th>~P</th><th>Q\'</th><th>~P+Q\'</th><th>P.(~P+Q\')</th><th>P⇒Q</th><th>(P⇒Q)\'</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr></table>
+   Identical columns — <b>verified</b>.`},
+  {marks:'', q:'State whether (X⇔Z).[(X⇒Y).(Y⇒Z)] is a Tautology or Contradiction.',
+   sol:`<table><tr><th>X</th><th>Y</th><th>Z</th><th>X⇔Z</th><th>X⇒Y</th><th>Y⇒Z</th><th>result</th></tr>
+   <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+   The final column mixes 0s and 1s — neither: it is a <b>Contingency</b>.`}
+]},
+{year:'2008', items:[
+  {marks:'', q:'Draw the truth table for the propositional logic expressions p→q and p↔q.',
+   sol:`<table><tr><th>p</th><th>q</th><th>p→q</th><th>p↔q</th></tr>
+   <tr><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+   <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+   <tr><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+   <tr><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>`}
+]}
+];
+
+const pyqList = document.getElementById('pyqList');
+pyqData.forEach((yr, yi)=>{
+  const det = document.createElement('details');
+  det.className = 'year-block';
+  if(yi===0) det.open = true;
+  const summary = document.createElement('summary');
+  summary.innerHTML = `<span>${yr.year}</span><span class="count">${yr.items.length} question${yr.items.length>1?'s':''}</span>`;
+  det.appendChild(summary);
+  yr.items.forEach(item=>{
+    const qDiv = document.createElement('div');
+    qDiv.className = 'yq';
+    qDiv.innerHTML = `${item.marks ? `<span class="marks">[${item.marks}]</span>` : ''}
+      <div class="stem">${item.q}</div>
+      <div class="ans"><div class="lbl">SOLUTION</div>${item.sol}</div>`;
+    det.appendChild(qDiv);
+  });
+  pyqList.appendChild(det);
+});
+</script>
+</body>
+</html>

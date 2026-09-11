@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISC Class 12 - Boolean Algebra Solutions</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --success-bg: #f0fdf4;
+            --success-border: #bbf7d0;
+            --success-text: #166534;
+            --accent: #dbeafe;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 940px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #ffffff;
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        header h2 {
+            font-size: 1.25rem;
+            color: #38bdf8;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Tab Navigation */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0px;
+        }
+
+        .tab-btn {
+            background-color: #e2e8f0;
+            color: var(--text-muted);
+            border: none;
+            outline: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tab-btn:hover {
+            background-color: #cbd5e1;
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: #ffffff;
+            border-bottom: 4px solid var(--primary-dark);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--primary-dark);
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .options-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .options-list li {
+            padding: 0.5rem 0.8rem;
+            margin-bottom: 0.4rem;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            background-color: #f1f5f9;
+        }
+
+        .options-list li.correct {
+            background-color: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text);
+            font-weight: 600;
+        }
+
+        .solution-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+        }
+
+        .solution-box h4 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr.active-row {
+            background-color: #eff6ff;
+            font-weight: 600;
+        }
+
+        .kmap-table {
+            width: auto;
+            margin: 1rem auto;
+            border: 2px solid #334155;
+        }
+
+        .kmap-table th, .kmap-table td {
+            width: 75px;
+            height: 50px;
+            border: 1px solid #64748b;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .kmap-cell-num {
+            font-size: 0.7rem;
+            color: #64748b;
+            position: absolute;
+            top: 2px;
+            right: 4px;
+        }
+
+        .kmap-val {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            color: #c026d3;
+        }
+
+        .scenario-box {
+            background-color: #f1f5f9;
+            border: 1px dashed var(--text-muted);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .scenario-box ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            padding-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>ISC CLASS 12 - BOOLEAN ALGEBRA</h1>
+        <h2>SOLVED QUESTION PAPERS</h2>
+    </header>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-2026')">2026 SOLUTIONS</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-2025')">2025 SOLUTIONS</button>
+    </div>
+
+    <!-- ==================== 2026 TAB CONTENT ==================== -->
+    <div id="tab-2026" class="tab-content active">
+
+        <h3 class="section-title">Section A: Short Answer & Multiple Choice Questions</h3>
+
+        <!-- Question 1(i) -->
+        <div class="card">
+            <span class="question-number">Question 1 (i)</span>
+            <div class="question-text">
+                According to the Principle of Duality, the Boolean equation <code>Q' · 0 + P' · Q' + P' · Q = P'</code> will be equivalent to:
+            </div>
+            <ul class="options-list">
+                <li>(a) Q · 0 + P · Q + P · Q' = P</li>
+                <li>(b) Q' · 1 + P' · Q' + P · Q' = P'</li>
+                <li class="correct">(c) (Q' + 1) · (P' + Q') · (P' + Q) = P' ✓</li>
+                <li>(d) (Q' + 0) · (P' + Q') · (P' + Q) = P'</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>According to the <strong>Principle of Duality</strong>:</p>
+                <ul>
+                    <li>Change each <strong>AND (·)</strong> operator to <strong>OR (+)</strong>.</li>
+                    <li>Change each <strong>OR (+)</strong> operator to <strong>AND (·)</strong>.</li>
+                    <li>Replace <strong>0</strong> with <strong>1</strong> and <strong>1</strong> with <strong>0</strong>.</li>
+                    <li>Keep variables and complemented variables unchanged.</li>
+                </ul>
+                <p>Applying these steps to <code>Q' · 0 + P' · Q' + P' · Q = P'</code> yields <strong><code>(Q' + 1) · (P' + Q') · (P' + Q) = P'</code></strong>.</p>
+            </div>
+        </div>
+
+        <!-- Question 1(iv) -->
+        <div class="card">
+            <span class="question-number">Question 1 (iv)</span>
+            <div class="question-text">
+                The Boolean equations <code>a + 1 = 1</code> and <code>a · 0 = 0</code> correspond to:
+            </div>
+            <ul class="options-list">
+                <li>(a) Involution Law</li>
+                <li class="correct">(b) Law of Identity ✓</li>
+                <li>(c) Distributive Law</li>
+                <li>(d) Law of Complements</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>The <strong>Law of Identity</strong> (or Properties of 0 and 1) defines operations involving binary constants 0 and 1, such as <code>a + 1 = 1</code>, <code>a · 0 = 0</code>, <code>a + 0 = a</code>, and <code>a · 1 = a</code>.</p>
+            </div>
+        </div>
+
+        <!-- Question 1(x) -->
+        <div class="card">
+            <span class="question-number">Question 1 (x)</span>
+            <div class="question-text">
+                What is <i>Gray code</i> in Karnaugh map?
+            </div>
+            <div class="solution-box">
+                <h4>Solution</h4>
+                <p><strong>Gray code</strong> is a non-weighted binary coding sequence where adjacent values differ by only <strong>a single bit</strong> (e.g., 00 → 01 → 11 → 10).</p>
+                <p>In a Karnaugh map (K-Map), Gray code is used to label rows and columns so that physically adjacent cells differ by exactly one variable. This adjacency enables visual grouping and simplification of Boolean expressions.</p>
+            </div>
+        </div>
+
+        <!-- Question 1(iii) -->
+        <div class="card">
+            <span class="question-number">Question 1 (iii)</span>
+            <div class="question-text">
+                Given that <code>P = 0, Q = 1, R = 0, S = 0</code>, write its:
+                <br>(a) Maxterm
+                <br>(b) Minterm
+            </div>
+            <div class="solution-box">
+                <h4>Solution</h4>
+                <p><strong>(a) Maxterm:</strong> <code>P + Q' + R + S</code></p>
+                <p><em>Rule:</em> Variables valued at 0 are represented in uncomplemented form, while variables valued at 1 are complemented, joined by OR (+).</p>
+                <br>
+                <p><strong>(b) Minterm:</strong> <code>P' · Q · R' · S'</code> (or <code>P'QR'S'</code>)</p>
+                <p><em>Rule:</em> Variables valued at 1 are represented in uncomplemented form, while variables valued at 0 are complemented, joined by AND (·).</p>
+            </div>
+        </div>
+
+        <h3 class="section-title">Section B: Application Based & Reduction Problems</h3>
+
+        <!-- Question 4(i) -->
+        <div class="card">
+            <span class="question-number">Question 4 (i)</span>
+            <div class="question-text">
+                According to the ancient laws of the Valley of Peace, a candidate can become the Dragon Warrior only if they satisfy any one of the following conditions:
+            </div>
+
+            <div class="scenario-box">
+                <ul>
+                    <li>The candidate belongs to the Panda Clan and has been trained for more than 5 years under the Grand Master.</li>
+                    <strong style="display:block; margin: 0.3rem 0; text-align:center;">OR</strong>
+                    <li>The candidate possesses the Secret Chi Power but does not belong to the Panda Clan.</li>
+                    <strong style="display:block; margin: 0.3rem 0; text-align:center;">OR</strong>
+                    <li>The candidate is recommended by the Grand Master, but neither belongs to the Panda Clan nor has been trained for more than 5 years.</li>
+                </ul>
+            </div>
+
+            <p><strong>Inputs:</strong></p>
+            <ul>
+                <li><code>C</code>: Belongs to Panda Clan</li>
+                <li><code>T</code>: Trained for more than 5 years</li>
+                <li><code>P</code>: Possesses Secret Chi Power</li>
+                <li><code>R</code>: Recommended by Grand Master</li>
+            </ul>
+            <p style="margin-top:0.5rem;"><em>(1 indicates YES, 0 indicates NO)</em></p>
+            <p style="margin-top:0.5rem;"><strong>Output:</strong> <code>X</code> - Denotes eligibility (1 = eligible, 0 = not eligible)</p>
+
+            <p style="margin-top: 1rem;"><strong>Tasks:</strong> Draw the truth table for the inputs and output given above. Write the SOP expression for <code>X(C, T, P, R)</code>.</p>
+
+            <div class="solution-box">
+                <h4>1. Truth Table</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Row</th>
+                                <th>C</th>
+                                <th>T</th>
+                                <th>P</th>
+                                <th>R</th>
+                                <th>Output (X)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr class="active-row"><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                            <tr class="active-row"><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr class="active-row"><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+                            <tr><td>4</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>5</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr class="active-row"><td>6</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr class="active-row"><td>7</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                            <tr><td>8</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>9</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>10</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+                            <tr><td>11</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                            <tr class="active-row"><td>12</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                            <tr class="active-row"><td>13</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                            <tr class="active-row"><td>14</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr class="active-row"><td>15</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 style="margin-top:1.5rem;">2. SOP Expressions</h4>
+                <p><strong>Simplified SOP Expression:</strong></p>
+                <p><code>X(C, T, P, R) = C·T + C'·P + C'·T'·R</code></p>
+                
+                <p style="margin-top: 1rem;"><strong>Canonical SOP Expression (Sum of Minterms):</strong></p>
+                <p><code>X(C, T, P, R) = Σ(1, 2, 3, 6, 7, 12, 13, 14, 15)</code></p>
+                <p><code>X = C'T'P'R + C'T'PR' + C'T'PR + C'TPR' + C'TPR + CTP'R' + CTP'R + CTPR' + CTPR</code></p>
+            </div>
+        </div>
+
+        <!-- Question 5(i) -->
+        <div class="card">
+            <span class="question-number">Question 5 (i)</span>
+            <div class="question-text">
+                (a) Reduce the Boolean function <code>F(A,B,C,D) = π (0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 13, 15)</code> by using a 4-variable Karnaugh map, showing the various groups (i.e., octal, quads and pairs). [4]
+                <br><br>
+                (b) Draw the logic gate diagram for the reduced expression. Assume that the variables and their complements are available as inputs. [1]
+            </div>
+
+            <div class="solution-box">
+                <h4>Solution for (a): K-Map Reduction (POS)</h4>
+                <p>For Product of Sums (POS), maxterms given by <code>π</code> are mapped as <strong>0</strong> in the Karnaugh map:</p>
+
+                <div class="table-responsive">
+                    <table class="kmap-table">
+                        <thead>
+                            <tr>
+                                <th style="background:#e2e8f0; font-size:0.85rem;">AB \ CD</th>
+                                <th>C+D<br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <th>C+D'<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <th>C'+D'<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <th>C'+D<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>A+B <br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">0</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">1</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">3</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">2</span><span class="kmap-val">0</span></td>
+                            </tr>
+                            <tr>
+                                <th>A+B'<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <td><span class="kmap-cell-num">4</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">5</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#fee2e2;"><span class="kmap-cell-num">7</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">6</span><span class="kmap-val">1</span></td>
+                            </tr>
+                            <tr>
+                                <th>A'+B'<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">12</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">13</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fee2e2;"><span class="kmap-cell-num">15</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">14</span><span class="kmap-val">1</span></td>
+                            </tr>
+                            <tr>
+                                <th>A'+B<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">8</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">9</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">11</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">10</span><span class="kmap-val">0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Grouping Analysis:</strong></p>
+                <ul>
+                    <li><strong>Octet 1:</strong> Maxterms <code>M<sub>0</sub>, M<sub>1</sub>, M<sub>2</sub>, M<sub>3</sub>, M<sub>8</sub>, M<sub>9</sub>, M<sub>10</sub>, M<sub>11</sub></code> → Reduced Term: <code>B</code></li>
+                    <li><strong>Quad 1:</strong> Maxterms <code>M<sub>8</sub>, M<sub>9</sub>, M<sub>12</sub>, M<sub>13</sub></code> → Reduced Term: <code>(A' + C)</code></li>
+                    <li><strong>Quad 2:</strong> Maxterms <code>M<sub>3</sub>, M<sub>7</sub>, M<sub>11</sub>, M<sub>15</sub></code> → Reduced Term: <code>(C' + D')</code></li>
+                </ul>
+
+                <br>
+                <p><strong>Final Reduced Expression (POS):</strong></p>
+                <p><code>F(A, B, C, D) = B · (A' + C) · (C' + D')</code></p>
+
+                <h4 style="margin-top:2rem;">Solution for (b): Logic Gate Diagram</h4>
+                <p>Logic diagram implementing <code>F = B · (A' + C) · (C' + D')</code> using 2-input OR gates and a 3-input AND gate:</p>
+
+                <div class="diagram-container">
+                    <svg width="580" height="230" xmlns="http://www.w3.org/2000/svg">
+                        <text x="30" y="45" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">A'</text>
+                        <line x1="50" y1="40" x2="160" y2="40" stroke="#334155" stroke-width="2"/>
+
+                        <text x="30" y="75" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">C</text>
+                        <line x1="50" y1="70" x2="160" y2="70" stroke="#334155" stroke-width="2"/>
+
+                        <text x="30" y="125" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">C'</text>
+                        <line x1="50" y1="120" x2="160" y2="120" stroke="#334155" stroke-width="2"/>
+
+                        <text x="30" y="155" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">D'</text>
+                        <line x1="50" y1="150" x2="160" y2="150" stroke="#334155" stroke-width="2"/>
+
+                        <text x="30" y="195" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e293b">B</text>
+                        <line x1="50" y1="190" x2="360" y2="190" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 160,30 Q 172,50 160,70 Q 190,70 220,50 Q 190,30 160,30 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <text x="172" y="54" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8">OR</text>
+                        <line x1="220" y1="50" x2="360" y2="50" stroke="#334155" stroke-width="2"/>
+                        <text x="235" y="42" font-family="sans-serif" font-size="12" fill="#475569">(A' + C)</text>
+
+                        <path d="M 160,110 Q 172,135 160,160 Q 190,160 220,135 Q 190,110 160,110 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <text x="172" y="139" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8">OR</text>
+                        <line x1="220" y1="135" x2="360" y2="120" stroke="#334155" stroke-width="2"/>
+                        <text x="235" y="125" font-family="sans-serif" font-size="12" fill="#475569">(C' + D')</text>
+
+                        <path d="M 360,35 L 390,35 A 42,42 0 0,1 390,205 L 360,205 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+                        <text x="370" y="124" font-family="sans-serif" font-size="12" font-weight="bold" fill="#b45309">AND</text>
+
+                        <line x1="432" y1="120" x2="510" y2="120" stroke="#334155" stroke-width="2"/>
+                        <text x="520" y="125" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0f172a">F</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== 2025 TAB CONTENT ==================== -->
+    <div id="tab-2025" class="tab-content">
+
+        <h3 class="section-title">Section A: Objective & Short Answer Questions</h3>
+
+        <!-- Question 1(i) -->
+        <div class="card">
+            <span class="question-number">Question 1 (i)</span>
+            <div class="question-text">
+                Find the complement of the Boolean expression: <code>X = (A · B) + (B' · C)</code>
+            </div>
+            <div class="solution-box">
+                <h4>Solution</h4>
+                <p>Taking complement on both sides:</p>
+                <p><code>X' = [(A · B) + (B' · C)]'</code></p>
+                <p>Applying <strong>De Morgan's First Law</strong> <code>(P + Q)' = P' · Q'</code>:</p>
+                <p><code>X' = (A · B)' · (B' · C)'</code></p>
+                <p>Applying <strong>De Morgan's Second Law</strong> <code>(P · Q)' = P' + Q'</code>:</p>
+                <p><code>X' = (A' + B') · (B'' + C')</code></p>
+                <p>Since <code>B'' = B</code> (Involution Law):</p>
+                <p><strong>Answer:</strong> <code>(A' + B') · (B + C')</code></p>
+            </div>
+        </div>
+
+        <!-- Question 1(iii) -->
+        <div class="card">
+            <span class="question-number">Question 1 (iii)</span>
+            <div class="question-text">
+                State the dual of the Boolean expression: <code>(1 + Y) · (X + Y) = Y + X</code>
+            </div>
+            <ul class="options-list">
+                <li>(a) (1 · Y) + (X · Y) = Y · X</li>
+                <li class="correct">(b) (0 · Y) + (X · Y) = Y · X ✓</li>
+                <li>(c) (0 + Y) · (X + Y) = Y + X</li>
+                <li>(d) (1 · Y) + (X + Y) = Y · X</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>To find the <strong>dual</strong> of a Boolean expression:</p>
+                <ul>
+                    <li>Replace <code>+</code> with <code>·</code></li>
+                    <li>Replace <code>·</code> with <code>+</code></li>
+                    <li>Replace <code>1</code> with <code>0</code> and <code>0</code> with <code>1</code></li>
+                </ul>
+                <p>Original: <code>(1 + Y) · (X + Y) = Y + X</code></p>
+                <p>Dual: <strong><code>(0 · Y) + (X · Y) = Y · X</code></strong></p>
+            </div>
+        </div>
+
+        <!-- Question 1(iv) -->
+        <div class="card">
+            <span class="question-number">Question 1 (iv)</span>
+            <div class="question-text">
+                Which law is represented by: <code>A + (B + C) = (A + B) + C</code>?
+            </div>
+            <ul class="options-list">
+                <li>(a) Commutative Law</li>
+                <li>(b) Distributive Law</li>
+                <li>(c) Absorption Law</li>
+                <li class="correct">(d) Associative Law ✓</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>The <strong>Associative Law</strong> states that grouping of variables does not change the result of logical OR or AND operations:</p>
+                <p>OR Form: <code>A + (B + C) = (A + B) + C</code></p>
+                <p>AND Form: <code>A · (B · C) = (A · B) · C</code></p>
+            </div>
+        </div>
+
+        <!-- Question 1(v) -->
+        <div class="card">
+            <span class="question-number">Question 1 (v) [Specimen]</span>
+            <div class="question-text">
+                Find the complement of the Boolean function <code>F(A, B) = Σ (0, 1, 2, 3)</code>.
+            </div>
+            <ul class="options-list">
+                <li>(a) 1</li>
+                <li>(b) A'B'</li>
+                <li class="correct">(c) 0 ✓</li>
+                <li>(d) A + B</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>The Boolean function <code>F(A, B) = Σ (0, 1, 2, 3)</code> contains all possible minterms for 2 variables (2<sup>2</sup> = 4 minterms).</p>
+                <p>Thus, the function evaluates to tautology: <code>F(A, B) = 1</code>.</p>
+                <p>The complement of <code>1</code> is <strong><code>0</code></strong>.</p>
+            </div>
+        </div>
+
+        <!-- Question 1(vii) -->
+        <div class="card">
+            <span class="question-number">Question 1 (vii)</span>
+            <div class="question-text">
+                Find the canonical POS expression for: <code>F(P, Q, R) = π (2, 5, 7)</code>
+            </div>
+            <ul class="options-list">
+                <li class="correct">(a) F = (P + Q' + R) · (P' + Q + R') · (P' + Q' + R') ✓</li>
+                <li>(b) F = (P' + Q + P') · (P + Q' + R) · (P + Q + R)</li>
+                <li>(c) F = P'QR' + PQ'R + PQR</li>
+                <li>(d) F = (P + Q + R) · (P' + Q' + R')</li>
+            </ul>
+            <div class="solution-box">
+                <h4>Explanation</h4>
+                <p>Convert maxterm indices to 3-bit binary numbers (0 = uncomplemented, 1 = complemented):</p>
+                <ul>
+                    <li><strong>Maxterm 2 (010):</strong> <code>(P + Q' + R)</code></li>
+                    <li><strong>Maxterm 5 (101):</strong> <code>(P' + Q + R')</code></li>
+                    <li><strong>Maxterm 7 (111):</strong> <code>(P' + Q' + R')</code></li>
+                </ul>
+                <p>Canonical POS expression: <strong><code>F = (P + Q' + R) · (P' + Q + R') · (P' + Q' + R')</code></strong></p>
+            </div>
+        </div>
+
+        <!-- Question 1(x) -->
+        <div class="card">
+            <span class="question-number">Question 1 (x)</span>
+            <div class="question-text">
+                Write the minterm canonical SOP expression from the following truth table:
+                <div class="table-responsive" style="max-width:300px; margin: 0.5rem 0;">
+                    <table>
+                        <thead>
+                            <tr><th>A</th><th>B</th><th>X</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr class="active-row"><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                            <tr class="active-row"><td>1</td><td>1</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="solution-box">
+                <h4>Solution</h4>
+                <p>Output <code>X = 1</code> for rows where:</p>
+                <ul>
+                    <li><code>A = 0, B = 0</code> → Minterm <code>m<sub>0</sub> = A'B'</code></li>
+                    <li><code>A = 1, B = 1</code> → Minterm <code>m<sub>3</sub> = AB</code></li>
+                </ul>
+                <p>Sum of Minterms: <strong><code>X(A, B) = Σ(0, 3)</code></strong></p>
+                <p>Canonical SOP Expression: <strong><code>X = A'B' + AB</code></strong></p>
+            </div>
+        </div>
+
+        <h3 class="section-title">Section B: Application Based & K-Map Problems</h3>
+
+        <!-- Question 3 Specimen -->
+        <div class="card">
+            <span class="question-number">Question 3 [Specimen]</span>
+            <div class="question-text">
+                An institution evaluates candidates for a privilege scheme based on four conditions:
+                <ul>
+                    <li><code>E</code>: Employee with service > 10 years</li>
+                    <li><code>R</code>: Regular customer</li>
+                    <li><code>S</code>: Service tenure flag / Senior status</li>
+                    <li><code>C</code>: Senior citizen (age ≥ 65)</li>
+                </ul>
+                <p style="margin-top:0.5rem;">Privilege (Output <code>X = 1</code>) is granted under the following conditions:</p>
+                <div class="scenario-box">
+                    <ul>
+                        <li>Condition 1: Employee with service > 10 years (<code>E · S</code>)</li>
+                        <li>Condition 2: Regular customer, age < 65, and non-employee (<code>E' · R · C'</code>)</li>
+                        <li>Condition 3: Senior citizen, non-regular customer (<code>R' · C</code>)</li>
+                    </ul>
+                </div>
+                (i) Construct the Truth Table and write the canonical SOP expression.
+                <br>(ii) Reduce the expression using a 4-variable K-map and draw the logic gate diagram.
+            </div>
+
+            <div class="solution-box">
+                <h4>(i) Truth Table</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Row</th>
+                                <th>E</th>
+                                <th>R</th>
+                                <th>S</th>
+                                <th>C</th>
+                                <th>Output (X)</th>
+                                <th>Minterm Term</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
+                            <tr class="active-row"><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>m<sub>1</sub> = E'R'S'C</td></tr>
+                            <tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>-</td></tr>
+                            <tr class="active-row"><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>m<sub>3</sub> = E'R'SC</td></tr>
+                            <tr class="active-row"><td>4</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>m<sub>4</sub> = E'RS'C'</td></tr>
+                            <tr><td>5</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>-</td></tr>
+                            <tr class="active-row"><td>6</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>m<sub>6</sub> = E'RSC'</td></tr>
+                            <tr><td>7</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>-</td></tr>
+                            <tr><td>8</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
+                            <tr class="active-row"><td>9</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>m<sub>9</sub> = ER'S'C</td></tr>
+                            <tr class="active-row"><td>10</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>m<sub>10</sub> = ER'SC'</td></tr>
+                            <tr class="active-row"><td>11</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>m<sub>11</sub> = ER'SC</td></tr>
+                            <tr><td>12</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
+                            <tr><td>13</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>-</td></tr>
+                            <tr class="active-row"><td>14</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>m<sub>14</sub> = ERSC'</td></tr>
+                            <tr class="active-row"><td>15</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>m<sub>15</sub> = ERSC</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin-top:1rem;"><strong>Canonical SOP Expression:</strong></p>
+                <p><code>X(E, R, S, C) = Σ (1, 3, 4, 6, 9, 10, 11, 14, 15)</code></p>
+                <p><code>X = E'R'S'C + E'R'SC + E'RS'C' + E'RSC' + ER'S'C + ER'SC' + ER'SC + ERSC' + ERSC</code></p>
+
+                <h4 style="margin-top:1.5rem;">(ii) K-Map Reduction & Logic Diagram</h4>
+
+                <div class="table-responsive">
+                    <table class="kmap-table">
+                        <thead>
+                            <tr>
+                                <th style="background:#e2e8f0; font-size:0.85rem;">ER \ SC</th>
+                                <th>S'C'<br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <th>S'C<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <th>SC<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <th>SC'<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>E'R'<br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <td><span class="kmap-cell-num">0</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">1</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">3</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">2</span><span class="kmap-val">0</span></td>
+                            </tr>
+                            <tr>
+                                <th>E'R<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <td style="background-color:#fee2e2;"><span class="kmap-cell-num">4</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">5</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">7</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fee2e2;"><span class="kmap-cell-num">6</span><span class="kmap-val">1</span></td>
+                            </tr>
+                            <tr>
+                                <th>ER<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <td><span class="kmap-cell-num">12</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">13</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">15</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">14</span><span class="kmap-val">1</span></td>
+                            </tr>
+                            <tr>
+                                <th>ER'<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                                <td><span class="kmap-cell-num">8</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">9</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#dbeafe,#fef3c7;"><span class="kmap-cell-num">11</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">10</span><span class="kmap-val">1</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Groupings:</strong></p>
+                <ul>
+                    <li><strong>Quad 1 (10, 11, 14, 15):</strong> Reduced term = <code>E · S</code></li>
+                    <li><strong>Quad 2 (1, 3, 9, 11):</strong> Reduced term = <code>R' · C</code></li>
+                    <li><strong>Pair 1 (4, 6):</strong> Reduced term = <code>E' · R · C'</code></li>
+                </ul>
+
+                <p style="margin-top:0.5rem;"><strong>Reduced Expression:</strong></p>
+                <p><code>X = E · S + R' · C + E' · R · C'</code></p>
+
+                <div class="diagram-container">
+                    <svg width="550" height="230" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Gates AND 1 -->
+                        <text x="20" y="30" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">E</text>
+                        <line x1="35" y1="25" x2="140" y2="25" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="50" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">S</text>
+                        <line x1="35" y1="45" x2="140" y2="45" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,15 L 165,15 A 20,20 0 0,1 165,55 L 140,55 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+                        <line x1="185" y1="35" x2="330" y2="35" stroke="#334155" stroke-width="2"/>
+
+                        <!-- Gates AND 2 -->
+                        <text x="20" y="95" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">R'</text>
+                        <line x1="35" y1="90" x2="140" y2="90" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="115" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">C</text>
+                        <line x1="35" y1="110" x2="140" y2="110" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,80 L 165,80 A 20,20 0 0,1 165,120 L 140,120 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+                        <line x1="185" y1="100" x2="330" y2="100" stroke="#334155" stroke-width="2"/>
+
+                        <!-- Gates AND 3 -->
+                        <text x="20" y="160" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">E'</text>
+                        <line x1="35" y1="155" x2="140" y2="155" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="180" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">R</text>
+                        <line x1="35" y1="175" x2="140" y2="175" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="200" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">C'</text>
+                        <line x1="35" y1="195" x2="140" y2="195" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,145 L 165,145 A 30,30 0 0,1 165,205 L 140,205 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+                        <line x1="195" y1="175" x2="330" y2="175" stroke="#334155" stroke-width="2"/>
+
+                        <!-- OR Gate -->
+                        <path d="M 330,20 Q 345,100 330,190 Q 370,190 410,105 Q 370,20 330,20 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <line x1="410" y1="105" x2="480" y2="105" stroke="#334155" stroke-width="2"/>
+                        <text x="490" y="110" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0f172a">X</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 Specimen -->
+        <div class="card">
+            <span class="question-number">Question 4 [Specimen]</span>
+            <div class="question-text">
+                Given the Boolean function: <code>F(P, Q, R, S) = π (0, 1, 2, 4, 5, 6, 7, 8, 9)</code>
+                <br><br>
+                (a) Reduce it using a 4-variable Karnaugh Map in Product of Sums (POS) form.
+                <br>(b) Draw the logic gate diagram for the reduced POS expression.
+            </div>
+
+            <div class="solution-box">
+                <h4>(a) K-Map Reduction (POS Form)</h4>
+
+                <div class="table-responsive">
+                    <table class="kmap-table">
+                        <thead>
+                            <tr>
+                                <th style="background:#e2e8f0; font-size:0.85rem;">P+Q \ R+S</th>
+                                <th>R+S<br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <th>R+S'<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <th>R'+S'<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <th>R'+S<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>P+Q<br><span style="font-size:0.75rem; color:#64748b;">(00)</span></th>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">0</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">1</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">3</span><span class="kmap-val">1</span></td>
+                                <td style="background-color:#fee2e2;"><span class="kmap-cell-num">2</span><span class="kmap-val">0</span></td>
+                            </tr>
+                            <tr>
+                                <th>P+Q'<br><span style="font-size:0.75rem; color:#64748b;">(01)</span></th>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">4</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">5</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">7</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#fef3c7;"><span class="kmap-cell-num">6</span><span class="kmap-val">0</span></td>
+                            </tr>
+                            <tr>
+                                <th>P'+Q'<br><span style="font-size:0.75rem; color:#64748b;">(11)</span></th>
+                                <td><span class="kmap-cell-num">12</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">13</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">15</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">14</span><span class="kmap-val">1</span></td>
+                            </tr>
+                            <tr>
+                                <th>P'+Q<br><span style="font-size:0.75rem; color:#64748b;">(10)</span></th>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">8</span><span class="kmap-val">0</span></td>
+                                <td style="background-color:#dbeafe;"><span class="kmap-cell-num">9</span><span class="kmap-val">0</span></td>
+                                <td><span class="kmap-cell-num">11</span><span class="kmap-val">1</span></td>
+                                <td><span class="kmap-cell-num">10</span><span class="kmap-val">1</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Grouping Analysis (Zeros):</strong></p>
+                <ul>
+                    <li><strong>Quad 1 (4, 5, 6, 7):</strong> Reduced sum term = <code>(P + Q')</code></li>
+                    <li><strong>Quad 2 (0, 1, 8, 9):</strong> Reduced sum term = <code>(Q + R)</code></li>
+                    <li><strong>Quad 3 (0, 2, 4, 6):</strong> Reduced sum term = <code>(P + S)</code></li>
+                </ul>
+
+                <br>
+                <p><strong>Reduced POS Expression:</strong></p>
+                <p><code>F(P, Q, R, S) = (P + Q') · (Q + R) · (P + S)</code></p>
+
+                <h4 style="margin-top:2rem;">(b) Logic Gate Diagram (POS)</h4>
+
+                <div class="diagram-container">
+                    <svg width="550" height="210" xmlns="http://www.w3.org/2000/svg">
+                        <!-- OR 1 -->
+                        <text x="20" y="30" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">P</text>
+                        <line x1="35" y1="25" x2="140" y2="25" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="55" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">Q'</text>
+                        <line x1="35" y1="50" x2="140" y2="50" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,15 Q 152,37 140,60 Q 170,60 200,37 Q 170,15 140,15 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <line x1="200" y1="37" x2="330" y2="37" stroke="#334155" stroke-width="2"/>
+
+                        <!-- OR 2 -->
+                        <text x="20" y="95" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">Q</text>
+                        <line x1="35" y1="90" x2="140" y2="90" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="120" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">R</text>
+                        <line x1="35" y1="115" x2="140" y2="115" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,80 Q 152,102 140,125 Q 170,125 200,102 Q 170,80 140,80 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <line x1="200" y1="102" x2="330" y2="102" stroke="#334155" stroke-width="2"/>
+
+                        <!-- OR 3 -->
+                        <text x="20" y="160" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">P</text>
+                        <line x1="35" y1="155" x2="140" y2="155" stroke="#334155" stroke-width="2"/>
+                        <text x="20" y="185" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b">S</text>
+                        <line x1="35" y1="180" x2="140" y2="180" stroke="#334155" stroke-width="2"/>
+
+                        <path d="M 140,145 Q 152,167 140,190 Q 170,190 200,167 Q 170,145 140,145 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                        <line x1="200" y1="167" x2="330" y2="167" stroke="#334155" stroke-width="2"/>
+
+                        <!-- Final AND Gate -->
+                        <path d="M 330,20 L 360,20 A 45,45 0 0,1 360,185 L 330,185 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+                        <line x1="405" y1="102" x2="480" y2="102" stroke="#334155" stroke-width="2"/>
+                        <text x="490" y="107" font-family="sans-serif" font-size="15" font-weight="bold" fill="#0f172a">F</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        ISC Class 12 Computer Science • Boolean Algebra Question Bank
+    </footer>
+
+</div>
+
+<script>
+    function switchTab(evt, tabId) {
+        var i, tabcontent, tablinks;
+        
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
+
+</body>
+</html>

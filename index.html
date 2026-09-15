@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computers ISC Class 12 2026 — Nav Hub</title>
 
-    <!-- GSAP -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <!-- GSAP: deferred so HTML/CSS can render without blocking parsing -->
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 
     <style>
         :root {
@@ -89,8 +90,9 @@
             background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)), var(--glass);
             border: 1px solid var(--border);
             border-radius: 28px;
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            contain: layout paint;
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
@@ -136,6 +138,66 @@
             font-size: 0.9rem;
         }
 
+        .search-wrap {
+            position: relative;
+            margin: 0 0 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            width: 17px;
+            height: 17px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #94a3b8;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 44px;
+            padding: 0 42px 0 40px;
+            color: var(--text);
+            background: rgba(255,255,255,0.035);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            outline: none;
+            font: inherit;
+            font-size: 0.88rem;
+            transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .search-input::placeholder { color: #64748b; }
+        .search-input:focus {
+            background: rgba(255,255,255,0.055);
+            border-color: rgba(129,140,248,0.5);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
+        }
+
+        .search-hint {
+            position: absolute;
+            right: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 0.68rem;
+            line-height: 1;
+            padding: 5px 6px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.025);
+            pointer-events: none;
+        }
+
+        .search-empty {
+            display: none;
+            padding: 24px 12px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
         .menu-list {
             position: relative;
             z-index: 1;
@@ -161,8 +223,10 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.042), rgba(255,255,255,0.016));
             border: 1px solid var(--border);
             overflow: hidden;
-            transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
             cursor: pointer;
+            contain: layout paint;
+            will-change: transform, opacity;
         }
 
         .menu-item:hover {
@@ -245,6 +309,11 @@
         @media (max-width: 768px) {
             body { align-items: flex-start; padding: 3vh 0; }
             .menu-container { width: 94vw !important; }
+            .search-hint { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; }
         }
     </style>
 </head>
@@ -265,7 +334,18 @@
             <h1>Nav Hub For All Essentials ISC Computer Science</h1>
             <p>ISC Class 12 • 2026</p>
         </header>
+
+        <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="m16 16 4 4"></path>
+            </svg>
+            <input id="menuSearch" class="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search resources…" aria-label="Search resources">
+            <span class="search-hint">Ctrl K</span>
+        </div>
+
         <nav class="menu-list" id="menuList" aria-label="Computer resources"></nav>
+        <div class="search-empty" id="searchEmpty">No matching resources.</div>
     </main>
 </div>
 
@@ -290,14 +370,18 @@
     ];
 
     const container = document.getElementById("menuList");
+    const searchInput = document.getElementById("menuSearch");
+    const searchEmpty = document.getElementById("searchEmpty");
     const pageTransition = document.getElementById("pageTransition");
     const transitionContent = document.getElementById("transitionContent");
     const transitionTitle = document.getElementById("transitionTitle");
     const transitionNumber = document.getElementById("transitionNumber");
     const transitionLine = document.getElementById("transitionLine");
 
-    gsap.set("#navCard", { opacity: 0, y: 30, scale: 0.98 });
-    gsap.set("#navCard .header > *", { opacity: 0, y: 16 });
+    let filteredItems = defaultItems.slice();
+    let filterToken = 0;
+
+    // Animation setup is performed after deferred GSAP has loaded.
 
     function resetPageTransition() {
         gsap.killTweensOf([pageTransition, transitionContent, transitionLine]);
@@ -308,41 +392,93 @@
         document.body.style.overflow = "";
     }
 
-    window.addEventListener("pageshow", () => { resetPageTransition(); });
+    window.addEventListener("pageshow", () => {
+        if (window.gsap) resetPageTransition();
+    }, { passive: true });
 
-    function renderMenu() {
-        container.innerHTML = "";
-        defaultItems.forEach((item, index) => {
-            const menuItem = document.createElement("a");
-            menuItem.href = item.url;
-            menuItem.className = "menu-item";
-            menuItem.dataset.index = index;
-            menuItem.innerHTML = `
-                <div class="badge">${String(index + 1).padStart(2, "0")}</div>
-                <div class="menu-content">
-                    <span class="title">${escapeHTML(item.title)}</span>
-                    <span class="subtitle">Open resource</span>
-                </div>
-                <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            `;
-            container.appendChild(menuItem);
-        });
-        setupMenuInteractions();
+    function createMenuItem(item, index) {
+        const menuItem = document.createElement("a");
+        menuItem.href = item.url;
+        menuItem.className = "menu-item";
+        menuItem.dataset.url = item.url;
+        menuItem.dataset.index = String(index);
+        menuItem.innerHTML = `
+            <div class="badge">${String(index + 1).padStart(2, "0")}</div>
+            <div class="menu-content">
+                <span class="title">${escapeHTML(item.title)}</span>
+                <span class="subtitle">Open resource</span>
+            </div>
+            <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+        `;
+        return menuItem;
     }
 
-    function setupMenuInteractions() {
-        const items = document.querySelectorAll("#navCard .menu-item");
-        items.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-                event.preventDefault();
-                const index = Number(item.dataset.index);
-                startPageTransition(item, defaultItems[index]);
-            });
+    function renderMenu(items, animate = true) {
+        const oldItems = Array.from(container.children);
+        const token = ++filterToken;
+
+        gsap.killTweensOf(oldItems);
+
+        if (!animate) {
+            container.replaceChildren(...items.map(createMenuItem));
+            filteredItems = items.slice();
+            searchEmpty.style.display = items.length ? "none" : "block";
+            return;
+        }
+
+        // Fade/slide old results away first, then insert and animate only the new result set.
+        const outgoing = oldItems.length
+            ? gsap.to(oldItems, { opacity: 0, y: -8, duration: 0.13, stagger: 0.018, ease: "power2.out" })
+            : gsap.timeline();
+
+        outgoing.then(() => {
+            if (token !== filterToken) return;
+            const nextNodes = items.map(createMenuItem);
+            container.replaceChildren(...nextNodes);
+            filteredItems = items.slice();
+            searchEmpty.style.display = items.length ? "none" : "block";
+
+            if (!nextNodes.length) return;
+
+            gsap.fromTo(nextNodes,
+                { opacity: 0, y: 10, scale: 0.985 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.22, stagger: 0.026, ease: "power2.out", overwrite: true }
+            );
         });
     }
+
+    function filterMenu(value) {
+        const query = value.trim().toLocaleLowerCase();
+        const matches = query
+            ? defaultItems.filter(item => `${item.title} ${item.url}`.toLocaleLowerCase().includes(query))
+            : defaultItems.slice();
+        renderMenu(matches, true);
+    }
+
+    // One delegated listener handles all current and future result items.
+    container.addEventListener("click", (event) => {
+        const item = event.target.closest(".menu-item");
+        if (!item || !container.contains(item)) return;
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        const menuItem = defaultItems.find(entry => entry.url === item.dataset.url);
+        startPageTransition(item, menuItem);
+    });
+
+    searchInput.addEventListener("input", (event) => filterMenu(event.target.value), { passive: true });
+
+    document.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+            event.preventDefault();
+            searchInput.focus();
+            searchInput.select();
+        } else if (event.key === "/" && document.activeElement !== searchInput && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+            event.preventDefault();
+            searchInput.focus();
+        }
+    }, { passive: false });
 
     function startPageTransition(clickedItem, menuItem) {
         if (!menuItem) return;
@@ -379,19 +515,24 @@
         tl.to("#navCard", { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "expo.out" });
         tl.to("#navCard .header > *", { opacity: 1, y: 0, duration: 0.45, stagger: 0.08 }, "-=0.4");
         
-        gsap.fromTo("#navCard .menu-item", 
-            { opacity: 0, y: 16, scale: 0.985 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.07, ease: "power3.out" },
+        gsap.fromTo("#navCard .menu-item",
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.38, stagger: 0.045, ease: "power2.out", overwrite: true },
             "-=0.2"
         );
 
-        gsap.to(".glow-1", { x: 60, y: 45, scale: 1.08, duration: 9, repeat: -1, yoyo: true, ease: "sine.inOut" });
-        gsap.to(".glow-2", { x: -55, y: -40, scale: 1.06, duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut" });
-        gsap.to(".glow-3", { scale: 1.12, duration: 8, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        // Keep the ambient motion, but animate transforms on isolated glow layers only.
+        gsap.to(".glow-1", { x: 45, y: 35, duration: 12, repeat: -1, yoyo: true, ease: "sine.inOut", overwrite: true });
+        gsap.to(".glow-2", { x: -40, y: -30, duration: 14, repeat: -1, yoyo: true, ease: "sine.inOut", overwrite: true });
+        gsap.to(".glow-3", { scale: 1.08, duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut", overwrite: true });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        renderMenu();
+        // GSAP is deferred, so it is guaranteed to have executed before DOMContentLoaded.
+        renderMenu(defaultItems, false);
+
+        gsap.set("#navCard", { opacity: 0, y: 30, scale: 0.98 });
+        gsap.set("#navCard .header > *", { opacity: 0, y: 16 });
         introAnimation();
     });
 </script>

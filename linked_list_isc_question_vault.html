@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linked List — ISC Question Vault</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0e1b2e; --panel2:#13243b; --text:#eef6ff; --muted:#9fb1c8;
+  --accent:#63e6be; --accent2:#74c0fc; --yellow:#ffd43b; --pink:#ff87ab; --danger:#ff8787;
+  --border:rgba(255,255,255,.1); --shadow:0 18px 50px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:
+radial-gradient(circle at 10% 0%,#12325a 0,transparent 28%),radial-gradient(circle at 90% 10%,#183b39 0,transparent 25%),var(--bg);color:var(--text);line-height:1.55}
+button{font:inherit}
+.container{max-width:1200px;margin:auto;padding:0 22px}
+.hero{padding:55px 0 30px;text-align:center}
+.badge{display:inline-flex;gap:8px;align-items:center;background:rgba(99,230,190,.1);border:1px solid rgba(99,230,190,.25);color:var(--accent);padding:7px 13px;border-radius:999px;font-weight:700;font-size:13px}
+h1{font-size:clamp(38px,7vw,76px);line-height:.95;margin:18px 0 12px;letter-spacing:-3px}
+.gradient{background:linear-gradient(90deg,var(--accent),var(--accent2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:760px;margin:0 auto;color:var(--muted);font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px auto;max-width:850px}
+.stat{background:rgba(255,255,255,.045);border:1px solid var(--border);border-radius:18px;padding:16px}
+.stat b{display:block;font-size:25px}.stat span{font-size:12px;color:var(--muted)}
+.nav{position:sticky;top:0;z-index:20;background:rgba(7,17,31,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.navinner{display:flex;gap:8px;overflow:auto;padding:10px 0}
+.nav button,.yearbtn{border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:10px 15px;border-radius:12px;cursor:pointer;white-space:nowrap}
+.nav button:hover,.nav button.active,.yearbtn:hover,.yearbtn.active{background:#17304d;color:var(--text);border-color:rgba(116,192,252,.45)}
+section{padding:42px 0}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}
+.section-title h2{font-size:30px;margin:0}.section-title p{margin:0;color:var(--muted)}
+.card{background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.mindmap{min-height:390px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.centerNode{z-index:2;background:linear-gradient(135deg,#183f5e,#17304d);border:2px solid var(--accent2);padding:25px 30px;border-radius:50%;font-weight:900;font-size:25px;text-align:center;box-shadow:0 0 40px rgba(116,192,252,.16)}
+.mm{position:absolute;padding:12px 16px;border-radius:16px;border:1px solid var(--border);background:var(--panel2);font-weight:700}
+.mm small{display:block;color:var(--muted);font-weight:400;margin-top:3px}
+.mm.a{top:12%;left:8%}.mm.b{top:12%;right:8%}.mm.c{bottom:12%;left:8%}.mm.d{bottom:12%;right:8%}
+.line{position:absolute;height:2px;background:linear-gradient(90deg,var(--accent),transparent);width:30%;opacity:.55}
+.l1{transform:rotate(28deg);left:25%;top:36%}.l2{transform:rotate(-28deg);right:25%;top:36%}.l3{transform:rotate(-28deg);left:25%;bottom:36%}.l4{transform:rotate(28deg);right:25%;bottom:36%}
+.key li{margin:9px 0}.key strong{color:var(--accent)}
+.good{border-left:4px solid var(--accent)}.bad{border-left:4px solid var(--pink)}
+.good h3{color:var(--accent)}.bad h3{color:var(--pink)}
+.node-diagram{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:22px 0}
+.node{display:grid;grid-template-columns:90px 75px;border:2px solid var(--accent2);border-radius:10px;overflow:hidden;background:#102238}
+.node div{padding:12px;text-align:center;font-weight:700}.node div+div{border-left:1px solid var(--border);color:var(--accent)}
+.arrow{font-size:28px;color:var(--yellow);padding:0 8px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:10px}
+.year-content{display:none;animation:fade .3s ease}.year-content.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.yearhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}
+.year{font-size:34px;font-weight:900}.tag{padding:6px 10px;border-radius:999px;background:rgba(255,212,59,.12);color:var(--yellow);font-size:12px;font-weight:800}
+.question{font-size:19px;font-weight:750;margin-bottom:15px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+pre{margin:0;background:#07101c;border:1px solid rgba(255,255,255,.08);padding:17px;border-radius:14px;overflow:auto;color:#d8f3ff;font-size:13px;line-height:1.55}
+code{font-family:Consolas,Monaco,monospace}
+.algo{counter-reset:item;list-style:none;padding:0;margin:0}.algo li{counter-increment:item;display:flex;gap:12px;margin:10px 0}.algo li:before{content:counter(item);min-width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:rgba(99,230,190,.12);color:var(--accent);font-weight:800}
+details{border:1px solid var(--border);border-radius:15px;padding:12px 15px;background:rgba(255,255,255,.025);margin-top:12px}
+summary{cursor:pointer;font-weight:750}.tip{background:rgba(116,192,252,.08);border:1px solid rgba(116,192,252,.2);padding:13px;border-radius:14px;color:#cfe8ff}
+.quiz{display:grid;grid-template-columns:1fr 1fr;gap:15px}.qbox{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}.qbox button{background:#17304d;border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;margin-top:8px}.answer{display:none;color:var(--accent);margin-top:8px}
+footer{padding:45px 0;color:var(--muted);text-align:center}
+@media(max-width:800px){.grid2,.split,.quiz{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.mm{position:static;margin:7px}.mindmap{display:grid;grid-template-columns:1fr 1fr;padding:15px}.centerNode{grid-column:1/-1;grid-row:1}.line{display:none}}
+@media(max-width:520px){.grid3{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.hero{padding-top:35px}}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="container">
+<div class="badge">⚡ ISC Computer Science • Linked List Question Vault</div>
+<h1>Master <span class="gradient">Linked Lists</span></h1>
+<p>Year-wise questions, exam-ready algorithms, Java code, key points, a visual mind map and quick practice — all in one place.</p>
+<div class="stats">
+<div class="stat"><b>9</b><span>Question sets</span></div>
+<div class="stat"><b>2016–2025</b><span>Exam years covered</span></div>
+<div class="stat"><b>2×</b><span>Code + algorithm focus</span></div>
+<div class="stat"><b>100%</b><span>Revision-friendly</span></div>
+</div>
+</div>
+</header>
+
+<nav class="nav"><div class="container navinner">
+<button class="active" onclick="go('overview',this)">🏠 Overview</button>
+<button onclick="go('mindmap',this)">🧠 Mind Map</button>
+<button onclick="go('years',this)">📚 Year Vault</button>
+<button onclick="go('compare',this)">⚖️ Pros & Cons</button>
+<button onclick="go('quiz',this)">🎯 Quick Quiz</button>
+</div></nav>
+
+<main class="container">
+<section id="overview">
+<div class="section-title"><div><h2>01 — The Big Picture</h2><p>Start here before attacking past-paper questions.</p></div></div>
+<div class="grid2">
+<div class="card">
+<h3>🔗 What is a Linked List?</h3>
+<p>A linked list is a linear data structure in which elements are stored as <b>nodes</b>, not necessarily in continuous memory locations.</p>
+<div class="node-diagram">
+<div class="node"><div>DATA</div><div>NEXT</div></div><span class="arrow">→</span>
+<div class="node"><div>DATA</div><div>NEXT</div></div><span class="arrow">→</span>
+<div class="node"><div>DATA</div><div>NEXT</div></div><span class="arrow">→ NULL</span>
+</div>
+<p class="tip">🧩 Exam trigger: whenever you see <b>temp = head</b> and <b>temp = temp.next</b>, think “traversal”.</p>
+</div>
+<div class="card key">
+<h3>🧠 Key Points to Memorise</h3>
+<ul>
+<li><strong>Node:</strong> data + link/reference.</li>
+<li><strong>Head / start:</strong> points to the first node.</li>
+<li><strong>NULL:</strong> marks the end of a singly linked list.</li>
+<li><strong>Traversal:</strong> repeatedly move to the next node.</li>
+<li><strong>Insertion:</strong> create node + adjust links.</li>
+<li><strong>Searching:</strong> compare each node until found or NULL.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="mindmap">
+<div class="section-title"><div><h2>02 — Interactive Mind Map</h2><p>Use this as your last-minute mental checklist.</p></div></div>
+<div class="card mindmap">
+<div class="line l1"></div><div class="line l2"></div><div class="line l3"></div><div class="line l4"></div>
+<div class="centerNode">LINKED<br>LIST</div>
+<div class="mm a">📦 Structure<small>Data + next link</small></div>
+<div class="mm b">⚙️ Operations<small>Search • Insert • Traverse</small></div>
+<div class="mm c">✅ Advantages<small>Dynamic • easy insertion/deletion</small></div>
+<div class="mm d">⚠️ Limitations<small>Extra pointer • no random access</small></div>
+</div>
+</section>
+
+<section id="compare">
+<div class="section-title"><div><h2>03 — Advantages & Disadvantages</h2><p>Know the wording that works well in theory answers.</p></div></div>
+<div class="grid2">
+<div class="card good"><h3>✅ Advantages</h3>
+<ol><li><b>Dynamic size</b> — can grow or shrink at runtime.</li>
+<li><b>Easy insertion and deletion</b> — links are adjusted instead of shifting elements.</li>
+<li><b>No continuous memory requirement</b> — nodes need not be adjacent.</li>
+<li><b>Memory allocated when needed</b> — useful when size changes.</li>
+</ol></div>
+<div class="card bad"><h3>❌ Disadvantages</h3>
+<ol><li><b>Extra memory</b> is needed for pointer/reference fields.</li>
+<li><b>No random access</b> — nodes are accessed sequentially.</li>
+<li><b>Searching is slower</b> because traversal may be required.</li>
+<li><b>Reverse traversal is difficult</b> in a singly linked list.</li>
+<li><b>More complex</b> than arrays to implement.</li>
+</ol></div>
+</div>
+<div class="card" style="margin-top:16px"><h3>Array vs Linked List</h3>
+<table style="width:100%;border-collapse:collapse">
+<tr><th style="text-align:left;padding:10px;border-bottom:1px solid var(--border)">Array</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--border)">Linked List</th></tr>
+<tr><td style="padding:10px">Fixed size</td><td style="padding:10px">Dynamic size</td></tr>
+<tr><td style="padding:10px">Continuous memory</td><td style="padding:10px">Non-continuous memory</td></tr>
+<tr><td style="padding:10px">Fast index/random access</td><td style="padding:10px">Sequential access</td></tr>
+<tr><td style="padding:10px">Insertion/deletion may require shifting</td><td style="padding:10px">Links can be changed</td></tr>
+</table></div>
+</section>
+
+<section id="years">
+<div class="section-title"><div><h2>04 — Year-Wise Question Vault</h2><p>Click a year to reveal the exact question theme, algorithm and code.</p></div></div>
+<div class="tabs">
+<button class="yearbtn active" onclick="yearTab('2025',this)">2025</button>
+<button class="yearbtn" onclick="yearTab('specimen',this)">2025 Specimen</button>
+<button class="yearbtn" onclick="yearTab('2023',this)">2023</button>
+<button class="yearbtn" onclick="yearTab('2020',this)">2020</button>
+<button class="yearbtn" onclick="yearTab('2019',this)">2019</button>
+<button class="yearbtn" onclick="yearTab('2018',this)">2018</button>
+<button class="yearbtn" onclick="yearTab('2017',this)">2017</button>
+<button class="yearbtn" onclick="yearTab('2016',this)">2016</button>
+<button class="yearbtn" onclick="yearTab('theory',this)">Theory</button>
+</div>
+
+<div id="2025" class="year-content active">
+<div class="card"><div class="yearhead"><div class="year">ISC 2025</div><span class="tag">ASCII + traversal</span></div>
+<div class="question">Print the sum of the ASCII values of the lowercase alphabets present in the linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Initialize <b>sum = 0</b>.</li><li>Set <b>temp</b> to the head/input Cell node.</li><li>While temp is not NULL, check whether <b>temp.m</b> is lowercase.</li><li>If yes, add its ASCII value to sum.</li><li>Move temp to <b>temp.right</b>.</li><li>After traversal, print sum.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void lowercase(Cell str) {
+    int sum = 0;
+    while (str != null) {
+        if (str.m >= 'a' && str.m <= 'z')
+            sum += (int) str.m;
+        str = str.right;
+    }
+    System.out.println(
+      "Sum of ASCII values of lowercase alphabets: " + sum);
+}</code></pre></div></div>
+</div></div>
+
+<div id="specimen" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2025 Specimen</div><span class="tag">SEARCH</span></div>
+<div class="question">Find a number in an existing linked list and display whether it is found.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Start with <b>temp = str</b>.</li><li>Repeat until temp is NULL.</li><li>If <b>temp.n == b</b>, mark found and stop.</li><li>Otherwise move to <b>temp.link</b>.</li><li>If the loop ends without finding b, display “not found”.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void FindNode(Node str, int b) {
+    Node temp = str;
+    boolean found = false;
+
+    while (temp != null) {
+        if (temp.n == b) {
+            found = true;
+            break;
+        }
+        temp = temp.link;
+    }
+
+    if (found)
+        System.out.println(b + " is found in the linked list.");
+    else
+        System.out.println(b + " is not found in the linked list.");
+}</code></pre></div></div>
+</div></div>
+
+<div id="2023" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2023</div><span class="tag">INSERT AT END</span></div>
+<div class="question">Add a node at the end of an existing linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Create a new node <b>temp</b>.</li><li>Set <b>temp.sal ← ss</b> and <b>temp.next ← NULL</b>.</li><li>If ptr is NULL, set ptr ← temp and stop.</li><li>Set <b>t ← ptr</b>.</li><li>Move t forward while <b>t.next ≠ NULL</b>.</li><li>Set <b>t.next ← temp</b> and stop.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void addNode(Node ptr, double ss) {
+    Node temp = new Node();
+    temp.sal = ss;
+    temp.next = null;
+
+    if (ptr == null)
+        ptr = temp;
+    else {
+        Node t = ptr;
+        while (t.next != null)
+            t = t.next;
+        t.next = temp;
+    }
+}</code></pre></div></div>
+</div></div>
+
+<div id="2020" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2020</div><span class="tag">INSERT AT BEGINNING</span></div>
+<div class="question">Insert a new node at the beginning of an existing linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Create a new node <b>temp</b>.</li><li>Set <b>temp.num ← n</b>.</li><li>Set <b>temp.next ← startPtr</b>.</li><li>Set <b>startPtr ← temp</b>.</li><li>The new node is now the first node.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void InsertNode(Node startPtr, int n) {
+    Node temp = new Node();
+    temp.num = n;
+    temp.next = startPtr;
+    startPtr = temp;
+}</code></pre></div></div>
+</div></div>
+
+<div id="2019" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2019</div><span class="tag">SUM EVEN NODES</span></div>
+<div class="question">Find and display the sum of even integers from an existing linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Set <b>temp = str</b> and <b>sum = 0</b>.</li><li>While temp is not NULL, test <b>temp.num % 2 == 0</b>.</li><li>If true, add temp.num to sum.</li><li>Move temp to <b>temp.next</b>.</li><li>Display sum.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void SumEvenNode(Node str) {
+    Node t = str;
+    int s = 0;
+
+    while (t != null) {
+        if (t.num % 2 == 0)
+            s = s + t.num;
+        t = t.next;
+    }
+
+    System.out.println("Sum of even numbers = " + s);
+}</code></pre></div></div>
+</div></div>
+
+<div id="2018" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2018</div><span class="tag">SEARCH</span></div>
+<div class="question">Search for a number from an existing linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Set <b>temp = str</b>.</li><li>Set <b>flag = 0</b>.</li><li>While temp is not NULL, compare temp.n with b.</li><li>If equal, set flag = 1 and exit loop.</li><li>Otherwise move temp to <b>temp.link</b>.</li><li>Display found/not found according to flag.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>void FindNode(Node str, int b) {
+    Node t = str;
+    int f = 0;
+
+    while (t != null) {
+        if (t.n == b) {
+            f = 1;
+            break;
+        }
+        t = t.link;
+    }
+
+    if (f == 1)
+        System.out.println(b + " found in the list");
+    else
+        System.out.println(b + " not found in the list");
+}</code></pre></div></div>
+</div></div>
+
+<div id="2017" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2017</div><span class="tag">COUNT ODD NODES</span></div>
+<div class="question">Count the nodes that contain only odd integers and return the count.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Set <b>temp = startPtr</b> and <b>count = 0</b>.</li><li>While temp is not NULL, test <b>temp.num % 2 != 0</b>.</li><li>If true, increment count.</li><li>Move temp to <b>temp.next</b>.</li><li>Return count.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>int CountOdd(Node startPtr) {
+    Node t = startPtr;
+    int c = 0;
+
+    while (t != null) {
+        if (t.num % 2 != 0)
+            c++;
+        t = t.next;
+    }
+    return c;
+}</code></pre></div></div>
+</div></div>
+
+<div id="2016" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">ISC 2016</div><span class="tag">STRING SEARCH</span></div>
+<div class="question">Search for a given name in the linked list.</div>
+<div class="split"><div><h3>🧾 Algorithm</h3><ol class="algo"><li>Start with <b>temp = start</b>.</li><li>Traverse until temp becomes NULL.</li><li>If <b>temp.name</b> equals the given value, return true.</li><li>Otherwise move to <b>temp.next</b>.</li><li>If traversal finishes, return false.</li></ol></div>
+<div><h3>💻 Java</h3><pre><code>boolean searchName(Node start, String v) {
+    Node temp = start;
+
+    while (temp != null) {
+        if (temp.name.equalsIgnoreCase(v))
+            return true;
+        temp = temp.next;
+    }
+    return false;
+}</code></pre></div></div>
+</div></div>
+
+<div id="theory" class="year-content">
+<div class="card"><div class="yearhead"><div class="year">Theory Essentials</div><span class="tag">REVISION</span></div>
+<div class="grid2">
+<div><h3>📌 Definitions</h3><p><b>Linked list:</b> a linear data structure whose elements are stored in nodes that need not occupy continuous memory.</p><p><b>Node:</b> stores data and a link/reference to the next node.</p></div>
+<div><h3>🚀 Applications</h3><ul><li>Stacks and queues</li><li>Dynamic memory allocation</li><li>Undo/Redo operations</li><li>Playlist management</li><li>Browser history</li><li>Graph representation</li></ul></div>
+</div>
+<details><summary>Types of linked lists</summary><p>Singly linked list — each node points to the next node. Doubly linked list — nodes point to both next and previous nodes. Circular linked list — the last node points back to the first.</p></details>
+<details><summary>Exam formula: traversal</summary><pre><code>temp = head;
+while (temp != null) {
+    // process temp
+    temp = temp.next;
+}</code></pre></details>
+</div></div>
+</section>
+
+<section id="quiz">
+<div class="section-title"><div><h2>05 — 60-Second Quiz</h2><p>Tap “Reveal” only after you commit to an answer.</p></div></div>
+<div class="quiz">
+<div class="qbox"><b>Q1.</b> What marks the end of a singly linked list?<br><button onclick="reveal(1)">Reveal</button><div id="a1" class="answer">NULL / null</div></div>
+<div class="qbox"><b>Q2.</b> Which variable commonly moves node-to-node?<br><button onclick="reveal(2)">Reveal</button><div id="a2" class="answer">A traversal pointer such as temp</div></div>
+<div class="qbox"><b>Q3.</b> Which operation was asked in ISC 2023?<br><button onclick="reveal(3)">Reveal</button><div id="a3" class="answer">Adding a node at the end</div></div>
+<div class="qbox"><b>Q4.</b> In the 2019 question, what values were summed?<br><button onclick="reveal(4)">Reveal</button><div id="a4" class="answer">Even integers</div></div>
+<div class="qbox"><b>Q5.</b> Why can linked lists grow dynamically?<br><button onclick="reveal(5)">Reveal</button><div id="a5" class="answer">Nodes are created as needed; a fixed size is not required.</div></div>
+<div class="qbox"><b>Q6.</b> What is the key access limitation?<br><button onclick="reveal(6)">Reveal</button><div id="a6" class="answer">No random/index access; traversal is sequential.</div></div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container">Built as an ISC revision dashboard • Source basis: your uploaded <b>LINK LIST -QB</b> question bank.</div>
+</footer>
+
+<script>
+function go(id,btn){
+ document.getElementById(id).scrollIntoView({behavior:'smooth'});
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+}
+function yearTab(id,btn){
+ document.querySelectorAll('.year-content').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.yearbtn').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');
+}
+function reveal(n){
+ const el=document.getElementById('a'+n);
+ el.style.display=el.style.display==='block'?'none':'block';
+}
+</script>
+</body>
+</html>

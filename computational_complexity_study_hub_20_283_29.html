@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computational Complexity | Interactive Study Hub</title>
+<style>
+:root{--bg:#f4f7fc;--ink:#17233d;--muted:#63718b;--brand:#4f46e5;--brand2:#06b6d4;--card:#fff;--line:#e5eaf3;--good:#15803d;--bad:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Inter,Segoe UI,Arial,sans-serif}
+header{background:linear-gradient(120deg,#172554,#4338ca 65%,#0891b2);color:white;padding:34px max(22px,calc((100% - 1120px)/2)) 28px}
+header .tag{font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.8;font-weight:700}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:8px 0}
+header p{max-width:720px;color:#e0e7ff;margin:10px 0 0}
+.wrap{max-width:1120px;margin:auto;padding:22px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:-2px}
+.stat,.panel,.topic,.question{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 18px #17255408}
+.stat{padding:14px 18px}.stat b{font-size:22px;display:block;color:var(--brand)}.stat span{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 18px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
+.tab{border:1px solid var(--line);background:white;color:#34415c;padding:9px 14px;border-radius:999px;cursor:pointer;font-weight:650}
+.tab.active{background:var(--brand);color:white;border-color:var(--brand)}
+.panel{padding:22px;min-height:350px}.section-title{margin:0 0 5px;font-size:24px}.sub{color:var(--muted);margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.topic{padding:17px}.topic h3{margin:0 0 6px;font-size:17px}.topic p{margin:5px 0;color:#46536c}
+.pill{display:inline-block;background:#eef2ff;color:#4338ca;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700}
+.formula{font:700 20px ui-monospace,Consolas,monospace;background:#f1f5ff;padding:10px 13px;border-radius:9px;display:inline-block;color:#3730a3;margin:7px 0}
+ul{padding-left:21px}li{margin:5px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:#f1f5f9}
+.callout{padding:13px 15px;border-left:4px solid var(--brand2);background:#ecfeff;border-radius:8px;margin:14px 0}
+.warn{border-left-color:#f59e0b;background:#fffbeb}
+.code{background:#111827;color:#e5e7eb;padding:15px;border-radius:10px;overflow:auto;font:13px/1.6 Consolas,monospace;white-space:pre}
+.qhead{display:flex;justify-content:space-between;gap:10px;align-items:start}.question{padding:16px;margin:12px 0}.question p{font-weight:700;margin:0 0 10px}.option{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin:7px 0;cursor:pointer}.option:hover{background:#f8faff}.option input{margin-right:8px}
+.feedback{font-size:13px;margin-top:8px;color:var(--muted)}.correct{color:var(--good);font-weight:700}.incorrect{color:var(--bad);font-weight:700}
+button.action{border:0;background:var(--brand);color:white;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:700}
+.search{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin:0 0 14px}
+footer{text-align:center;color:var(--muted);padding:28px;font-size:12px}
+@media(max-width:700px){.stats,.grid{grid-template-columns:1fr}.wrap{padding:14px}.panel{padding:16px}.tabs{position:static}}
+</style>
+
+<style>
+:root{color-scheme:light;--bg:#f5f5f7;--surface:#fff;--surface-2:#f0f1f4;--ink:#1d1d1f;--muted:#6e6e73;--line:#dedee3;--accent:#2864dc;--accent-soft:#eaf1ff;--good:#16834a;--bad:#c53b3b;--shadow:0 8px 28px rgba(0,0,0,.045);--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.012em;transition:background .25s,color .25s}
+header{padding:26px max(24px,calc((100% - 1180px)/2)) 30px;background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line)}header .tag{color:var(--muted);opacity:1;font-size:11px;letter-spacing:.13em}.header-row{display:flex;align-items:center;justify-content:space-between;gap:16px}.theme-toggle{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 13px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}.theme-toggle:hover{background:var(--surface-2)}.theme-icon{font-size:16px}h1{font-size:clamp(32px,4.3vw,48px);letter-spacing:-.045em;font-weight:720;margin:22px 0 8px}header p{max-width:660px;color:var(--muted);font-size:16px;margin:0}.hero-meta{display:flex;gap:9px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:17px}
+.wrap{max-width:1180px;padding:25px 24px 50px}.stats{gap:12px}.stat,.panel,.topic,.question{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:none}.stat{padding:16px 18px}.stat b{font-size:24px;color:var(--ink);letter-spacing:-.04em}.stat span{font-size:11px;letter-spacing:.08em;font-weight:650}.study-overview{margin:17px 0 22px;padding:21px 23px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:30px}.eyebrow{font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:750}.study-overview h2{font-size:20px;letter-spacing:-.03em;margin:6px 0 2px}.study-overview p{margin:0;color:var(--muted);font-size:13px}.progress-area{width:min(300px,40%)}.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:9px}.progress-label strong{color:var(--ink)}.progress-track{height:7px;background:var(--surface-2);border-radius:99px;overflow:hidden}.progress-track span{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s ease}
+.tabs{position:sticky;top:0;z-index:8;gap:6px;padding:11px 0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);margin:0 0 18px}.tab{background:transparent;color:var(--muted);border:1px solid transparent;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:600;transition:background .18s,color .18s}.tab:hover{background:var(--surface-2);color:var(--ink)}.tab.active{background:var(--accent-soft);color:var(--accent);border-color:transparent}.panel{padding:26px;min-height:360px}.section-title{font-size:25px;letter-spacing:-.035em;margin:0 0 4px}.sub{font-size:14px;color:var(--muted);margin:0 0 20px}.grid{gap:13px}.topic{padding:19px;transition:border-color .2s,transform .2s}.topic:hover{border-color:color-mix(in srgb,var(--accent) 35%,var(--line));transform:translateY(-2px)}.topic h3{font-size:16px;letter-spacing:-.02em}.topic p{color:var(--muted);font-size:14px}.pill{background:var(--accent-soft);color:var(--accent);font-size:10px;letter-spacing:.05em;padding:4px 9px}.formula{background:var(--surface-2);color:var(--accent);font-size:18px;border-radius:10px;padding:9px 12px}.callout{background:var(--accent-soft);border-left:3px solid var(--accent);color:var(--ink);border-radius:10px}.warn{background:color-mix(in srgb,#e5a000 10%,var(--surface));border-left-color:#c58b13}table{font-size:13px;border:1px solid var(--line);border-radius:10px;overflow:hidden}th,td{border-color:var(--line);padding:11px 12px}th{background:var(--surface-2);color:var(--ink)}td{color:var(--muted)}td b{color:var(--ink)}.code{background:#17191f;color:#e6e8ee;border:1px solid #30333b;border-radius:12px}.question{padding:17px;margin:12px 0}.question p{font-size:14px}.option{font-size:13px;border-color:var(--line);transition:background .15s,border-color .15s}.option:hover{background:var(--surface-2);border-color:var(--accent)}.feedback{font-size:13px}.action{font-size:13px}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}.search{background:var(--surface);color:var(--ink);border-color:var(--line)}details{border-bottom:1px solid var(--line);padding:14px 2px}details summary{cursor:pointer;line-height:1.5}details[open] summary{color:var(--accent)}footer{color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
+.page[hidden]{display:none!important}.page{transform-origin:top center}.section-tools{display:flex;justify-content:flex-end;margin:-4px 0 16px}.complete-btn{border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);padding:7px 11px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}.complete-btn[aria-pressed="true"]{background:color-mix(in srgb,var(--good) 10%,var(--surface));border-color:color-mix(in srgb,var(--good) 35%,var(--line));color:var(--good)}
+body.dark{color-scheme:dark;--bg:#111214;--surface:#1b1c1f;--surface-2:#25272b;--ink:#f5f5f7;--muted:#a1a1a8;--line:#34363b;--accent:#82aaff;--accent-soft:#202d46;--good:#63c98d;--bad:#ff7777;--shadow:0 8px 28px rgba(0,0,0,.18)}body.dark header{background:#17181b}body.dark .tab.active{background:var(--accent-soft);color:var(--accent)}body.dark .code{background:#101114}body.dark .warn{background:#30291b;color:var(--ink)}body.dark .callout{color:var(--ink)}body.dark .option:hover{background:#292c32}body.dark .complete-btn[aria-pressed="true"]{background:#1d3328}
+@media(max-width:760px){header{padding:22px 18px 25px}.wrap{padding:16px 14px 36px}.study-overview{align-items:stretch;flex-direction:column;gap:17px;padding:18px}.progress-area{width:100%}.tabs{position:sticky;top:0;overflow-x:auto;flex-wrap:nowrap;white-space:nowrap;padding:9px 0}.tab{flex:0 0 auto}.panel{padding:18px}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{padding:12px}.stat b{font-size:20px}.stat span{font-size:9px}.header-row{align-items:flex-start}.theme-label{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<header>
+ <div class="header-row"><div class="tag">COMPUTER SCIENCE · ISC STUDY SPACE</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode"><span class="theme-icon">◐</span><span class="theme-label">Dark appearance</span></button></div>
+ <h1>Computational Complexity</h1>
+ <p>A focused workspace for understanding algorithm efficiency, practising code analysis and revising for your ISC examination.</p><div class="hero-meta"><span>9 learning sections</span><span>·</span><span>15 practice questions</span><span>·</span><span>Self-paced learning</span></div>
+</header>
+<main class="wrap">
+ <div class="stats">
+  <div class="stat"><b>9</b><span>STUDY SECTIONS</span></div>
+  <div class="stat"><b>15</b><span>PRACTICE MCQs</span></div>
+  <div class="stat"><b>8</b><span>ISC PYQ TOPICS WITH ANSWERS</span></div>
+ </div>
+ <nav class="tabs" aria-label="Study sections">
+  <button class="tab active" data-tab="overview">Overview</button>
+  <button class="tab" data-tab="definitions">Definitions</button>
+  <button class="tab" data-tab="notations">Notations</button>
+  <button class="tab" data-tab="examples">Examples</button>
+  <button class="tab" data-tab="cases">Best / Average / Worst Case</button>
+  <button class="tab" data-tab="analysis">Code Analysis</button>
+  <button class="tab" data-tab="mcqs">MCQs</button>
+  <button class="tab" data-tab="pyq">Previous Questions</button>
+  <button class="tab" data-tab="revision">Quick Revision</button>
+ </nav>
+
+ <section class="panel page" id="overview">
+  <h2 class="section-title">Welcome to the study hub</h2><p class="sub">Start with the meaning of complexity, then learn how to identify the growth rate of an algorithm.</p>
+  <div class="grid">
+   <article class="topic"><span class="pill">01 • Foundation</span><h3>What is computational complexity?</h3><p>It studies the resources required by an algorithm as the problem size increases.</p></article>
+   <article class="topic"><span class="pill">02 • Two measures</span><h3>Time and space</h3><p>Time measures running effort; space measures memory required.</p></article>
+   <article class="topic"><span class="pill">03 • Notation</span><h3>Asymptotic notations</h3><p>Big O, Big Omega and Big Theta describe upper, lower and tight bounds.</p></article>
+   <article class="topic"><span class="pill">04 • Application</span><h3>Analyse code</h3><p>Count how many times statements execute. Nested loops often multiply their limits.</p></article>
+  </div>
+  <div class="callout"><b>Study tip:</b> First identify the input size (usually <i>n</i>). Then count loop repetitions and simplify the dominant growth term.</div>
+ </section>
+
+ <section class="panel page" id="definitions" hidden>
+  <h2 class="section-title">Important Definitions</h2><p class="sub">Exam-ready definitions based on the supplied reference notes.</p>
+  <input class="search" id="defSearch" placeholder="Search definitions…">
+  <div class="grid" id="definitionsGrid">
+   <article class="topic"><h3>Computational Complexity</h3><p>The branch of theory of computation in computer science that investigates the resources required for the execution of an algorithm as a function of problem size.</p></article>
+   <article class="topic"><h3>Time Complexity</h3><p>It quantifies the amount of time taken by an algorithm to run as a function of the length of the input.</p></article>
+   <article class="topic"><h3>Space Complexity</h3><p>It quantifies the amount of space or memory taken by an algorithm to run as a function of the length of the input.</p></article>
+   <article class="topic"><h3>Complexity</h3><p>It is the measurement or growth rate of an algorithm with respect to time and space.</p></article>
+   <article class="topic"><h3>Big O Notation</h3><p>Big O describes an asymptotic upper bound on how an algorithm's time or space requirement grows as input size increases. It is commonly used to express worst-case time, but Big O and worst case are not the same thing.</p></article>
+   <article class="topic"><h3>Best Case</h3><p>The minimum number of operations executed for an input of a given size; it describes behaviour under optimal conditions.</p></article>
+   <article class="topic"><h3>Worst Case</h3><p>The maximum number of operations executed for an input of a given size.</p></article>
+   <article class="topic"><h3>Average Case</h3><p>It considers the possible inputs and the computing time for those inputs.</p></article>
+   <article class="topic"><h3>Dominant Term</h3><p>The term that grows fastest and determines the overall growth rate for sufficiently large input sizes. Example: in n² + 3n + 5, n² is dominant.</p></article>
+   <article class="topic"><h3>Constant Factor</h3><p>A fixed multiplier in a running-time expression. In asymptotic analysis, constant multipliers are ignored when expressing the growth class.</p></article>
+  </div>
+ </section>
+
+ <section class="panel page" id="notations" hidden>
+  <h2 class="section-title">Asymptotic Notations</h2><p class="sub">Learn the meaning, growth pattern and typical examples.</p>
+  <table><thead><tr><th>Notation</th><th>Meaning</th><th>Typical example</th></tr></thead><tbody>
+   <tr><td><b>O(1)</b></td><td>Constant time — does not depend on input size.</td><td>Accessing an array element by index; stack push/pop.</td></tr>
+   <tr><td><b>O(log n)</b></td><td>Logarithmic time — problem size is repeatedly reduced, often by half.</td><td>Binary search in a sorted array.</td></tr>
+   <tr><td><b>O(n)</b></td><td>Linear time — growth is proportional to input size.</td><td>Linear search; traversing an array.</td></tr>
+   <tr><td><b>O(n²)</b></td><td>Quadratic time — commonly produced by two nested loops over n items.</td><td>Bubble sort, selection sort; visiting every cell of an n × n matrix.</td></tr>
+   <tr><td><b>Ω (Big Omega)</b></td><td>Lower bound — at least this much growth.</td><td>Best-case lower-bound discussion.</td></tr>
+   <tr><td><b>Θ (Big Theta)</b></td><td>Tight bound — upper and lower bounds match up to constant factors.</td><td>Describes a tightly bounded growth rate.</td></tr>
+  </tbody></table>
+  <div class="grid">
+   <article class="topic"><h3>Big O — Upper Bound</h3><p>Shows that the growth rate will not exceed a stated order, apart from constant factors, for sufficiently large inputs. It is often used when reporting worst-case complexity.</p></article>
+   <article class="topic"><h3>Big Omega — Lower Bound</h3><p>Shows that the growth rate is at least a stated order, apart from constant factors, for sufficiently large inputs.</p></article>
+   <article class="topic"><h3>Big Theta — Tight Bound</h3><p>Shows that the growth rate is both upper-bounded and lower-bounded by the same order, apart from constant factors.</p></article>
+   <article class="topic"><h3>Binary Search Derivation</h3><p>After k halvings, the remaining size is n / 2ᵏ. When it reaches 1: n / 2ᵏ = 1, so k = log₂ n.</p></article>
+  </div>
+  <div class="callout warn"><b>Remember:</b> Best, average and worst case describe input situations. O, Ω and Θ describe mathematical bounds. They are related ideas, but they are not interchangeable definitions.</div>
+ </section>
+
+ <section class="panel page" id="examples" hidden>
+  <h2 class="section-title">Common Operations and Their Complexity</h2><p class="sub">Use these as quick identification examples.</p>
+  <table><thead><tr><th>Operation / Algorithm</th><th>Complexity</th><th>Reason</th></tr></thead><tbody>
+   <tr><td>Access array element by index</td><td><b>O(1)</b></td><td>Direct access; no traversal.</td></tr>
+   <tr><td>Push or pop at stack top</td><td><b>O(1)</b></td><td>Only the top position is updated.</td></tr>
+   <tr><td>Linear search — best case</td><td><b>O(1)</b></td><td>Item is found at the first position.</td></tr>
+   <tr><td>Linear search — worst case</td><td><b>O(n)</b></td><td>May inspect all n elements.</td></tr>
+   <tr><td>Print / traverse an array of length n</td><td><b>O(n)</b></td><td>Each element is visited once.</td></tr>
+   <tr><td>Find maximum or minimum in an array</td><td><b>O(n)</b></td><td>Every element may need to be checked.</td></tr>
+   <tr><td>Binary search</td><td><b>O(log n)</b></td><td>Search interval is halved each step.</td></tr>
+   <tr><td>Bubble sort — standard worst case</td><td><b>O(n²)</b></td><td>Comparison count grows proportionally to n².</td></tr>
+   <tr><td>Print all cells of an n × n matrix</td><td><b>O(n²)</b></td><td>There are n² cells.</td></tr>
+   <tr><td>Queue removal from front (with front pointer)</td><td><b>O(1)</b></td><td>Update the front; no traversal is needed.</td></tr>
+  </tbody></table>
+  <div class="callout warn"><b>Assumption note:</b> Complexity depends on the implementation. For example, queue removal is O(1) when a front pointer is maintained. “All matrix operations” is too broad: visiting every cell is O(n²), while a single-cell access can be O(1).</div>
+ </section>
+
+
+ <section class="panel page" id="cases" hidden>
+  <h2 class="section-title">Best Case, Average Case and Worst Case</h2>
+  <p class="sub">These describe how much work an algorithm performs for different inputs of the same size.</p>
+  <div class="grid">
+   <article class="topic"><span class="pill">Minimum work</span><h3>Best Case</h3><p>The minimum number of operations an algorithm performs for any input of size n.</p><p><b>Example:</b> In linear search, the required value is at the first position. Only one comparison is needed.</p><span class="formula">O(1)</span></article>
+   <article class="topic"><span class="pill">Typical expected work</span><h3>Average Case</h3><p>The expected number of operations over the possible inputs of size n, using an assumed probability distribution for those inputs.</p><p><b>Example:</b> In linear search, assume the value is equally likely to be at any position. On average, about (n + 1) / 2 comparisons are needed.</p><span class="formula">O(n)</span></article>
+   <article class="topic"><span class="pill">Maximum work</span><h3>Worst Case</h3><p>The maximum number of operations an algorithm may perform for an input of size n.</p><p><b>Example:</b> In linear search, the value is at the last position or is not present. Up to n comparisons are needed.</p><span class="formula">O(n)</span></article>
+  </div>
+  <h3>One algorithm, three cases: Linear Search</h3>
+  <p>Suppose an array contains n elements and we search for one value from left to right.</p>
+  <table><thead><tr><th>Case</th><th>Example input situation</th><th>Number of comparisons</th><th>Growth</th></tr></thead><tbody>
+   <tr><td>Best</td><td>Value is the first element</td><td>1</td><td><b>O(1)</b></td></tr>
+   <tr><td>Average</td><td>Value is equally likely to be in any position</td><td>(n + 1) / 2 on average</td><td><b>O(n)</b></td></tr>
+   <tr><td>Worst</td><td>Value is last, or is absent</td><td>n</td><td><b>O(n)</b></td></tr>
+  </tbody></table>
+  <div class="callout"><b>Why is the average case O(n)?</b><br>For equally likely positions, the average comparisons are:<br><span class="formula">[1 + 2 + 3 + … + n] / n = (n + 1) / 2</span><br>When n becomes large, this grows in direct proportion to n. Therefore, the average-case growth is linear: O(n).</div>
+  <div class="callout warn"><b>Important distinction:</b> Best, average and worst case describe the input situation and the amount of work. Big O, Big Omega and Big Theta describe mathematical bounds. For example, we can say “the worst-case time complexity of linear search is O(n)”. Do not define Big O itself as “worst case”.</div>
+  <h3>Another example: Bubble Sort</h3>
+  <table><thead><tr><th>Case</th><th>Situation</th><th>Time complexity</th></tr></thead><tbody>
+   <tr><td>Best</td><td>Array is already sorted and the algorithm uses a swap/check flag to stop early</td><td><b>O(n)</b></td></tr>
+   <tr><td>Average</td><td>Values are in a typical unsorted order</td><td><b>O(n²)</b></td></tr>
+   <tr><td>Worst</td><td>Array is in reverse order</td><td><b>O(n²)</b></td></tr>
+  </tbody></table>
+  <p class="sub">Note: The O(n) best case applies to the optimised Bubble Sort that stops when a pass makes no swaps. A basic version that always completes every pass takes O(n²), even for an already sorted array.</p>
+ </section>
+ <section class="panel page" id="analysis" hidden>
+  <h2 class="section-title">How to Analyse Code</h2><p class="sub">Count repetitions, multiply nested loop limits, and add separate sections.</p>
+  <div class="topic"><h3>1. Single loop</h3><pre class="code">for (int k = 0; k &lt; n; k++)
+{
+    s += k;
+}</pre><p>The statement executes n times. Complexity: <span class="formula">O(n)</span></p></div>
+  <div class="topic" style="margin-top:13px"><h3>2. Nested loops</h3><pre class="code">for (int i = 0; i &lt; n; i++)
+{
+    for (int j = 0; j &lt; m; j++)
+    {
+        // constant-time statement
+    }
+}</pre><p>Inner statement executes n × m times. Complexity: <span class="formula">O(nm)</span></p></div>
+  <div class="topic" style="margin-top:13px"><h3>3. Separate loops</h3><pre class="code">for (int i = 0; i &lt; n; i++)
+    statement;
+
+for (int j = 0; j &lt; m; j++)
+    statement;</pre><p>Total work is n + m. Complexity: <span class="formula">O(n + m)</span></p></div>
+  <div class="topic" style="margin-top:13px"><h3>4. Nested loops followed by a separate loop</h3>
+  <p><b>Example code:</b></p>
+  <pre class="code">for (int i = 0; i &lt; n; i++)
+{
+    for (int j = 0; j &lt; m; j++)
+    {
+        System.out.println(i + " " + j);
+    }
+}
+
+for (int k = 0; k &lt; x; k++)
+{
+    System.out.println(k);
+}</pre>
+  <p><b>Step 1 – Analyse the nested loops:</b> The outer loop runs n times. For every outer iteration, the inner loop runs m times. Therefore, the print statement executes n × m times.</p>
+  <p><b>Step 2 – Analyse the separate loop:</b> The last loop runs x times, so its statement executes x times.</p>
+  <p><b>Step 3 – Add the work:</b> These loops run one after another, so their execution counts are added.</p>
+  <span class="formula">O(n × m + x)</span>
+  <div class="callout"><b>Numerical example:</b> Let n = 3, m = 4 and x = 5.<br>Nested loops: 3 × 4 = 12 executions.<br>Separate loop: 5 executions.<br>Total = 12 + 5 = <b>17 executions</b>.</div>
+  <p><b>If all limits are N:</b> The expression becomes N × N + N = N² + N. Since N² grows faster than N, the lower-order term N is ignored.</p>
+  <span class="formula">O(N² + N) = O(N²)</span>
+ </div>
+  <div class="callout"><b>Shortcut:</b> Sequential sections are added. Nested loop limits are multiplied. Ignore constant factors and lower-order terms in the final Big O expression.</div>
+ </section>
+
+ <section class="panel page" id="mcqs" hidden>
+  <div class="qhead"><div><h2 class="section-title">MCQ Practice</h2><p class="sub">Choose an option to check your answer and explanation.</p></div><span class="pill" id="score">Score: 0 / 15</span></div>
+  <div id="quiz"></div><button class="action" id="resetQuiz">Reset MCQs</button>
+ </section>
+
+ <section class="panel page" id="pyq" hidden>
+  <h2 class="section-title">ISC Previous-Year Questions with Answers</h2>
+  <p class="sub">Open each question to reveal its answer and working. Questions are included only where the uploaded question collection contains readable text or a scanned question.</p>
+
+  <details open><summary><b>ISC 2010 – Worst-case complexity of two separate loops</b></summary>
+   <p><b>Question:</b> What is the worst-case complexity of the following code segment? How would the complexity change if the second loop went to N instead of M?</p>
+   <pre class="code">for (int i = 0; i &lt; N; i++)
+{
+    sequence of statements;
+}
+for (int j = 0; j &lt; M; j++)
+{
+    sequence of statements;
+}</pre>
+   <p><b>Answer:</b> The first loop executes N times and the second loop executes M times. Since the loops are separate, their complexities are added.</p>
+   <p class="formula">O(N + M)</p>
+   <p>If the second loop also runs N times, the total is O(N + N) = O(2N) = <b>O(N)</b>.</p>
+  </details>
+
+  <details><summary><b>ISC 2011 – Big O notation</b></summary>
+   <p><b>Question:</b> What is Big O notation?</p>
+   <p><b>Answer:</b> Big O notation describes the asymptotic upper bound of an algorithm's growth rate as the input size increases. It is commonly used to express an algorithm's worst-case time complexity.</p>
+  </details>
+
+  <details><summary><b>ISC 2015 – Computational complexity and a single loop</b></summary>
+   <p><b>Question:</b> Define computational complexity. Calculate the complexity using Big O notation for the following code segment.</p>
+   <pre class="code">for (int k = 0; k &lt; n; k++)
+    s += k;</pre>
+   <p><b>Answer:</b> Computational complexity is the measure of the resources required by an algorithm as a function of the problem size. The loop executes n times and performs a constant amount of work in each iteration.</p>
+   <p class="formula">O(n)</p>
+  </details>
+
+  <details><summary><b>ISC 2015 – Nested triangular loop (MCQ)</b></summary>
+   <p><b>Question:</b> Find the worst-case complexity of the following code segment.</p>
+   <pre class="code">for (int i = 1; i &lt;= n; i++)
+{
+    for (int j = 1; j &lt;= i; j++)
+    {
+        statement;
+    }
+}</pre>
+   <p><b>Answer:</b> The inner loop executes 1 time for i = 1, 2 times for i = 2, and so on, up to n times. Total executions = 1 + 2 + 3 + ... + n = n(n + 1)/2.</p>
+   <p class="formula">O(n²)</p>
+   <p><b>Correct MCQ option:</b> O(n²).</p>
+  </details>
+
+  <details><summary><b>ISC 2017 – Separate loop followed by a nested loop</b></summary>
+   <p><b>Question:</b> (i) What is the worst-case complexity of the following code segment? (ii) How would the complexity change if all the three loops went to N instead of a, b and c?</p>
+   <pre class="code">for (int x = 1; x &lt;= a; x++)
+{
+    statements;
+}
+for (int y = 1; y &lt;= b; y++)
+{
+    for (int z = 1; z &lt;= c; z++)
+    {
+        statements;
+    }
+}</pre>
+   <p><b>Answer (i):</b> The first loop executes a times. The nested loops execute b × c times. Since the first loop and the nested-loop block are sequential, add their complexities.</p>
+   <p class="formula">O(a + bc)</p>
+   <p><b>Answer (ii):</b> If a = b = c = N, then O(N + N²). The dominant term is N².</p>
+   <p class="formula">O(N²)</p>
+  </details>
+
+  <details><summary><b>ISC 2018 – Big O notation and factors determining complexity</b></summary>
+   <p><b>Question:</b> Define Big O notation. State the two factors which determine the complexity of an algorithm.</p>
+   <p><b>Answer:</b> Big O notation expresses the asymptotic upper bound on the growth of an algorithm with respect to input size. The two factors are:</p>
+   <ol><li><b>Time complexity:</b> the time or number of basic operations required.</li><li><b>Space complexity:</b> the memory required during execution.</li></ol>
+  </details>
+
+  <details><summary><b>ISC 2019 – Compare O(n²) and O(2n)</b></summary>
+   <p><b>Question:</b> Compare the two complexities O(n²) and O(2n) and state which is better and why.</p>
+   <p><b>Answer:</b> Taking O(2n) literally, it simplifies to O(n), because constant factors are ignored. O(n) grows linearly, whereas O(n²) grows quadratically. Therefore, <b>O(2n), i.e. O(n), is better</b> because it grows more slowly as n increases.</p>
+   <div class="callout warn"><b>Notation note:</b> The typed expression in the question is O(2n), not O(2ⁿ). If the original paper intended 2 raised to n, the comparison and answer would be different.</div>
+  </details>
+
+  <details><summary><b>Additional scanned question – Three loops with P and Q</b></summary>
+   <p><b>Question:</b> Write Big O notation for the worst-case complexity of the following code segment.</p>
+   <pre class="code">for (int i = 1; i &lt;= P; i++)
+{
+    statements;
+    for (int j = 1; j &lt;= P; j++)
+    {
+        for (int k = 1; k &lt;= Q; k++)
+        {
+            statements;
+        }
+    }
+}</pre>
+   <p><b>Answer:</b> The outer loop executes P times. The inner two loops execute P × Q times for each outer iteration, giving P × P × Q = P²Q. The standalone statement inside the outer loop executes P times, which does not change the dominant term.</p>
+   <p class="formula">O(P²Q)</p>
+  </details>
+
+  <div class="callout"><b>Exam reminder:</b> Sequential loops → add their counts. Nested loops → multiply their counts. For a sum of terms, retain the term that grows fastest.</div>
+ </section>
+
+ <section class="panel page" id="revision" hidden>
+  <h2 class="section-title">Quick Revision Sheet</h2><p class="sub">A compact last-minute recap.</p>
+  <div class="grid">
+   <article class="topic"><h3>Growth order</h3><p class="formula">O(1) → O(log n) → O(n) → O(n²)</p><p>For large n, each step to the right generally grows faster.</p></article>
+   <article class="topic"><h3>Dominant Term</h3><p>For 4n² + 7n + 12, the dominant term is n² because it grows faster than n and the constant 12. Therefore, the complexity is <b>O(n²)</b>.</p></article>
+   <article class="topic"><h3>Constant Factors</h3><p>For 5n + 20, ignore the fixed multiplier 5 and constant 20 when expressing Big O. The complexity is <b>O(n)</b>.</p></article>
+   <article class="topic"><h3>Loop rules</h3><p>One loop: O(n). Two nested n-loops: O(n²). Separate n and m loops: O(n + m). Nested n and m loops: O(nm).</p></article>
+   <article class="topic"><h3>Best / worst linear search</h3><p>Best: first element matches → O(1). Worst: last element or absent → O(n).</p></article>
+   <article class="topic"><h3>Bubble sort</h3><p>Worst case: O(n²). Best case: O(n) when an already-sorted check allows early termination.</p></article>
+  </div>
+  <h3>Remember these points</h3><ul><li>Time complexity measures running time in relation to input length.</li><li>Space complexity measures memory in relation to input length.</li><li>Best case = minimum work; average case = expected work over possible inputs; worst case = maximum work.</li><li>Big O is an upper-bound notation; Ω is a lower-bound notation; Θ is a tight-bound notation.</li><li>Ignore constants and lower-order terms when simplifying asymptotic expressions.</li><li>Binary search requires sorted data and repeatedly halves the search range.</li></ul>
+ </section>
+</main>
+<footer>Computational Complexity Study Hub • Prepared from the supplied reference document, with additional practice MCQs.</footer>
+<script>
+const tabs=[...document.querySelectorAll('.tab')],pages=[...document.querySelectorAll('.page')];
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.classList.toggle('active',x===b));pages.forEach(p=>p.hidden=p.id!==b.dataset.tab);window.scrollTo({top:document.querySelector('.tabs').offsetTop-8,behavior:'smooth'});}));
+document.getElementById('defSearch').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#definitionsGrid .topic').forEach(c=>c.style.display=c.innerText.toLowerCase().includes(q)?'':'none')});
+const questions=[
+["Which complexity represents constant time?",["O(n)","O(1)","O(n²)","O(log n)"],1,"The operation takes the same amount of time regardless of input size."],
+["Which operation is typically O(1)?",["Traversing an array","Linear search","Accessing an array element by index","Printing all array elements"],2,"Array index access is direct."],
+["A loop executes n times. What is its complexity?",["O(1)","O(log n)","O(n)","O(n²)"],2,"One repetition for each of n input elements gives linear growth."],
+["Two nested loops each run n times. What is the complexity?",["O(n)","O(2n)","O(n²)","O(log n)"],2,"The inner statement executes n × n times."],
+["Which algorithm uses repeated halving on sorted data?",["Bubble sort","Linear search","Binary search","Selection sort"],2,"Binary search halves the remaining search interval."],
+["What is the worst-case complexity of linear search?",["O(1)","O(n)","O(n²)","O(log n)"],1,"The target may be last or may not be present, requiring n checks."],
+["What is the best-case complexity of linear search?",["O(1)","O(n)","O(n²)","O(log n)"],0,"The first element may be the required element."],
+["What is the standard worst-case complexity of Bubble Sort?",["O(1)","O(log n)","O(n)","O(n²)"],3,"The number of comparisons grows quadratically."],
+["Which notation represents a lower bound?",["O","Ω","Θ","n²"],1,"Big Omega represents a lower asymptotic bound."],
+["Which notation represents a tight bound?",["O","Ω","Θ","log n"],2,"Big Theta gives matching upper and lower bounds."],
+["Printing every element of an n × n matrix takes:",["O(1)","O(n)","O(n²)","O(log n)"],2,"There are n² cells to visit."],
+["A loop of n iterations followed by a loop of m iterations is:",["O(nm)","O(n + m)","O(n²m)","O(1)"],1,"Sequential sections are added, not multiplied."],
+["Nested loops with limits n and m have complexity:",["O(n + m)","O(nm)","O(n² + m)","O(log n)"],1,"The inner work is repeated for each outer iteration."],
+["If n becomes 2n, an O(n²) algorithm's growth factor is approximately:",["2 times","4 times","8 times","Unchanged"],1,"(2n)² = 4n²."],
+["In n² + 7n + 10, the dominant term is:",["10","7n","n²","All terms equally"],2,"The quadratic term grows fastest as n becomes large."]
+];
+let score=0,answered=new Set();
+function renderQuiz(){const root=document.getElementById('quiz');root.innerHTML='';questions.forEach((q,i)=>{const box=document.createElement('div');box.className='question';const title=document.createElement('p');title.textContent=`Q${i+1}. ${q[0]}`;box.appendChild(title);q[1].forEach((o,j)=>{const lab=document.createElement('label');lab.className='option';const inp=document.createElement('input');inp.type='radio';inp.name='q'+i;inp.value=j;inp.addEventListener('change',()=>{if(answered.has(i))return;answered.add(i);const ok=j===q[2];if(ok)score++;document.getElementById('score').textContent=`Score: ${score} / 15`;const fb=box.querySelector('.feedback');fb.innerHTML=`<span class="${ok?'correct':'incorrect'}">${ok?'Correct!':'Not quite.'}</span> ${q[3]} Correct answer: ${q[1][q[2]]}.`;box.querySelectorAll('input').forEach(x=>x.disabled=true)});lab.appendChild(inp);lab.append(' '+o);box.appendChild(lab)});const fb=document.createElement('div');fb.className='feedback';fb.textContent='Select one answer to see the explanation.';box.appendChild(fb);root.appendChild(box)})}
+document.getElementById('resetQuiz').addEventListener('click',()=>{score=0;answered.clear();document.getElementById('score').textContent='Score: 0 / 15';renderQuiz()});renderQuiz();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script>
+(() => {
+ const body=document.body, themeButton=document.getElementById('themeToggle');
+ const savedTheme=localStorage.getItem('complexity-theme');
+ if(savedTheme==='dark') body.classList.add('dark');
+ const updateThemeLabel=()=>{const dark=body.classList.contains('dark');themeButton.querySelector('.theme-icon').textContent=dark?'☀':'◐';themeButton.querySelector('.theme-label').textContent=dark?'Light appearance':'Dark appearance';themeButton.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode')};
+ updateThemeLabel();themeButton.addEventListener('click',()=>{body.classList.toggle('dark');localStorage.setItem('complexity-theme',body.classList.contains('dark')?'dark':'light');updateThemeLabel()});
+ const ids=['overview','definitions','notations','examples','cases','analysis','mcqs','pyq','revision'];
+ const done=new Set(JSON.parse(localStorage.getItem('complexity-done')||'[]'));
+ const count=document.getElementById('progressCount'),fill=document.getElementById('progressFill'),caption=document.getElementById('progressCaption'),heading=document.getElementById('progressHeading');
+ function paintProgress(){count.textContent=`${done.size} / ${ids.length}`;fill.style.width=`${done.size/ids.length*100}%`;heading.textContent=done.size===ids.length?'All sections completed.':done.size?'Good work. Keep building on it.':'A little progress, every session.';caption.textContent=done.size===ids.length?'You have worked through every section. Revisit any topic whenever you need.':'Mark a section complete as you work through the material.';document.querySelectorAll('.complete-btn').forEach(b=>{const active=done.has(b.dataset.section);b.setAttribute('aria-pressed',String(active));b.textContent=active?'✓ Completed · Mark again':'Mark section complete'})}
+ document.querySelectorAll('.page').forEach(page=>{const tools=document.createElement('div');tools.className='section-tools';const btn=document.createElement('button');btn.className='complete-btn';btn.dataset.section=page.id;btn.addEventListener('click',()=>{done.has(page.id)?done.delete(page.id):done.add(page.id);localStorage.setItem('complexity-done',JSON.stringify([...done]));paintProgress()});tools.append(btn);page.insertBefore(tools,page.firstChild)});paintProgress();
+ const originalTabClick=()=>{};document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const page=document.getElementById(tab.dataset.tab);gsap.fromTo(page,{y:9,opacity:.65},{y:0,opacity:1,duration:.28,ease:'power2.out',clearProps:'all'})}}));
+ function animateOnLoad(){if(!window.gsap||matchMedia('(prefers-reduced-motion: reduce)').matches)return;gsap.from('.stat',{y:12,opacity:0,duration:.45,stagger:.07,ease:'power2.out'});gsap.from('.study-overview',{y:12,opacity:0,duration:.5,delay:.12,ease:'power2.out'});gsap.from('.tabs',{opacity:0,y:7,duration:.35,delay:.2});gsap.from('#overview .topic',{y:12,opacity:0,duration:.42,stagger:.07,delay:.25,ease:'power2.out'});}
+ if(document.readyState==='complete')animateOnLoad();else window.addEventListener('load',animateOnLoad,{once:true});
+})();
+</script>
+
+</body></html>
